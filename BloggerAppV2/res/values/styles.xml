@@ -1,0 +1,20 @@
+<resources>
+
+	<style
+		name="AppTheme"
+		parent="android:Theme.Light.NoTitleBar" />
+	<style name="blog_style">
+		<item name="android:textSize">20sp</item>
+		<item name="android:textColor">#FFFFFF</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="editor_button">
+		<item name="android:textSize">12sp</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="login_button">
+		<item name="android:textSize">20sp</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+
+</resources>
