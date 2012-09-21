@@ -6,12 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
-import com.google.gdata.data.DateTime;
-import com.google.gdata.data.Entry;
-import com.google.gdata.data.Feed;
-import com.google.gdata.util.ServiceException;
-import com.sky.bloggerapp.db.DBAdapter;
 import com.sky.bloggerapp.util.Alert;
 
 import android.app.ListActivity;
@@ -42,12 +36,8 @@ import android.widget.LinearLayout.LayoutParams;
 
 public class ViewPosts extends ListActivity
 {
-	// private final String TAG = "ViewBlog";
-	public static Feed resultFeed = null;
-	public static Entry currentEntry = null;
 	private ProgressDialog viewProgress = null;
 	private final String MSG_KEY = "value";
-	private DBAdapter mDbHelper;
 	private static Cursor setting = null;
 	int viewStatus = 0;
 	private int attempt = 0;
@@ -271,16 +261,8 @@ public class ViewPosts extends ListActivity
 				statusMsg.setData(status);
 				mHandler.sendMessage(statusMsg);
 				boolean viewOk = false;
-				String username = setting.getString(setting.getColumnIndexOrThrow(DBAdapter.KEY_LOGIN));
-				String password = setting.getString(setting.getColumnIndexOrThrow(DBAdapter.KEY_PASSWORD));
-				mDbHelper.close();
-				setting.close();
-				BlogInterface blogapi = null;
-				BlogConfigBlogger.BlogInterfaceType typeEnum = BlogConfigBlogger.getInterfaceTypeByNumber(1);
-				blogapi = BlogInterfaceFactory.getInstance(typeEnum);
-				// Log.d(TAG, "Using interface type: " + typeEnum);
+				
 				CharSequence postconfig = "";
-				blogapi.setInstanceConfig(postconfig);
 				status.putString(MSG_KEY, "2");
 				statusMsg = mHandler.obtainMessage();
 				statusMsg.setData(status);
@@ -288,27 +270,7 @@ public class ViewPosts extends ListActivity
 				String auth_id = null;
 				boolean authFlag = false;
 				attempt = 0;
-				while ((attempt <= Editor.AMOUNTOFATTEMPTS) && (!authFlag))
-				{
-					try
-					{
-						auth_id = blogapi.getAuthId(username, password);
-						authFlag = true;
-						attempt = 0;
-					}
-					catch (com.google.gdata.util.AuthenticationException e)
-					{
-						// Log.e(TAG, "AuthenticationException " +
-						// e.getMessage());
-						attempt++;
-					}
-					catch (Exception e)
-					{
-						// Log.e(TAG, "Exception: " + e.getMessage());
-						Alert.showAlert(ViewPosts.this, "Network connection failed", "Please, check network settings of your device");
-						finish();
-					}
-				}
+				
 				viewStatus = 1;
 				// Log.d(TAG, "Got auth token:" + auth_id);
 				viewStatus = 2;
@@ -320,33 +282,7 @@ public class ViewPosts extends ListActivity
 					mHandler.sendMessage(statusMsg);
 					authFlag = false;
 					attempt = 0;
-					while ((attempt <= Editor.AMOUNTOFATTEMPTS) && (!authFlag))
-					{
-						try
-						{
-							Editor.resultFeed = blogapi.getAllPosts(username, password);
-							// Log.i(TAG, "Blog entries successfully received");
-							viewOk = true;
-							authFlag = true;
-							attempt = 0;
-						}
-						catch (ServiceException e)
-						{
-							attempt++;
-							// Log.e(TAG,"ServiceException (getAllPosts(username, password))");
-						}
-						catch (IOException e)
-						{
-							attempt++;
-							// Log.e(TAG,"Exception (getAllPosts(username, password))");
-						}
-						catch (Exception e)
-						{
-							// Log.e(TAG, "Exception: " + e.getMessage());
-							Alert.showAlert(ViewPosts.this, "Network connection failed", "Please, check network settings of your device");
-							finish();
-						}
-					}
+					
 				}
 				else
 				{
@@ -368,13 +304,7 @@ public class ViewPosts extends ListActivity
 				}
 				mHandler.post(mViewResults);
 
-				if ((resultFeed != null) && (viewOk))
-				{
-					Intent i = new Intent(ViewPosts.this, ViewPosts.class);
-					startActivity(i);
-					finish();
 				}
-			}
 		};
 		viewThread.start();
 		viewProgress.setMessage("Viewing in progress...");

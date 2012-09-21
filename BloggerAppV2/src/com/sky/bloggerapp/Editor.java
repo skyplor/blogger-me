@@ -1,23 +1,10 @@
 package com.sky.bloggerapp;
 
-import java.io.IOException;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
-import android.database.SQLException;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message; //import android.util.Log;
-import android.text.Spannable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,25 +12,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.google.gdata.data.Feed;
-import com.google.gdata.data.blogger.BlogEntry;
-import com.google.gdata.util.ServiceException;
-import com.sky.bloggerapp.db.DBAdapter;
-import com.sky.bloggerapp.db.DBTextAdapter;
-import com.sky.bloggerapp.util.Alert;
 
 public class Editor extends Activity implements OnClickListener
 {
 	// final static String TAG = "Editor";
 	private ProgressDialog publishProgress = null;
 	private final String MSG_KEY = "value";
-	public static Feed resultFeed = null;
-	private DBAdapter mDbHelper;
-	private DBTextAdapter mDbTextHelper;
-	private static Cursor setting = null, post = null;;
 	int viewStatus = 0, publishStatus = 0;
 	public static final int AMOUNTOFATTEMPTS = 7;
 	private int attempt = 0;
