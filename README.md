@@ -1,1 +1,0 @@
-A simple android application which uses the Google Blogger API v2 to allow a user to connect to his/her blogger account.
