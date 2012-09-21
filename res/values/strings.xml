@@ -1,0 +1,21 @@
+<resources>
+
+	<string name="app_name">Blogger</string>
+	<string name="menu_settings">Settings</string>
+	<string name="title_activity_main">Blogger</string>
+	<string name="blog_title">Title of Blog</string>
+	<string name="post_button">Posts</string>
+	<string name="publish_button">Publish</string>
+	<string name="post_title">Post title</string>
+	<string name="post_body">Post content</string>
+	<string name="post_labels">Labels</string>
+	<string name="blogger_logo">Logo</string>
+	<string name="login_email">Email</string>
+	<string name="login_pwd">Password</string>
+	<string name="login_btn">Login</string>
+	<string name="logout">Logout</string>
+	<string name="no_data">&lt;No data&gt;</string>
+	<string name="blogs_button">Blogs</string>
+	<string name="create_button">New</string>
+
+</resources>
