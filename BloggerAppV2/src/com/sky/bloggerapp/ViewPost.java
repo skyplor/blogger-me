@@ -41,7 +41,7 @@ public class ViewPost extends Activity
 		switch (item.getItemId())
 		{
 			case R.id.logout:
-				Intent i = new Intent(ViewPost.this, Login.class);
+				Intent i = new Intent(ViewPost.this, LoginActivity.class);
 				startActivity(i);
 				finish();
 				break;				

@@ -10,9 +10,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.api.services.blogger.model.Post;
+import com.sky.bloggerapp.util.Constants;
 
 /**
- * Asynchronously load a post with a progress dialog.
+ * Asynchronously load a create with a progress dialog.
  * 
  * @author Sky Pay
  */
@@ -25,6 +26,7 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 	private final CreatePostActivity createPostActivity;
 	private final ProgressDialog dialog;
 	private com.google.api.services.blogger.Blogger service;
+	private Post resultPost;
 
 	AsyncCreatePost(CreatePostActivity createPostActivity)
 	{
@@ -49,7 +51,7 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 		try
 		{
 			Log.v(TAG, "executing the posts.insert call on Blogger API v3");
-			Post postResult = service.posts().insert(CreatePostActivity.BLOG_ID, post).execute();
+			Post postResult = service.posts().insert(Constants.BLOG_ID, post).execute();
 			Log.v(TAG, "call succeeded");
 			return new AsyncCreatePostResult(postResult, "Post Created", "postId: " + postResult.getId());
 		}
@@ -70,8 +72,9 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 		Log.v(TAG, "Async complete, pulling down dialog");
 		dialog.dismiss();
 		createPostActivity.display(result.getPost());
-		createAlertDialog(result.getResultDialogTitle(), result.getResultDialogTitle());
-		createPostActivity.onRequestCompleted();
+		createAlertDialog(result.getResultDialogTitle(), result.getResultDialogMessage());
+//		createPostActivity.onRequestCompleted(result.getPost());
+		resultPost = result.getPost();
 	}
 
 	private void createAlertDialog(String title, String message)
@@ -86,6 +89,7 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 			public void onClick(DialogInterface dialog, int which)
 			{
 				alertDialog.dismiss();
+				createPostActivity.onRequestCompleted(resultPost);
 			}
 		});
 		alertDialog.show();

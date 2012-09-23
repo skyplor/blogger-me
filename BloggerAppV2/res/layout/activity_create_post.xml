@@ -1,4 +1,4 @@
-<RelativeLayout
+<!-- <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -45,5 +45,93 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@id/content"
 		android:text="@string/create_post" />
+
+</RelativeLayout> -->
+
+<RelativeLayout
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<TextView
+		android:id="@+id/blogTitle"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginBottom="-2dp"
+		android:padding="@dimen/padding_medium"
+		android:text="@string/blog_title"
+		android:textAppearance="@style/blog_style"
+		android:background="@drawable/gradient"
+		android:gravity="center"
+		tools:context=".CreatePostActivity" />
+	<Button
+		android:id="@+id/postsbutton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignBaseline="@+id/blogTitle"
+		android:layout_alignBottom="@+id/blogTitle"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="8dp"
+		android:background="@drawable/custom_btn"
+		android:text="@string/post_button"
+		android:textAppearance="@style/editor_button"
+		android:textColor="#FFFFFF"
+		tools:context=".CreatePostActivity" />
+	<Button
+		android:id="@+id/publishbutton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignBaseline="@+id/blogTitle"
+		android:layout_alignBottom="@+id/blogTitle"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="8dp"
+		android:background="@drawable/custom_btn"
+		android:text="@string/publish_button"
+		android:textAppearance="@style/editor_button"
+		android:textColor="#FFFFFF"
+		tools:context=".CreatePostActivity" />
+	<EditText
+		android:id="@+id/post_title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		android:layout_below="@+id/blogTitle"
+		android:layout_marginBottom="-8dp"
+		android:ems="10"
+		tools:context=".CreatePostActivity"
+		android:hint="@string/post_title">
+		<requestFocus />
+	</EditText>
+	<MultiAutoCompleteTextView
+		android:id="@+id/post_labels"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		android:layout_below="@+id/post_title"
+		android:layout_marginBottom="-8dp"
+		android:singleLine="true"
+		android:ems="10"
+		tools:context=".CreatePostActivity"
+		android:hint="@string/post_labels"
+		android:textSize="15dp">
+	</MultiAutoCompleteTextView>
+	<EditText
+		android:id="@+id/post_body"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		android:layout_below="@+id/post_labels"
+		android:ems="10"
+		android:gravity="top"
+		android:hint="@string/post_body"
+		tools:context=".CreatePostActivity"
+		android:singleLine="false"
+		android:inputType="textMultiLine" />
 
 </RelativeLayout>

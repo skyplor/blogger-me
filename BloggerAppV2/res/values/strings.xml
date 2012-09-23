@@ -26,5 +26,9 @@
     <string name="create_post">Create Post</string>
     <string name="menu_accounts">Change Account</string>
     <string name="title_activity_async_create_post_result">AsyncCreatePostResult</string>
+    <string name="title_activity_blog_list">BlogListActivity</string>
+    <string name="welcome_user">Welcome!</string>
+    <string name="menu_logout">Logout</string>
+    <string name="posts_button">Posts</string>
 
 </resources>

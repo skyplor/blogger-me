@@ -14,7 +14,7 @@
 		android:layout_marginTop="56dp"
 		android:src="@drawable/blogger_logo"
 		android:contentDescription="@string/blogger_logo" />
-	<EditText
+	<!-- <EditText
 		android:id="@+id/login_email"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -50,6 +50,6 @@
 		android:text="@string/login_btn"
 		android:background="@drawable/custom_btn"
 		android:textAppearance="@style/login_button"
-		android:textColor="#FFFFFF" />
+		android:textColor="#FFFFFF" /> -->
 
 </RelativeLayout>

@@ -6,11 +6,39 @@
 	android:layout_height="match_parent">
 
 	<TextView
+		android:id="@+id/blogTitle"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginBottom="-2dp"
+		android:padding="@dimen/padding_medium"
+		android:text="@string/welcome_user"
+		android:textAppearance="@style/blog_style"
+		android:background="@drawable/gradient"
+		android:gravity="center" />
+	<Button
+		android:id="@+id/postsDisplayButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignBaseline="@+id/blogTitle"
+		android:layout_alignBottom="@+id/blogTitle"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="8dp"
+		android:background="@drawable/custom_btn"
+		android:text="@string/posts_button"
+		android:textAppearance="@style/editor_button"
+		android:textColor="#FFFFFF" />
+	
+	<TextView
 		android:id="@+id/title"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:padding="@dimen/padding_medium"
-		tools:context=".PostDisplayActivity" />
+		android:layout_below="@id/blogTitle"
+		tools:context=".PostDisplayActivity"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:textStyle="bold" />
 
 	<WebView
 		android:id="@+id/content"

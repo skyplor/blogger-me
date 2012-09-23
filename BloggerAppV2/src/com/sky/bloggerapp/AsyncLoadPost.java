@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.api.services.blogger.model.Post;
+import com.sky.bloggerapp.util.Constants;
 
 /**
  * Asynchronously load a post with a progress dialog.
@@ -43,7 +44,7 @@ public class AsyncLoadPost extends AsyncTask<String, Void, Post>
 		try
 		{
 			String postId = postIds[0];
-			return service.posts().get(PostListActivity.BLOG_ID, postId).setFields("title,content").execute();
+			return service.posts().get(Constants.BLOG_ID, postId).setFields("title,content").execute();
 		}
 		catch (IOException e)
 		{

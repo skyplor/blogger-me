@@ -94,7 +94,7 @@ public class Editor extends Activity implements OnClickListener
 		{
 			if (!loginStatus && !chosenBlog)
 			{
-				Intent intent = new Intent(Editor.this, Login.class);
+				Intent intent = new Intent(Editor.this, LoginActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 			}
@@ -208,7 +208,7 @@ public class Editor extends Activity implements OnClickListener
 		switch (item.getItemId())
 		{
 			case R.id.logout:
-				Intent i = new Intent(Editor.this, Login.class);
+				Intent i = new Intent(Editor.this, LoginActivity.class);
 				startActivity(i);
 				finish();
 				break;

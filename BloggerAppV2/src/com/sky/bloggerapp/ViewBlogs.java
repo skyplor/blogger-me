@@ -34,7 +34,7 @@ public class ViewBlogs extends Activity
 		switch (item.getItemId())
 		{
 			case R.id.logout:
-				Intent i = new Intent(ViewBlogs.this, Login.class);
+				Intent i = new Intent(ViewBlogs.this, LoginActivity.class);
 				startActivity(i);
 				finish();
 				break;				
