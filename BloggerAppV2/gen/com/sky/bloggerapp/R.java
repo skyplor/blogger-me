@@ -26,26 +26,29 @@ public final class R {
         public static final int settings=0x7f020007;
     }
     public static final class id {
+        public static final int BoldButton=0x7f080006;
+        public static final int ItalicsButton=0x7f080007;
         public static final int LayoutForList=0x7f080001;
+        public static final int UnderlineButton=0x7f080009;
         public static final int blogTitle=0x7f080000;
-        public static final int bloggerLogo=0x7f080007;
-        public static final int blogsbutton=0x7f08000b;
-        public static final int content=0x7f08000a;
-        public static final int createbutton=0x7f08000c;
-        public static final int logout=0x7f080013;
-        public static final int menu_accounts=0x7f080012;
-        public static final int menu_logout=0x7f080011;
-        public static final int menu_settings=0x7f080010;
-        public static final int post_body=0x7f080006;
+        public static final int bloggerLogo=0x7f08000a;
+        public static final int blogsbutton=0x7f08000e;
+        public static final int content=0x7f08000d;
+        public static final int createbutton=0x7f08000f;
+        public static final int logout=0x7f080016;
+        public static final int menu_accounts=0x7f080015;
+        public static final int menu_logout=0x7f080014;
+        public static final int menu_settings=0x7f080013;
+        public static final int post_body=0x7f080008;
         public static final int post_labels=0x7f080005;
         public static final int post_title=0x7f080004;
-        public static final int postsDisplayButton=0x7f080008;
+        public static final int postsDisplayButton=0x7f08000b;
         public static final int postsbutton=0x7f080002;
         public static final int publishbutton=0x7f080003;
-        public static final int text1=0x7f08000f;
-        public static final int text3=0x7f08000e;
-        public static final int title=0x7f080009;
-        public static final int vw1=0x7f08000d;
+        public static final int text1=0x7f080012;
+        public static final int text3=0x7f080011;
+        public static final int title=0x7f08000c;
+        public static final int vw1=0x7f080010;
     }
     public static final class layout {
         public static final int activity_blog_list=0x7f030000;

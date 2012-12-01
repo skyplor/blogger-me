@@ -72,6 +72,7 @@ public class AsyncLoadBlogList extends AsyncTask<Void, Void, List<Blog>>
 		catch (IOException e)
 		{
 			Log.e(TAG, e.getMessage());
+			blogListActivity.handleGoogleException(e);
 			return Collections.emptyList();
 		}
 	}
@@ -80,7 +81,10 @@ public class AsyncLoadBlogList extends AsyncTask<Void, Void, List<Blog>>
 	protected void onPostExecute(List<Blog> result)
 	{
 		dialog.dismiss();
-		Log.v(TAG, result.get(0).getName());
-		blogListActivity.setModel(result);
+		if (result != null)
+		{
+			Log.v(TAG, result.get(0).getName());
+			blogListActivity.setModel(result);
+		}
 	}
 }

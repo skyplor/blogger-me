@@ -71,10 +71,14 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 	{
 		Log.v(TAG, "Async complete, pulling down dialog");
 		dialog.dismiss();
-		createPostActivity.display(result.getPost());
-		createAlertDialog(result.getResultDialogTitle(), result.getResultDialogMessage());
-//		createPostActivity.onRequestCompleted(result.getPost());
-		resultPost = result.getPost();
+		if (result != null)
+		{
+			Log.v(TAG, "Create Post Result is: " + result);
+			createPostActivity.display(result.getPost());
+			createAlertDialog(result.getResultDialogTitle(), result.getResultDialogMessage());
+			// createPostActivity.onRequestCompleted(result.getPost());
+			resultPost = result.getPost();
+		}
 	}
 
 	private void createAlertDialog(String title, String message)

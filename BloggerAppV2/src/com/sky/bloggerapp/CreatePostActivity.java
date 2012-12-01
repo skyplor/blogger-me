@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.google.api.client.extensions.android2.AndroidHttp;
 import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
@@ -37,6 +38,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.model.Post;
 import com.sky.bloggerapp.util.Constants;
+import com.sky.bloggerapp.util.DroidWriterEditText;
 
 /**
  * Sample for Blogger API on Android. It shows how to create a post.
@@ -88,6 +90,18 @@ public class CreatePostActivity extends Activity
 	 */
 	Button createPostButton, viewPostsButton;
 
+	/**
+	 * Rich Text buttons. Used to allow user to format their text.
+	 */
+	private ToggleButton boldToggle;
+	private ToggleButton italicsToggle;
+//	private ToggleButton underlineToggle;
+		
+	/**
+	 * EditText Control with rich text implementation.
+	 */
+	DroidWriterEditText postContent;
+	
 	/**
 	 * title: The TextView component which displays the blog title;
 	 */
@@ -145,6 +159,15 @@ public class CreatePostActivity extends Activity
 
 	private void init()
 	{
+		postContent = (DroidWriterEditText) findViewById(R.id.post_body);
+		
+		boldToggle = (ToggleButton) findViewById(R.id.BoldButton);
+		italicsToggle = (ToggleButton) findViewById(R.id.ItalicsButton);
+//		underlineToggle = (ToggleButton) findViewById(R.id.UnderlineButton);
+		postContent.setBoldToggleButton(boldToggle);
+		postContent.setItalicsToggleButton(italicsToggle);
+//		postContent.setUnderlineToggleButton(underlineToggle);
+		
 		Log.v(TAG, "Capturing publishbutton");
 		createPostButton = (Button) findViewById(R.id.publishbutton);
 		Log.v(TAG, "Setting publishbutton's OnClickListener");
@@ -155,7 +178,7 @@ public class CreatePostActivity extends Activity
 			public void onClick(View v)
 			{
 				String title = ((EditText) findViewById(R.id.post_title)).getText().toString();
-				String content = ((EditText) findViewById(R.id.post_body)).getText().toString();
+				String content = postContent.getTextHTML();
 				List<String> labels_list = new ArrayList<String>();
 				StringTokenizer st = new StringTokenizer(labelsMultiAutoComplete.getText().toString(), ",");
 				while (st.hasMoreTokens())
@@ -428,15 +451,22 @@ public class CreatePostActivity extends Activity
 	{
 		Log.v(TAG, "Request completed, throwing away 401 state");
 		received401 = false;
-		String postId = result.getId().toString();
-		String title = result.getTitle();
-		Log.v(TAG, "postId: " + postId + " selected '" + title + "'");
+		if (result != null)
+		{
+			Log.v(TAG, "Post result not null");
+			if (result.getId() != null)
+			{
+				String postId = result.getId().toString();
+				String title = result.getTitle();
+				Log.v(TAG, "postId: " + postId + " selected '" + title + "'");
 
-		Intent i = new Intent(getApplicationContext(), PostDisplayActivity.class);
-		i.putExtra(Constants.POST_ID_KEY, postId);
-		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(i);
-		finish();
+				Intent i = new Intent(getApplicationContext(), PostDisplayActivity.class);
+				i.putExtra(Constants.POST_ID_KEY, postId);
+				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
+				finish();
+			}
+		}
 	}
 
 	// @Override
@@ -499,7 +529,7 @@ public class CreatePostActivity extends Activity
 		// }
 		// }
 		result.toArray(labels);
-		System.out.println("Labels array: " + labels[0]);
+
 		labelsMultiAutoComplete.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, labels));
 
 	}
