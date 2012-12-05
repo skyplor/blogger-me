@@ -83,6 +83,7 @@
 		android:layout_alignParentRight="true"
 		android:layout_below="@+id/post_title"
 		android:layout_marginBottom="-8dp"
+		android:inputType="textCapWords"
 		android:singleLine="true"
 		android:ems="10"
 		tools:context=".CreatePostActivity"

@@ -95,13 +95,13 @@ public class CreatePostActivity extends Activity
 	 */
 	private ToggleButton boldToggle;
 	private ToggleButton italicsToggle;
-//	private ToggleButton underlineToggle;
-		
+	// private ToggleButton underlineToggle;
+
 	/**
 	 * EditText Control with rich text implementation.
 	 */
 	DroidWriterEditText postContent;
-	
+
 	/**
 	 * title: The TextView component which displays the blog title;
 	 */
@@ -149,25 +149,40 @@ public class CreatePostActivity extends Activity
 		}
 		else if (accountChosen && blogChosen)
 		{
-			new AsyncLoadLabels(this).execute();
 
 			labelsMultiAutoComplete = (MultiAutoCompleteTextView) findViewById(R.id.post_labels);
-
 			labelsMultiAutoComplete.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+			new AsyncLoadLabels(this).execute();
+//			do
+//			{
+//				new AsyncLoadLabels(this).execute();
+//			}
+//			while (labelsMultiAutoComplete.getAdapter().isEmpty());
+//			{
+//				long t0, t1;
+//				t0 = System.currentTimeMillis();
+//				do
+//				{
+//					t1 = System.currentTimeMillis();
+//				}
+//				while (t1 - t0 < 3000);
+//
+//			}
 		}
 	}
 
 	private void init()
 	{
 		postContent = (DroidWriterEditText) findViewById(R.id.post_body);
-		
+
 		boldToggle = (ToggleButton) findViewById(R.id.BoldButton);
 		italicsToggle = (ToggleButton) findViewById(R.id.ItalicsButton);
-//		underlineToggle = (ToggleButton) findViewById(R.id.UnderlineButton);
+		// underlineToggle = (ToggleButton) findViewById(R.id.UnderlineButton);
 		postContent.setBoldToggleButton(boldToggle);
 		postContent.setItalicsToggleButton(italicsToggle);
-//		postContent.setUnderlineToggleButton(underlineToggle);
-		
+		// postContent.setUnderlineToggleButton(underlineToggle);
+
 		Log.v(TAG, "Capturing publishbutton");
 		createPostButton = (Button) findViewById(R.id.publishbutton);
 		Log.v(TAG, "Setting publishbutton's OnClickListener");
@@ -468,6 +483,28 @@ public class CreatePostActivity extends Activity
 			}
 		}
 	}
+
+//	void onRequestCompleted(String result)
+//	{
+//		Log.v(TAG, "Request completed, throwing away 401 state");
+//		received401 = false;
+//		// if (!result.isEmpty())
+//		// {
+//		Log.v(TAG, "Error retrieving Labels.");
+//		// if (result.getId() != null)
+//		// {
+//		// String postId = result.getId().toString();
+//		// String title = result.getTitle();
+//		// Log.v(TAG, "postId: " + postId + " selected '" + title + "'");
+//		//
+//		// Intent i = new Intent(getApplicationContext(), PostDisplayActivity.class);
+//		// i.putExtra(Constants.POST_ID_KEY, postId);
+//		// i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//		// startActivity(i);
+//		// finish();
+//		// }
+//		// }
+//	}
 
 	// @Override
 	// public void onResume()

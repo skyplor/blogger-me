@@ -3,20 +3,13 @@ package com.sky.bloggerapp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.api.services.blogger.model.Blog;
-import com.google.api.services.blogger.model.BlogList;
 import com.google.api.services.blogger.model.Post;
 import com.google.api.services.blogger.model.PostList;
-import com.sky.bloggerapp.util.Constants;
 
 public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 {
@@ -108,6 +101,7 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 		catch (IOException e)
 		{
 			Log.e(TAG, e.getMessage());
+			createPostActivity.handleGoogleException(e);
 			return Collections.emptyList();
 		}
 	}
@@ -115,8 +109,35 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 	@Override
 	protected void onPostExecute(List<String> result)
 	{
-		Log.v(TAG, "Async complete, pulling down dialog");
+		if (!result.isEmpty())
+		{
+			Log.v(TAG, "Async complete, pulling down dialog");
+		}
+		else
+		{
+//			createAlertDialog("Error", "Unable to retrieve labels. Trying again...");
+			Log.v(TAG, "Async complete, pulling down dialog");
+		}
 		dialog.dismiss();
 		createPostActivity.setModel(result);
 	}
+
+	// private void createAlertDialog(String title, String message)
+	// {
+	// final AlertDialog alertDialog = new AlertDialog.Builder(createPostActivity).create();
+	// alertDialog.setTitle(title);
+	// alertDialog.setMessage(message);
+	// alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new Dialog.OnClickListener()
+	// {
+	//
+	// @Override
+	// public void onClick(DialogInterface dialog, int which)
+	// {
+	// alertDialog.dismiss();
+	// createPostActivity.onRequestCompleted("Error");
+	// }
+	// });
+	// alertDialog.show();
+	//
+	// }
 }
