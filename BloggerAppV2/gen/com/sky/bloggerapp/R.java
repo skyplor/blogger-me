@@ -37,6 +37,7 @@ public final class R {
         public static final int createbutton=0x7f08000f;
         public static final int logout=0x7f080016;
         public static final int menu_accounts=0x7f080015;
+        public static final int menu_edit=0x7f080017;
         public static final int menu_logout=0x7f080014;
         public static final int menu_settings=0x7f080013;
         public static final int post_body=0x7f080008;
@@ -83,6 +84,7 @@ public final class R {
         public static final int login_pwd=0x7f05000b;
         public static final int logout=0x7f05000d;
         public static final int menu_accounts=0x7f050018;
+        public static final int menu_edit=0x7f05001e;
         public static final int menu_logout=0x7f05001c;
         public static final int menu_settings=0x7f050001;
         public static final int no_data=0x7f05000e;

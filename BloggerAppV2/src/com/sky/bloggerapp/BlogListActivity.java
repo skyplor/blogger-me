@@ -81,7 +81,7 @@ public class BlogListActivity extends ListActivity
 		if (getAuthToken())
 		{
 			// Construct the Blogger API access facade object.
-			service = new com.google.api.services.blogger.Blogger.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).build();
+			service = new com.google.api.services.blogger.Blogger.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();
 			Log.v(TAG, "Constructed the Blogger API access facade object.");
 			new AsyncLoadBlogList(this).execute();
 			received401 = false;

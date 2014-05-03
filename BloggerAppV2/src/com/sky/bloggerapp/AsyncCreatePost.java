@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.api.services.blogger.Blogger.Posts.Update;
 import com.google.api.services.blogger.model.Post;
 import com.sky.bloggerapp.util.Constants;
 
@@ -27,13 +28,16 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 	private final ProgressDialog dialog;
 	private com.google.api.services.blogger.Blogger service;
 	private Post resultPost;
+	private Boolean create = true;
 
-	AsyncCreatePost(CreatePostActivity createPostActivity)
+	AsyncCreatePost(CreatePostActivity createPostActivity, Boolean create)
 	{
 		Log.v(TAG, "start of CreatePost async task");
 		this.createPostActivity = createPostActivity;
 		service = createPostActivity.service;
 		dialog = new ProgressDialog(createPostActivity);
+		this.create = create;
+		
 	}
 
 	@Override
@@ -51,9 +55,26 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 		try
 		{
 			Log.v(TAG, "executing the posts.insert call on Blogger API v3");
-			Post postResult = service.posts().insert(Constants.BLOG_ID, post).execute();
+			Post postResult;
+			if (create)
+			{
+				postResult = service.posts().insert(Constants.BLOG_ID, post).execute();
+			}
+			else
+			{
+				Log.d(TAG, "Blog_id: " + Constants.BLOG_ID + "\nPost_id: " + Constants.POST_ID + "\nPost: " + post.getContent());
+				Update postsUpdateAction = service.posts().update(Constants.BLOG_ID, Constants.POST_ID, post);
+				Log.d(TAG, "Updated....");
+				postsUpdateAction.setFields("author/displayName,content,published,title,url");
+				Log.d(TAG, "Set result fields....");
+				Log.d(TAG, "HTTP: " + postsUpdateAction.buildHttpRequestUrl().build());
+				postResult = postsUpdateAction.execute();
+				Log.d(TAG, "Title: " + postResult.getTitle());
+				Log.d(TAG, "Author: " + post.getAuthor().getDisplayName());
+				Log.d(TAG, "Content: " + post.getContent());
+			}
 			Log.v(TAG, "call succeeded");
-			return new AsyncCreatePostResult(postResult, "Post Created", "postId: " + postResult.getId());
+			return new AsyncCreatePostResult(postResult, "Post Created/Updated", "postId: " + postResult.getId());
 		}
 		catch (IOException e)
 		{
@@ -62,7 +83,7 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 
 			// This is a less than optimal way of handling this situation.
 			// A more elegant solution would involve using a SyncAdaptor...
-			return new AsyncCreatePostResult(post, "Create Failed", "Please Retry");
+			return new AsyncCreatePostResult(post, "Create/Update Failed", "Please Retry");
 		}
 	}
 
@@ -73,7 +94,7 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 		dialog.dismiss();
 		if (result != null)
 		{
-			Log.v(TAG, "Create Post Result is: " + result);
+			Log.v(TAG, "Create/Update Post Result is: " + result);
 			createPostActivity.display(result.getPost());
 			createAlertDialog(result.getResultDialogTitle(), result.getResultDialogMessage());
 			// createPostActivity.onRequestCompleted(result.getPost());

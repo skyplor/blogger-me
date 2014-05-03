@@ -33,6 +33,7 @@ import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
@@ -103,6 +104,11 @@ public class CreatePostActivity extends Activity
 	DroidWriterEditText postContent;
 
 	/**
+	 * EditText Control for post's title.
+	 */
+	EditText postTitle;
+
+	/**
 	 * title: The TextView component which displays the blog title;
 	 */
 	TextView title;
@@ -119,6 +125,11 @@ public class CreatePostActivity extends Activity
 
 	private String[] labels;
 
+	/**
+	 * create: Whether we are creating or updating a post;
+	 */
+	Boolean create = true;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -129,7 +140,7 @@ public class CreatePostActivity extends Activity
 		init();
 
 		Log.v(TAG, "Building the Blogger API v3 service facade");
-		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();
+		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).setApplicationName("Google-BloggerAndroidSample/1.0").build();
 		Log.v(TAG, "Getting the private SharedPreferences instance");
 		settings = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
 
@@ -143,6 +154,8 @@ public class CreatePostActivity extends Activity
 		accountManager = new GoogleAccountManager(this);
 		gotAccount();
 		gotBlog();
+
+
 		if (accountChosen && !blogChosen)
 		{
 			startBlogsListActivity();
@@ -150,25 +163,24 @@ public class CreatePostActivity extends Activity
 		else if (accountChosen && blogChosen)
 		{
 
-			labelsMultiAutoComplete = (MultiAutoCompleteTextView) findViewById(R.id.post_labels);
 			labelsMultiAutoComplete.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
 			new AsyncLoadLabels(this).execute();
-//			do
-//			{
-//				new AsyncLoadLabels(this).execute();
-//			}
-//			while (labelsMultiAutoComplete.getAdapter().isEmpty());
-//			{
-//				long t0, t1;
-//				t0 = System.currentTimeMillis();
-//				do
-//				{
-//					t1 = System.currentTimeMillis();
-//				}
-//				while (t1 - t0 < 3000);
-//
-//			}
+			// do
+			// {
+			// new AsyncLoadLabels(this).execute();
+			// }
+			// while (labelsMultiAutoComplete.getAdapter().isEmpty());
+			// {
+			// long t0, t1;
+			// t0 = System.currentTimeMillis();
+			// do
+			// {
+			// t1 = System.currentTimeMillis();
+			// }
+			// while (t1 - t0 < 3000);
+			//
+			// }
 		}
 	}
 
@@ -183,6 +195,9 @@ public class CreatePostActivity extends Activity
 		postContent.setItalicsToggleButton(italicsToggle);
 		// postContent.setUnderlineToggleButton(underlineToggle);
 
+		postTitle = (EditText) findViewById(R.id.post_title);
+		labelsMultiAutoComplete = (MultiAutoCompleteTextView) findViewById(R.id.post_labels);
+
 		Log.v(TAG, "Capturing publishbutton");
 		createPostButton = (Button) findViewById(R.id.publishbutton);
 		Log.v(TAG, "Setting publishbutton's OnClickListener");
@@ -192,7 +207,7 @@ public class CreatePostActivity extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				String title = ((EditText) findViewById(R.id.post_title)).getText().toString();
+				String title = postTitle.getText().toString();
 				String content = postContent.getTextHTML();
 				List<String> labels_list = new ArrayList<String>();
 				StringTokenizer st = new StringTokenizer(labelsMultiAutoComplete.getText().toString(), ",");
@@ -201,8 +216,9 @@ public class CreatePostActivity extends Activity
 					String labelToken = st.nextToken().trim();
 					labels_list.add(labelToken);
 				}
-				Post createPost = new Post().setTitle(title).setContent(content).setLabels(labels_list);
-				(new AsyncCreatePost(CreatePostActivity.this)).execute(createPost);
+
+				Post post = new Post().setTitle(title).setContent(content).setLabels(labels_list);
+				(new AsyncCreatePost(CreatePostActivity.this, create)).execute(post);
 			}
 		});
 
@@ -228,6 +244,31 @@ public class CreatePostActivity extends Activity
 		Log.v(TAG, "Disabling postsbutton");
 		viewPostsButton.setEnabled(false);
 
+		Bundle extras = getIntent().getExtras();
+		if (extras != null)
+		{
+			updatePostDetails(extras);
+		}
+		else
+		{
+			create = true;
+		}
+	}
+
+	private void updatePostDetails(Bundle extras)
+	{
+		// TODO Auto-generated method stub
+		create = false;
+		String title = extras.getString("Title");
+		String content = extras.getString("Content");
+		String labels = extras.getString("Labels");
+		postTitle.setText(title);
+		postContent.setTextHTML(content);
+		if (labels != null)
+		{
+			Log.d(TAG, "Labels: " + labels);
+			labelsMultiAutoComplete.setText(labels);
+		}
 	}
 
 	void gotAccount()
@@ -484,27 +525,27 @@ public class CreatePostActivity extends Activity
 		}
 	}
 
-//	void onRequestCompleted(String result)
-//	{
-//		Log.v(TAG, "Request completed, throwing away 401 state");
-//		received401 = false;
-//		// if (!result.isEmpty())
-//		// {
-//		Log.v(TAG, "Error retrieving Labels.");
-//		// if (result.getId() != null)
-//		// {
-//		// String postId = result.getId().toString();
-//		// String title = result.getTitle();
-//		// Log.v(TAG, "postId: " + postId + " selected '" + title + "'");
-//		//
-//		// Intent i = new Intent(getApplicationContext(), PostDisplayActivity.class);
-//		// i.putExtra(Constants.POST_ID_KEY, postId);
-//		// i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//		// startActivity(i);
-//		// finish();
-//		// }
-//		// }
-//	}
+	// void onRequestCompleted(String result)
+	// {
+	// Log.v(TAG, "Request completed, throwing away 401 state");
+	// received401 = false;
+	// // if (!result.isEmpty())
+	// // {
+	// Log.v(TAG, "Error retrieving Labels.");
+	// // if (result.getId() != null)
+	// // {
+	// // String postId = result.getId().toString();
+	// // String title = result.getTitle();
+	// // Log.v(TAG, "postId: " + postId + " selected '" + title + "'");
+	// //
+	// // Intent i = new Intent(getApplicationContext(), PostDisplayActivity.class);
+	// // i.putExtra(Constants.POST_ID_KEY, postId);
+	// // i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	// // startActivity(i);
+	// // finish();
+	// // }
+	// // }
+	// }
 
 	// @Override
 	// public void onResume()

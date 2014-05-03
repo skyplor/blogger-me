@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.services.blogger.model.Post;
 import com.sky.bloggerapp.util.Constants;
 
@@ -44,11 +45,17 @@ public class AsyncLoadPost extends AsyncTask<String, Void, Post>
 		try
 		{
 			String postId = postIds[0];
-			return service.posts().get(Constants.BLOG_ID, postId).setFields("title,content").execute();
+			return service.posts().get(Constants.BLOG_ID, postId).setFields("title,content,labels").execute();
+		}
+		catch (UserRecoverableAuthIOException e)
+		{
+			dialog.dismiss();
+			return postDisplayActivity.requestAuth(e);
 		}
 		catch (IOException e)
 		{
 			Log.e(TAG, e.getMessage());
+			dialog.dismiss();
 			return new Post().setTitle(e.getMessage());
 		}
 	}

@@ -33,9 +33,15 @@ public class Constants extends Application
 	
 	/** Intent key for passing over postId to drill down activity. */
 	public static final String POST_ID_KEY = "POST_ID";
+		
+	/** Intent key for passing over postId to drill down activity. */
+	public static final Boolean CREATE_UPDATE = true;
 
 	/** Logging level for HTTP requests/responses. */
 	public static final Level LOGGING_LEVEL = Level.ALL;
+	
+	/** The ID of the Post object to be updated */
+	public static String POST_ID;
 
 	private static Constants singleton;
 

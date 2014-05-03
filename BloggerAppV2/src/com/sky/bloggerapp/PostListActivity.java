@@ -113,7 +113,7 @@ public class PostListActivity extends ListActivity
 		
 		if (getAuthToken())
 		{
-			service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).build();// null).setApplicationName("Google-BloggerAndroidSample/1.0").setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).build();
+			service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();// null).setApplicationName("Google-BloggerAndroidSample/1.0").setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).build();
 			Constants.BLOG_ID = getBlogID();
 			Logger.getLogger("com.google.api.client").setLevel(Constants.LOGGING_LEVEL);
 			new AsyncLoadPostList(this).execute();

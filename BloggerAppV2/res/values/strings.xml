@@ -30,5 +30,6 @@
     <string name="welcome_user">Welcome!</string>
     <string name="menu_logout">Logout</string>
     <string name="posts_button">Posts</string>
+    <string name="menu_edit">Edit</string>
 
 </resources>
