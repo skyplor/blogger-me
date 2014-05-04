@@ -1,4 +1,4 @@
-package com.sky.bloggerapp;
+package com.sky.bloggerme;
 
 import android.os.Bundle;
 import java.util.ArrayList;
@@ -27,7 +27,8 @@ import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.model.Post;
-import com.sky.bloggerapp.util.Constants;
+import com.sky.bloggerme.R;
+import com.sky.bloggerme.util.Constants;
 
 /**
  * Sample for Blogger API on Android. It shows how to get a list of posts.
@@ -79,7 +80,7 @@ public class PostListActivity extends ListActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_list);
 
-		settings = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
+		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		// ClientCredentials.errorIfNotSpecified();
 		getBlogTitle();
 
@@ -201,7 +202,7 @@ public class PostListActivity extends ListActivity
 
 	boolean getAuthToken()
 	{
-		settings = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
+		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		authToken = settings.getString(Constants.PREF_AUTH_TOKEN, "");
 		if (!authToken.isEmpty())
 		{

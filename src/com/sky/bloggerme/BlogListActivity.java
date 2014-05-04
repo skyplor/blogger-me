@@ -1,4 +1,4 @@
-package com.sky.bloggerapp;
+package com.sky.bloggerme;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,8 @@ import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.model.Blog;
-import com.sky.bloggerapp.util.Constants;
+import com.sky.bloggerme.R;
+import com.sky.bloggerme.util.Constants;
 
 import android.os.Bundle;
 import android.accounts.Account;
@@ -74,7 +75,7 @@ public class BlogListActivity extends ListActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_blog_list);
 
-		settings = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
+		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		removeBlogChosen();
 		// gotAccount();
 		accountManager = new GoogleAccountManager(this);
@@ -330,7 +331,7 @@ public class BlogListActivity extends ListActivity
 
 	private void setBlogDetails(String blogId, String name)
 	{
-		SharedPreferences settings = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
+		SharedPreferences settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString(Constants.PREF_BLOG_ID, blogId);
 		editor.putString(Constants.PREF_BLOG_NAME, name);

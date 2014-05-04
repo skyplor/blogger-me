@@ -1,4 +1,6 @@
-package com.sky.bloggerapp;
+package com.sky.bloggerme;
+
+import com.sky.bloggerme.R;
 
 import android.app.Activity;
 import android.content.Intent;

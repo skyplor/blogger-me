@@ -1,4 +1,4 @@
-package com.sky.bloggerapp;
+package com.sky.bloggerme;
 
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -29,7 +29,8 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.BloggerScopes;
 import com.google.api.services.blogger.model.Post;
-import com.sky.bloggerapp.util.Constants;
+import com.sky.bloggerme.R;
+import com.sky.bloggerme.util.Constants;
 
 public class PostDisplayActivity extends Activity
 {
@@ -100,7 +101,7 @@ public class PostDisplayActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_display);
 		// getActionBar().setDisplayHomeAsUpEnabled(true);
-		settings = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
+		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 
 		getBlogTitle();
 		postsBtn = (Button) findViewById(R.id.postsDisplayButton);

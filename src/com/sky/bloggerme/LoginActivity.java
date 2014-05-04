@@ -1,4 +1,4 @@
-package com.sky.bloggerapp;
+package com.sky.bloggerme;
 
 //public class Login extends Activity
 //{
@@ -64,6 +64,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.BloggerScopes;
+import com.sky.bloggerme.R;
 
 public class LoginActivity extends Activity
 {
@@ -127,7 +128,7 @@ public class LoginActivity extends Activity
 		Log.v(TAG, "Building the Blogger API v3 service facade");
 		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();
 		Log.v(TAG, "Getting the private SharedPreferences instance");
-		settings = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
+		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		Log.v(TAG, "Retrieving the account name from settings");
 		accountName = settings.getString(PREF_ACCOUNT_NAME, null);
 		Log.v(TAG, "accountName: " + accountName);
@@ -235,7 +236,7 @@ public class LoginActivity extends Activity
 		// }
 		// final Dialog dlg;
 		//
-		// dlg = new AlertDialog.Builder(LoginActivity.this).setIcon(com.sky.bloggerapp.R.drawable.ic_dialog_alert).setTitle("Success").setPositiveButton("OK", null).setMessage("Your profile has been successfully saved.").create();
+		// dlg = new AlertDialog.Builder(LoginActivity.this).setIcon(com.sky.bloggerme.R.drawable.ic_dialog_alert).setTitle("Success").setPositiveButton("OK", null).setMessage("Your profile has been successfully saved.").create();
 		//
 		// dlg.show();
 		//
@@ -244,7 +245,7 @@ public class LoginActivity extends Activity
 		// private void login()
 		// {
 		// // TODO Auto-generated method stub
-		// SharedPreferences login = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
+		// SharedPreferences login = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		// SharedPreferences.Editor editor = login.edit();
 		// editor.putBoolean("LoggedIn", true);
 		// editor.commit();

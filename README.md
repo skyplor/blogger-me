@@ -1,4 +1,4 @@
-# Blogger-application #
+# Blogger-me #
 
 ---
 A very simple android demo application which uses the Google Blogger API v3 to allow a user to connect to his/her blogger account and do simple postings and viewing of his/her blog.

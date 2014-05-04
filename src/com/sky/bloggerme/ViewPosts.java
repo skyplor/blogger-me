@@ -1,4 +1,4 @@
-package com.sky.bloggerapp;
+package com.sky.bloggerme;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import com.sky.bloggerapp.util.Alert;
+import com.sky.bloggerme.R;
+import com.sky.bloggerme.util.Alert;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;

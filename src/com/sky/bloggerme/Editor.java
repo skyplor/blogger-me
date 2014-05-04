@@ -1,4 +1,6 @@
-package com.sky.bloggerapp;
+package com.sky.bloggerme;
+
+import com.sky.bloggerme.R;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -86,7 +88,7 @@ public class Editor extends Activity implements OnClickListener
 		publishBtn.setOnClickListener(this);
 		postsBtn.setOnClickListener(this);
 
-		SharedPreferences pref = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
+		SharedPreferences pref = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		loginStatus = pref.getBoolean("LoggedIn", false);
 		chosenBlog = pref.getBoolean("Blog", false);
 
@@ -443,7 +445,7 @@ public class Editor extends Activity implements OnClickListener
 	// {
 	// // Log.e(TAG, "Exception: " + e.getMessage());
 	// }
-	// final Dialog dlg = new AlertDialog.Builder(Editor.this).setIcon(com.sky.bloggerapp.R.drawable.ic_dialog_alert).setTitle("Publish status").setPositiveButton("OK", null).setMessage("Published").create();
+	// final Dialog dlg = new AlertDialog.Builder(Editor.this).setIcon(com.sky.bloggerme.R.drawable.ic_dialog_alert).setTitle("Publish status").setPositiveButton("OK", null).setMessage("Published").create();
 	// // dlg.setOnDismissListener(new OnDismissListener()
 	// // {
 	// // @Override

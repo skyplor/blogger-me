@@ -1,4 +1,4 @@
-package com.sky.bloggerapp;
+package com.sky.bloggerme;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -38,8 +38,9 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.model.Post;
-import com.sky.bloggerapp.util.Constants;
-import com.sky.bloggerapp.util.DroidWriterEditText;
+import com.sky.bloggerme.R;
+import com.sky.bloggerme.util.Constants;
+import com.sky.bloggerme.util.DroidWriterEditText;
 
 /**
  * Sample for Blogger API on Android. It shows how to create a post.
@@ -142,7 +143,7 @@ public class CreatePostActivity extends Activity
 		Log.v(TAG, "Building the Blogger API v3 service facade");
 		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).setApplicationName("Google-BloggerAndroidSample/1.0").build();
 		Log.v(TAG, "Getting the private SharedPreferences instance");
-		settings = getSharedPreferences("com.sky.bloggerapp", MODE_PRIVATE);
+		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 
 		getBlogTitle();
 
