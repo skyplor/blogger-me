@@ -111,6 +111,7 @@ public class BlogListActivity extends ListActivity
 		if (credential.getAccessToken() != null)
 		{
 			Log.v(TAG, "We have an AccessToken");
+			setToast("We have an AccessToken");
 			onAuthToken();
 			// accountChosen = true;
 			return;
@@ -143,7 +144,7 @@ public class BlogListActivity extends ListActivity
 				catch (Exception e)
 				{
 					Log.e(TAG, e.getMessage(), e);
-//					accountChosen = false;
+					// accountChosen = false;
 				}
 			}
 		}, null);
@@ -377,6 +378,7 @@ public class BlogListActivity extends ListActivity
 	 */
 	void handleGoogleException(IOException e)
 	{
+//		setToast(e.getMessage());
 		if (e instanceof GoogleJsonResponseException)
 		{
 			GoogleJsonResponseException exception = (GoogleJsonResponseException) e;
@@ -394,6 +396,7 @@ public class BlogListActivity extends ListActivity
 				editor2.remove(Constants.PREF_AUTH_TOKEN);
 				editor2.commit();
 				Log.v(TAG, "Initiating authToken request from AccountManager");
+//				setToast(e.getMessage());
 				gotAccount();
 				return;
 			}
@@ -401,10 +404,17 @@ public class BlogListActivity extends ListActivity
 		Log.e(TAG, e.getMessage(), e);
 	}
 
-	public void setToast(String string)
+	public void setToast(final String string)
 	{
 		// TODO Auto-generated method stub
-		Toast.makeText(this, string, Toast.LENGTH_LONG).show();
+		this.runOnUiThread(new Runnable()
+		{
+			public void run()
+			{
+				Toast.makeText(BlogListActivity.this, string, Toast.LENGTH_SHORT).show();
+			}
+		});
+		// Toast.makeText(this, string, Toast.LENGTH_LONG).show();
 	}
 
 }

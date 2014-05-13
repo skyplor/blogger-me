@@ -44,6 +44,7 @@ package com.sky.bloggerme;
 //}
 
 import java.io.IOException;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
@@ -56,6 +57,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+
 import com.google.api.client.extensions.android2.AndroidHttp;
 import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -64,7 +66,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.BloggerScopes;
-import com.sky.bloggerme.R;
 
 public class LoginActivity extends Activity
 {
@@ -136,6 +137,8 @@ public class LoginActivity extends Activity
 		// Logger.getLogger("com.google.api.client").setLevel(LOGGING_LEVEL);
 		accountManager = new GoogleAccountManager(this);
 		gotAccount();
+//		chooseAccount();
+		
 		// ((EditText) this.findViewById(R.id.login_email)).setOnKeyListener(new OnKeyListener()
 		// {
 		// @Override

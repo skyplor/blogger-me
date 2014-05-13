@@ -1,6 +1,5 @@
 package com.sky.bloggerme;
 
-import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -9,6 +8,7 @@ import java.util.logging.Logger;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -23,11 +23,9 @@ import android.widget.TextView;
 import com.google.api.client.extensions.android2.AndroidHttp;
 import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.model.Post;
-import com.sky.bloggerme.R;
 import com.sky.bloggerme.util.Constants;
 
 /**
@@ -96,7 +94,7 @@ public class PostListActivity extends ListActivity
 			}
 
 		});
-		
+
 		blogsBtn = (Button) this.findViewById(R.id.blogsbutton);
 		blogsBtn.setOnClickListener(new OnClickListener()
 		{
@@ -111,10 +109,10 @@ public class PostListActivity extends ListActivity
 			}
 
 		});
-		
+
 		if (getAuthToken())
 		{
-			service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();// null).setApplicationName("Google-BloggerAndroidSample/1.0").setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).build();
+			service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Blogger-me/1.0").build();// null).setApplicationName("Google-BloggerAndroidSample/1.0").setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).build();
 			Constants.BLOG_ID = getBlogID();
 			Logger.getLogger("com.google.api.client").setLevel(Constants.LOGGING_LEVEL);
 			new AsyncLoadPostList(this).execute();
@@ -145,21 +143,24 @@ public class PostListActivity extends ListActivity
 	public void setModel(List<Post> result)
 	{
 		this.posts = result;
-		List<String> titles = new ArrayList<String>(result.size());
-		for (Post post : posts)
+		if (result != null && result.size() > 0)
 		{
-			titles.add(post.getTitle());
+			List<String> titles = new ArrayList<String>(result.size());
+			for (Post post : posts)
+			{
+				titles.add(post.getTitle());
+			}
+			this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, titles));
 		}
-		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, titles));
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.activity_blog_list, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -171,7 +172,7 @@ public class PostListActivity extends ListActivity
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void doLogout()
 	{
 		editor = settings.edit();
@@ -212,23 +213,23 @@ public class PostListActivity extends ListActivity
 		}
 		return false;
 	}
-	
+
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
-//			removeBlogChosen();
+			// removeBlogChosen();
 			finish();
 			return true;
 		}
 		return false;
 	}
 
-//	private void removeBlogChosen()
-//	{
-//		SharedPreferences.Editor editor = settings.edit();
-//		editor.remove(BlogListActivity.PREF_BLOG_NAME);
-//		editor.remove(CreatePostActivity.PREF_BLOG_ID);
-//		editor.commit();		
-//	}
+	// private void removeBlogChosen()
+	// {
+	// SharedPreferences.Editor editor = settings.edit();
+	// editor.remove(BlogListActivity.PREF_BLOG_NAME);
+	// editor.remove(CreatePostActivity.PREF_BLOG_ID);
+	// editor.commit();
+	// }
 }

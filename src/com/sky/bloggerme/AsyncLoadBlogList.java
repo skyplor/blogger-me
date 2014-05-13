@@ -9,6 +9,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.api.services.blogger.Blogger.Blogs;
+import com.google.api.services.blogger.Blogger.Blogs.ListByUser;
 import com.google.api.services.blogger.model.Blog;
 import com.google.api.services.blogger.model.BlogList;
 
@@ -48,30 +50,38 @@ public class AsyncLoadBlogList extends AsyncTask<Void, Void, List<Blog>>
 		try
 		{
 			List<Blog> result = new ArrayList<Blog>();
-			com.google.api.services.blogger.Blogger.Blogs.ListByUser blogListByUserAction = service.blogs().listByUser("self").setFields("items(description,id,name,posts/totalItems,updated)");
-			// This step sends the request to the server.
-			BlogList blogList = blogListByUserAction.execute();
-
-			// Now we can navigate the response.
-			if (blogList.getItems() != null && !blogList.getItems().isEmpty())
+			Blogs blogs = service.blogs();
+			if (blogs != null)
 			{
-				int blogCount = 0;
-				for (Blog blog : blogList.getItems())
+				ListByUser blogListByUserAction = blogs.listByUser("self").setFields("items(description,id,name,posts/totalItems,updated)");
+				if (blogListByUserAction != null)
 				{
-					System.out.println("Blog #" + ++blogCount);
-					System.out.println("\tID: " + blog.getId());
-					System.out.println("\tName: " + blog.getName());
-					System.out.println("\tDescription: " + blog.getDescription());
-					System.out.println("\tPost Count: " + blog.getPosts().getTotalItems());
-					System.out.println("\tLast Updated: " + blog.getUpdated());
+					// This step sends the request to the server.
+					BlogList blogList = blogListByUserAction.execute();
+
+					// Now we can navigate the response.
+					if (blogList.getItems() != null && !blogList.getItems().isEmpty())
+					{
+						int blogCount = 0;
+						for (Blog blog : blogList.getItems())
+						{
+							System.out.println("Blog #" + ++blogCount);
+							System.out.println("\tID: " + blog.getId());
+							System.out.println("\tName: " + blog.getName());
+							System.out.println("\tDescription: " + blog.getDescription());
+							System.out.println("\tPost Count: " + blog.getPosts().getTotalItems());
+							System.out.println("\tLast Updated: " + blog.getUpdated());
+						}
+						result.addAll(blogList.getItems());
+					}
 				}
-				result.addAll(blogList.getItems());
 			}
 			return result;
 		}
 		catch (IOException e)
 		{
 			Log.e(TAG, e.getMessage());
+			// blogListActivity.setToast(e.getMessage());
 			blogListActivity.handleGoogleException(e);
 			return Collections.emptyList();
 		}
@@ -83,9 +93,9 @@ public class AsyncLoadBlogList extends AsyncTask<Void, Void, List<Blog>>
 		dialog.dismiss();
 		if (result != null && result.size() > 0)
 		{
-//			Log.v(TAG, result.get(0).getName());
+			// Log.v(TAG, result.get(0).getName());
 			blogListActivity.setModel(result);
 		}
-//		blogListActivity.setToast("I couldn't find any of your blogs. Please try again later");
+		// blogListActivity.setToast("I couldn't find any of your blogs. Please try again later");
 	}
 }

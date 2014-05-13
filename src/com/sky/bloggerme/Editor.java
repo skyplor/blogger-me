@@ -1,11 +1,9 @@
 package com.sky.bloggerme;
 
-import com.sky.bloggerme.R;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -216,7 +214,8 @@ public class Editor extends Activity implements OnClickListener
 				break;
 			case R.id.menu_settings:
 				Toast.makeText(Editor.this, "You pressed the Settings!", Toast.LENGTH_SHORT).show();
-				break;
+				throw new RuntimeException("This is a crash");
+//				break;
 		}
 		return true;
 	}

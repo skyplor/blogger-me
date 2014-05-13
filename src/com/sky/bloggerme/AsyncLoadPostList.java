@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.api.services.blogger.Blogger.Posts;
 import com.google.api.services.blogger.model.Post;
 import com.google.api.services.blogger.model.PostList;
 
@@ -48,23 +49,29 @@ public class AsyncLoadPostList extends AsyncTask<Void, Void, List<Post>>
 		try
 		{
 			List<Post> result = new ArrayList<Post>();
-			com.google.api.services.blogger.Blogger.Posts.List postsListAction = service.posts().list(postListActivity.getBlogID()).setFields("items(id,title),nextPageToken");
-			PostList posts = postsListAction.execute();
-
-			// Retrieve up to five pages of results.
-			int page = 1;
-
-			while (posts.getItems() != null && page < 10)
+			Posts posts = service.posts();
+			if (posts != null)
 			{
-				page++;
-				result.addAll(posts.getItems());
-				String pageToken = posts.getNextPageToken();
-				if (pageToken == null)
+				com.google.api.services.blogger.Blogger.Posts.List postsListAction = posts.list(postListActivity.getBlogID()).setFields("items(id,title),nextPageToken");
+				PostList postslist = postsListAction.execute();
+
+				// Retrieve up to five pages of results.
+				int page = 1;
+				if (postslist != null && postslist.size() > 0)
 				{
-					break;
+					while (postslist.getItems() != null && page < 10)
+					{
+						page++;
+						result.addAll(postslist.getItems());
+						String pageToken = postslist.getNextPageToken();
+						if (pageToken == null)
+						{
+							break;
+						}
+						postsListAction.setPageToken(pageToken);
+						postslist = postsListAction.execute();
+					}
 				}
-				postsListAction.setPageToken(pageToken);
-				posts = postsListAction.execute();
 			}
 			return result;
 		}
@@ -79,7 +86,7 @@ public class AsyncLoadPostList extends AsyncTask<Void, Void, List<Post>>
 	protected void onPostExecute(List<Post> result)
 	{
 		dialog.dismiss();
-		Log.v(TAG, result.get(0).getTitle());
+//		Log.v(TAG, result.get(0).getTitle());
 		postListActivity.setModel(result);
 	}
 }
