@@ -1,9 +1,5 @@
 package com.sky.bloggerme;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.view.MenuItem;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +13,13 @@ import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,7 +38,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.model.Post;
-import com.sky.bloggerme.R;
 import com.sky.bloggerme.util.Constants;
 import com.sky.bloggerme.util.DroidWriterEditText;
 
@@ -141,7 +140,7 @@ public class CreatePostActivity extends Activity
 		init();
 
 		Log.v(TAG, "Building the Blogger API v3 service facade");
-		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).setApplicationName("Google-BloggerAndroidSample/1.0").build();
+		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).setApplicationName("Blogger-me/1.0").build();
 		Log.v(TAG, "Getting the private SharedPreferences instance");
 		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 

@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.api.services.blogger.model.Blog;
-import com.google.api.services.blogger.model.BlogList;
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.api.services.blogger.model.Blog;
+import com.google.api.services.blogger.model.BlogList;
 
 /**
  * Asynchronously load the blog list with a progress dialog.
@@ -81,10 +81,11 @@ public class AsyncLoadBlogList extends AsyncTask<Void, Void, List<Blog>>
 	protected void onPostExecute(List<Blog> result)
 	{
 		dialog.dismiss();
-		if (result != null)
+		if (result != null && result.size() > 0)
 		{
-			Log.v(TAG, result.get(0).getName());
+//			Log.v(TAG, result.get(0).getName());
 			blogListActivity.setModel(result);
 		}
+//		blogListActivity.setToast("I couldn't find any of your blogs. Please try again later");
 	}
 }

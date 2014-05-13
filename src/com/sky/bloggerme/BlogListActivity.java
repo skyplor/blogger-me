@@ -4,19 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.api.client.extensions.android2.AndroidHttp;
-import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.googleapis.services.GoogleKeyInitializer;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.services.blogger.model.Blog;
-import com.sky.bloggerme.R;
-import com.sky.bloggerme.util.Constants;
-
-import android.os.Bundle;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
@@ -24,6 +11,7 @@ import android.accounts.AccountManagerFuture;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -31,6 +19,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.api.client.extensions.android2.AndroidHttp;
+import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.services.blogger.model.Blog;
+import com.sky.bloggerme.util.Constants;
 
 public class BlogListActivity extends ListActivity
 {
@@ -82,7 +81,7 @@ public class BlogListActivity extends ListActivity
 		if (getAuthToken())
 		{
 			// Construct the Blogger API access facade object.
-			service = new com.google.api.services.blogger.Blogger.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();
+			service = new com.google.api.services.blogger.Blogger.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName("Blogger-me/1.0").build();
 			Log.v(TAG, "Constructed the Blogger API access facade object.");
 			new AsyncLoadBlogList(this).execute();
 			received401 = false;
@@ -400,6 +399,12 @@ public class BlogListActivity extends ListActivity
 			}
 		}
 		Log.e(TAG, e.getMessage(), e);
+	}
+
+	public void setToast(String string)
+	{
+		// TODO Auto-generated method stub
+		Toast.makeText(this, string, Toast.LENGTH_LONG).show();
 	}
 
 }

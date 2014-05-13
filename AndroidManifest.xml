@@ -28,11 +28,11 @@
 		</activity>
 		<activity android:name=".LoginActivity">
 		</activity>
-		<activity android:name="ViewPosts">
+		<activity android:name=".ViewPosts">
 		</activity>
-		<activity android:name="ViewPost">
+		<activity android:name=".ViewPost">
 		</activity>
-		<activity android:name="ViewBlogs">
+		<activity android:name=".ViewBlogs">
 		</activity>
 		<activity
 			android:name=".PostListActivity"
