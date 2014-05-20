@@ -14,3 +14,6 @@ Take note that if the user exits the application while editing a post, there's n
 * Updating of posts
 * Saving of posts into drafts
 * Allowing the adding of images and links into the posts
+* Add database implementation to allow saving of posts, tags and blogs information. Allows for faster loading
+* Adding drag down to refresh implementation to allow sync-ing of database to blog
+* Adding full-resync function in menu to clear whole database and re-sync from blogger
