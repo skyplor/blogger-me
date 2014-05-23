@@ -89,7 +89,7 @@ public class PostListActivity extends ListActivity
 			@Override
 			public void onClick(View v)
 			{
-				Intent intent = new Intent(PostListActivity.this, CreatePostActivity.class);
+				Intent intent = new Intent(PostListActivity.this, EditorActivity.class);
 				startActivity(intent);
 			}
 
@@ -229,7 +229,7 @@ public class PostListActivity extends ListActivity
 	// {
 	// SharedPreferences.Editor editor = settings.edit();
 	// editor.remove(BlogListActivity.PREF_BLOG_NAME);
-	// editor.remove(CreatePostActivity.PREF_BLOG_ID);
+	// editor.remove(EditorActivity.PREF_BLOG_ID);
 	// editor.commit();
 	// }
 }

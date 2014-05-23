@@ -53,7 +53,7 @@ import com.sky.bloggerme.util.DroidWriterEditText;
  * 
  * @author Sky Pay
  */
-public class CreatePostActivity extends Activity
+public class EditorActivity extends Activity
 {
 
 	/** Logging tag. */
@@ -134,7 +134,7 @@ public class CreatePostActivity extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_create_post);
+		setContentView(R.layout.activity_create_update_post);
 
 		// Initialization of the buttons
 		init();
@@ -218,7 +218,7 @@ public class CreatePostActivity extends Activity
 				}
 
 				Post post = new Post().setTitle(title).setContent(content).setLabels(labels_list);
-				(new AsyncCreatePost(CreatePostActivity.this, create)).execute(post);
+				(new AsyncCreatePost(EditorActivity.this, create)).execute(post);
 			}
 		});
 
@@ -234,7 +234,7 @@ public class CreatePostActivity extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				Intent intent = new Intent(CreatePostActivity.this, PostListActivity.class);
+				Intent intent = new Intent(EditorActivity.this, PostListActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				finish();
@@ -326,7 +326,7 @@ public class CreatePostActivity extends Activity
 
 	private void goLoginActivity()
 	{
-		Intent login = new Intent(CreatePostActivity.this, LoginActivity.class);
+		Intent login = new Intent(EditorActivity.this, LoginActivity.class);
 		login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(login);
 		finish();
@@ -346,7 +346,7 @@ public class CreatePostActivity extends Activity
 	private void chooseAccount()
 	{
 		Log.v(TAG, "Asking the AccountManager to find us an account to auth as");
-		accountManager.getAccountManager().getAuthTokenByFeatures(GoogleAccountManager.ACCOUNT_TYPE, Constants.AUTH_TOKEN_TYPE, null, CreatePostActivity.this, null, null, new AccountManagerCallback<Bundle>()
+		accountManager.getAccountManager().getAuthTokenByFeatures(GoogleAccountManager.ACCOUNT_TYPE, Constants.AUTH_TOKEN_TYPE, null, EditorActivity.this, null, null, new AccountManagerCallback<Bundle>()
 		{
 			public void run(AccountManagerFuture<Bundle> future)
 			{
@@ -397,7 +397,7 @@ public class CreatePostActivity extends Activity
 
 	void startBlogsListActivity()
 	{
-		Intent intent = new Intent(CreatePostActivity.this, BlogListActivity.class);
+		Intent intent = new Intent(EditorActivity.this, BlogListActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		finish();
@@ -489,7 +489,7 @@ public class CreatePostActivity extends Activity
 		editor.remove(Constants.PREF_BLOG_ID);
 		editor.remove(Constants.PREF_BLOG_NAME);
 		editor.commit();
-		Intent intent = new Intent(CreatePostActivity.this, LoginActivity.class);
+		Intent intent = new Intent(EditorActivity.this, LoginActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		finish();

@@ -154,7 +154,7 @@ public class BlogListActivity extends ListActivity
 	// private void chooseAccount()
 	// {
 	// Log.v(TAG, "Asking the AccountManager to find us an account to auth as");
-	// accountManager.getAccountManager().getAuthTokenByFeatures(GoogleAccountManager.ACCOUNT_TYPE, CreatePostActivity.AUTH_TOKEN_TYPE, null, BlogListActivity.this, null, null, new AccountManagerCallback<Bundle>()
+	// accountManager.getAccountManager().getAuthTokenByFeatures(GoogleAccountManager.ACCOUNT_TYPE, EditorActivity.AUTH_TOKEN_TYPE, null, BlogListActivity.this, null, null, new AccountManagerCallback<Bundle>()
 	// {
 	// public void run(AccountManagerFuture<Bundle> future)
 	// {
@@ -196,7 +196,7 @@ public class BlogListActivity extends ListActivity
 	// super.onActivityResult(requestCode, resultCode, data);
 	// switch (requestCode)
 	// {
-	// case CreatePostActivity.REQUEST_AUTHENTICATE:
+	// case EditorActivity.REQUEST_AUTHENTICATE:
 	// Log.v(TAG, "request code is REQUEST_AUTHENTICATE");
 	// if (resultCode == RESULT_OK)
 	// {
@@ -233,7 +233,7 @@ public class BlogListActivity extends ListActivity
 	// void setAccountName(String accountName)
 	// {
 	// editor = settings.edit();
-	// editor.putString(CreatePostActivity.PREF_ACCOUNT_NAME, accountName);
+	// editor.putString(EditorActivity.PREF_ACCOUNT_NAME, accountName);
 	// editor.commit();
 	// this.accountName = accountName;
 	// Log.v(TAG, "Stored accountName: " + accountName);

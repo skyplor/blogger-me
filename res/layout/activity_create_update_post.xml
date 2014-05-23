@@ -32,8 +32,7 @@
 		android:text="@string/blog_title"
 		android:textAppearance="@style/blog_style"
 		android:background="@drawable/gradient"
-		android:gravity="center"
-		tools:context=".CreatePostActivity" />
+		android:gravity="center" />
 	<Button
 		android:id="@+id/postsbutton"
 		android:layout_width="wrap_content"
@@ -45,8 +44,7 @@
 		android:background="@drawable/custom_btn"
 		android:text="@string/post_button"
 		android:textAppearance="@style/editor_button"
-		android:textColor="#FFFFFF"
-		tools:context=".CreatePostActivity" />
+		android:textColor="#FFFFFF" />
 	<Button
 		android:id="@+id/publishbutton"
 		android:layout_width="wrap_content"
@@ -58,8 +56,7 @@
 		android:background="@drawable/custom_btn"
 		android:text="@string/publish_button"
 		android:textAppearance="@style/editor_button"
-		android:textColor="#FFFFFF"
-		tools:context=".CreatePostActivity" />
+		android:textColor="#FFFFFF" />
 	<EditText
 		android:id="@+id/post_title"
 		android:layout_width="wrap_content"
@@ -70,7 +67,6 @@
 		android:singleLine="true"
 		android:layout_marginBottom="-8dp"
 		android:ems="10"
-		tools:context=".CreatePostActivity"
 		android:inputType="textCapSentences"
 		android:hint="@string/post_title">
 		<requestFocus />
@@ -86,9 +82,7 @@
 		android:inputType="textCapWords"
 		android:singleLine="true"
 		android:ems="10"
-		tools:context=".CreatePostActivity"
-		android:hint="@string/post_labels"
-		android:textSize="15dp">
+		android:hint="@string/post_labels">
 	</MultiAutoCompleteTextView>
 	<ToggleButton
 		android:id="@+id/BoldButton"
@@ -135,7 +129,6 @@
 		android:gravity="top"
 		android:hint="@string/post_body"
 		android:inputType="textMultiLine|textCapSentences"
-		tools:context=".CreatePostActivity"
 		android:scrollbars="vertical"
 		android:singleLine="false" />
 

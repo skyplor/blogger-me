@@ -49,7 +49,7 @@
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.sky.bloggerme.PostListActivity" />
 		</activity>
-		<activity android:name=".CreatePostActivity">
+		<activity android:name=".EditorActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 

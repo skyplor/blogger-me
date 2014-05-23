@@ -15,16 +15,16 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 {
 	private static final String TAG = "AsyncLoadLabels";
 
-	private final CreatePostActivity createPostActivity;
+	private final EditorActivity editorActivity;
 	private final ProgressDialog dialog;
 	private com.google.api.services.blogger.Blogger service;
 
-	AsyncLoadLabels(CreatePostActivity createPostActivity)
+	AsyncLoadLabels(EditorActivity editorActivity)
 	{
 		Log.v(TAG, "start of LoadLabels async task");
-		this.createPostActivity = createPostActivity;
-		service = createPostActivity.service;
-		dialog = new ProgressDialog(createPostActivity);
+		this.editorActivity = editorActivity;
+		service = editorActivity.service;
+		dialog = new ProgressDialog(editorActivity);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 		try
 		{
 			List<String> result = new ArrayList<String>();
-			com.google.api.services.blogger.Blogger.Posts.List postsListAction = service.posts().list(createPostActivity.getBlogID()).setFields("items/labels,nextPageToken");
+			com.google.api.services.blogger.Blogger.Posts.List postsListAction = service.posts().list(editorActivity.getBlogID()).setFields("items/labels,nextPageToken");
 			PostList posts = postsListAction.execute();
 
 			boolean label_exist = false;
@@ -101,7 +101,7 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 		catch (IOException e)
 		{
 			Log.e(TAG, e.getMessage());
-			createPostActivity.handleGoogleException(e);
+			editorActivity.handleGoogleException(e);
 			return Collections.emptyList();
 		}
 	}
@@ -119,12 +119,12 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 			Log.v(TAG, "Async complete, pulling down dialog");
 		}
 		dialog.dismiss();
-		createPostActivity.setModel(result);
+		editorActivity.setModel(result);
 	}
 
 	// private void createAlertDialog(String title, String message)
 	// {
-	// final AlertDialog alertDialog = new AlertDialog.Builder(createPostActivity).create();
+	// final AlertDialog alertDialog = new AlertDialog.Builder(editorActivity).create();
 	// alertDialog.setTitle(title);
 	// alertDialog.setMessage(message);
 	// alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new Dialog.OnClickListener()
@@ -134,7 +134,7 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 	// public void onClick(DialogInterface dialog, int which)
 	// {
 	// alertDialog.dismiss();
-	// createPostActivity.onRequestCompleted("Error");
+	// editorActivity.onRequestCompleted("Error");
 	// }
 	// });
 	// alertDialog.show();

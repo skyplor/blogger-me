@@ -24,27 +24,34 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 	/** TAG for logging. */
 	private static final String TAG = "AsyncCreatePost";
 
-	private final CreatePostActivity createPostActivity;
+	private final EditorActivity editorActivity;
 	private final ProgressDialog dialog;
 	private com.google.api.services.blogger.Blogger service;
 	private Post resultPost;
 	private Boolean create = true;
 
-	AsyncCreatePost(CreatePostActivity createPostActivity, Boolean create)
+	AsyncCreatePost(EditorActivity editorActivity, Boolean create)
 	{
 		Log.v(TAG, "start of CreatePost async task");
-		this.createPostActivity = createPostActivity;
-		service = createPostActivity.service;
-		dialog = new ProgressDialog(createPostActivity);
+		this.editorActivity = editorActivity;
+		service = editorActivity.service;
+		dialog = new ProgressDialog(editorActivity);
 		this.create = create;
-		
+
 	}
 
 	@Override
 	protected void onPreExecute()
 	{
 		Log.v(TAG, "Popping up waiting dialog");
-		dialog.setMessage("Creating post...");
+		if (create)
+		{
+			dialog.setMessage("Creating post...");
+		}
+		else
+		{
+			dialog.setMessage("Updating post...");
+		}
 		dialog.show();
 	}
 
@@ -70,16 +77,16 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 				Log.d(TAG, "HTTP: " + postsUpdateAction.buildHttpRequestUrl().build());
 				postResult = postsUpdateAction.execute();
 				Log.d(TAG, "Title: " + postResult.getTitle());
-				Log.d(TAG, "Author: " + post.getAuthor().getDisplayName());
+//				Log.d(TAG, "Author: " + post.getAuthor().getDisplayName());
 				Log.d(TAG, "Content: " + post.getContent());
 			}
 			Log.v(TAG, "call succeeded");
-			return new AsyncCreatePostResult(postResult, "Post Created/Updated", "postId: " + postResult.getId());
+			return new AsyncCreatePostResult(postResult, "Post Created/Updated", "Your post is created/updated successfully!");
 		}
 		catch (IOException e)
 		{
 			Log.e(TAG, e.getMessage() == null ? "null" : e.getMessage());
-			createPostActivity.handleGoogleException(e);
+			editorActivity.handleGoogleException(e);
 
 			// This is a less than optimal way of handling this situation.
 			// A more elegant solution would involve using a SyncAdaptor...
@@ -92,19 +99,20 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 	{
 		Log.v(TAG, "Async complete, pulling down dialog");
 		dialog.dismiss();
-		if (result != null)
+		if (result != null && result.getResultDialogTitle().equals("Post Created/Updated"))
 		{
 			Log.v(TAG, "Create/Update Post Result is: " + result);
-			createPostActivity.display(result.getPost());
+			editorActivity.display(result.getPost());
 			createAlertDialog(result.getResultDialogTitle(), result.getResultDialogMessage());
-			// createPostActivity.onRequestCompleted(result.getPost());
+			// editorActivity.onRequestCompleted(result.getPost());
 			resultPost = result.getPost();
+			resultPost.setId(Long.parseLong(Constants.POST_ID));
 		}
 	}
 
 	private void createAlertDialog(String title, String message)
 	{
-		final AlertDialog alertDialog = new AlertDialog.Builder(createPostActivity).create();
+		final AlertDialog alertDialog = new AlertDialog.Builder(editorActivity).create();
 		alertDialog.setTitle(title);
 		alertDialog.setMessage(message);
 		alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new Dialog.OnClickListener()
@@ -114,7 +122,7 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 			public void onClick(DialogInterface dialog, int which)
 			{
 				alertDialog.dismiss();
-				createPostActivity.onRequestCompleted(resultPost);
+				editorActivity.onRequestCompleted(resultPost);
 			}
 		});
 		alertDialog.show();

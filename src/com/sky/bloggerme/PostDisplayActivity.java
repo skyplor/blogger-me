@@ -2,9 +2,7 @@ package com.sky.bloggerme;
 
 import java.util.Iterator;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,9 +25,7 @@ import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
-import com.google.api.services.blogger.BloggerScopes;
 import com.google.api.services.blogger.model.Post;
-import com.sky.bloggerme.R;
 import com.sky.bloggerme.util.Constants;
 
 public class PostDisplayActivity extends Activity
@@ -157,11 +153,12 @@ public class PostDisplayActivity extends Activity
 				return true;
 
 			case R.id.menu_edit:
-				Intent intent = new Intent(getApplicationContext(), CreatePostActivity.class);
+				Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
 				intent.putExtra("Title", postResult.getTitle());
 				intent.putExtra("Content", postResult.getContent());
-				String labels = join(postResult.getLabels(), ",");
+				String labels = join(postResult.getLabels(), ", ");
 				intent.putExtra("Labels", labels);
+//				intent.putExtra("Update", true);
 
 				Constants.POST_ID = postId;
 
