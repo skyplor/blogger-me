@@ -5,6 +5,7 @@
 	<string name="title_activity_main">Blogger</string>
 	<string name="blog_title">Title of Blog</string>
 	<string name="post_button">Posts</string>
+	<string name="edit_button">Edit</string>
 	<string name="publish_button">Publish</string>
 	<string name="post_title">Post title</string>
 	<string name="post_body">Post content</string>

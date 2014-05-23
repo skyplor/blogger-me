@@ -69,6 +69,10 @@ public class PostDisplayActivity extends Activity
 	Button postsBtn;
 
 	/**
+	 * editBtn: The Button component which allows user to edit the post;
+	 */
+	Button editBtn;
+	/**
 	 * postTitle: The TextView component which displays the post's title;
 	 */
 	TextView postTitle;
@@ -101,6 +105,7 @@ public class PostDisplayActivity extends Activity
 
 		getBlogTitle();
 		postsBtn = (Button) findViewById(R.id.postsDisplayButton);
+		editBtn = (Button) findViewById(R.id.postEditButton);
 		postTitle = ((TextView) findViewById(R.id.title));
 		content = ((WebView) findViewById(R.id.content));
 
@@ -114,6 +119,25 @@ public class PostDisplayActivity extends Activity
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				finish();
+			}
+		});
+		
+		editBtn.setOnClickListener(new View.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
+				intent.putExtra("Title", postResult.getTitle());
+				intent.putExtra("Content", postResult.getContent());
+				String labels = join(postResult.getLabels(), ", ");
+				intent.putExtra("Labels", labels);
+
+				Constants.POST_ID = postId;
+
+				startActivity(intent);
+				
 			}
 		});
 //		credential = GoogleAccountCredential.usingOAuth2(this, BloggerScopes.BLOGGER);
@@ -158,7 +182,6 @@ public class PostDisplayActivity extends Activity
 				intent.putExtra("Content", postResult.getContent());
 				String labels = join(postResult.getLabels(), ", ");
 				intent.putExtra("Labels", labels);
-//				intent.putExtra("Update", true);
 
 				Constants.POST_ID = postId;
 
