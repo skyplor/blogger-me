@@ -62,6 +62,7 @@ import com.google.api.client.extensions.android2.AndroidHttp;
 import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
+import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
@@ -138,7 +139,7 @@ public class LoginActivity extends Activity
 		setContentView(R.layout.activity_login);
 
 		Log.v(TAG, "Building the Blogger API v3 service facade");
-		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Blogger-me/1.0").build();
+		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).setApplicationName("Blogger-me/1.0").build();
 		Log.v(TAG, "Getting the private SharedPreferences instance");
 		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		Log.v(TAG, "Retrieving the account name from settings");

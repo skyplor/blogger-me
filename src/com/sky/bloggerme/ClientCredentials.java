@@ -3,7 +3,6 @@ package com.sky.bloggerme;
 import com.google.common.base.Preconditions;
 import com.sky.bloggerme.util.ApiConstant;
 
-// TODO: Auto-generated Javadoc
 /**
  * API key found in the <a href="https://developers.google.com/console/">Google apis console</a>.
  * 
@@ -17,7 +16,7 @@ public class ClientCredentials
 {
 
 	/** Value of the "API key" shown under "Simple API Access". */
-	public static final String KEY = ApiConstant.KEY;
+	public static String KEY = ApiConstant.KEY;
 
 	/**
 	 * Error if not specified.

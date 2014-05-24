@@ -13,7 +13,6 @@ import com.google.api.services.blogger.Blogger.Posts;
 import com.google.api.services.blogger.model.Post;
 import com.google.api.services.blogger.model.PostList;
 
-// TODO: Auto-generated Javadoc
 /**
  * Asynchronously load the post list with a progress dialog.
  * 

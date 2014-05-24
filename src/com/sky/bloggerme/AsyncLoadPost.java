@@ -10,7 +10,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 import com.google.api.services.blogger.model.Post;
 import com.sky.bloggerme.util.Constants;
 
-// TODO: Auto-generated Javadoc
 /**
  * Asynchronously load a post with a progress dialog.
  * 

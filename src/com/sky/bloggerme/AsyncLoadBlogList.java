@@ -14,7 +14,6 @@ import com.google.api.services.blogger.Blogger.Blogs.ListByUser;
 import com.google.api.services.blogger.model.Blog;
 import com.google.api.services.blogger.model.BlogList;
 
-// TODO: Auto-generated Javadoc
 /**
  * Asynchronously load the blog list with a progress dialog.
  * 
