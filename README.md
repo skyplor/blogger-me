@@ -8,10 +8,10 @@ Allows user to post a blog
 Allows user to view the posts
 
 **Note:**  
-Take note that if the user exits the application while editing a post, there's no guarantee that the post will still be there when user goes back into the app. So it would be better to post it in one shot (Until saving in draft feature is added).
+1. Take note that if the user exits the application while editing a post, there's no guarantee that the post will still be there when user goes back into the app. So it would be better to post it in one shot (Until saving in draft feature is added).
+2. Developers have to add their own keys in the clientcredentials class, as described in the class itself.
 
 ##Roadmap
-* Updating of posts
 * Saving of posts into drafts
 * Allowing the adding of images and links into the posts
 * Add database implementation to allow saving of posts, tags and blogs information. Allows for faster loading
