@@ -31,7 +31,7 @@ public class Alert
 	 * @param con the context
 	 * @param title the title
 	 * @param message the message
-	 * @param positiveButtontxt the positive buttontxt
+	 * @param positiveButtontxt the text for positive buttontxt
 	 * @param positiveListener the positive listener
 	 * @param negativeButtontxt the negative buttontxt
 	 * @param negativeListener the negative listener

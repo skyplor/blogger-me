@@ -26,6 +26,7 @@ import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.model.Blog;
@@ -92,7 +93,7 @@ public class BlogListActivity extends ListActivity
 		if (getAuthToken())
 		{
 			// Construct the Blogger API access facade object.
-			service = new com.google.api.services.blogger.Blogger.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName("Blogger-me/1.0").build();
+			service = new com.google.api.services.blogger.Blogger.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).setApplicationName("Blogger-me/1.0").build();
 			Log.v(TAG, "Constructed the Blogger API access facade object.");
 			new AsyncLoadBlogList(this).execute();
 			received401 = false;

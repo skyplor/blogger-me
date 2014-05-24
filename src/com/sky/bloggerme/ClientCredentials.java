@@ -1,6 +1,7 @@
 package com.sky.bloggerme;
 
 import com.google.common.base.Preconditions;
+import com.sky.bloggerme.util.ApiConstant;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -16,7 +17,7 @@ public class ClientCredentials
 {
 
 	/** Value of the "API key" shown under "Simple API Access". */
-	public static final String KEY = "AIzaSyA9Y2Tl7wpOPaeMxpxIi_cq0Q-kiGrLeKY";
+	public static final String KEY = ApiConstant.KEY;
 
 	/**
 	 * Error if not specified.

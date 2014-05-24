@@ -138,7 +138,7 @@ public class LoginActivity extends Activity
 		setContentView(R.layout.activity_login);
 
 		Log.v(TAG, "Building the Blogger API v3 service facade");
-		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();
+		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Blogger-me/1.0").build();
 		Log.v(TAG, "Getting the private SharedPreferences instance");
 		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		Log.v(TAG, "Retrieving the account name from settings");

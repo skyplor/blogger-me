@@ -21,6 +21,7 @@ import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
@@ -150,7 +151,7 @@ public class PostDisplayActivity extends Activity
 			// We shouldn't need ClientCredentials... but I can't figure out why it isn't binding.
 			ClientCredentials.errorIfNotSpecified();
 
-			service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();
+			service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).setApplicationName("Blogger-me/1.0").build();
 			// service = getBloggerService(credential);
 			// Logger.getLogger("com.google.api.client").setLevel(LOGGING_LEVEL);
 			Log.d(TAG, "After getting service");
