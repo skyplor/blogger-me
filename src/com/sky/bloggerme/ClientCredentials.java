@@ -2,6 +2,7 @@ package com.sky.bloggerme;
 
 import com.google.common.base.Preconditions;
 
+// TODO: Auto-generated Javadoc
 /**
  * API key found in the <a href="https://developers.google.com/console/">Google apis console</a>.
  * 
@@ -17,6 +18,9 @@ public class ClientCredentials
 	/** Value of the "API key" shown under "Simple API Access". */
 	public static final String KEY = "AIzaSyA9Y2Tl7wpOPaeMxpxIi_cq0Q-kiGrLeKY";
 
+	/**
+	 * Error if not specified.
+	 */
 	public static void errorIfNotSpecified()
 	{
 		Preconditions.checkNotNull(KEY, "Please enter your API key from https://code.google.com/apis/console/?api=tasks in " + ClientCredentials.class);

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -11,14 +12,29 @@ import android.util.Log;
 import com.google.api.services.blogger.model.Post;
 import com.google.api.services.blogger.model.PostList;
 
+/**
+ * The Class AsyncLoadLabels.
+ */
 public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 {
+	
+	/** The Constant TAG. */
 	private static final String TAG = "AsyncLoadLabels";
 
+	/** The editor activity. */
 	private final EditorActivity editorActivity;
+	
+	/** The dialog. */
 	private final ProgressDialog dialog;
+	
+	/** The service. */
 	private com.google.api.services.blogger.Blogger service;
 
+	/**
+	 * Instantiates a new async load labels.
+	 *
+	 * @param editorActivity the editor activity
+	 */
 	AsyncLoadLabels(EditorActivity editorActivity)
 	{
 		Log.v(TAG, "start of LoadLabels async task");
@@ -27,6 +43,9 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 		dialog = new ProgressDialog(editorActivity);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute()
 	{
@@ -35,6 +54,9 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 		dialog.show();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#doInBackground(Params[])
+	 */
 	@Override
 	protected List<String> doInBackground(Post... params)
 	{
@@ -106,6 +128,9 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(List<String> result)
 	{

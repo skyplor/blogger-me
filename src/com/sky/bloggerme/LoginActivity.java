@@ -67,8 +67,14 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.BloggerScopes;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LoginActivity.
+ */
 public class LoginActivity extends Activity
 {
+	
+	/** The Constant TAG. */
 	private static final String TAG = "Login Activity";
 //	private EditText textUsername, textPassword;
 //	private ProgressDialog verifyProgress = null;
@@ -112,14 +118,19 @@ public class LoginActivity extends Activity
 	/** Shared Preferences key for storing the user's blog ID. */
 	static final String PREF_BLOG_ID = "blogID";
 	
+	/** The Constant BACK_KEY_PRESSED. */
 	private static final int BACK_KEY_PRESSED = 20;
 
 	/** REPLACE ME WITH A BLOG ID OF SOMETHING YOU HAVE WRITE PRIVS ON. */
 	// TODO Get Blog id of the chosen blog and replace this
 	public static String BLOG_ID = "";
 
+	/** The backkeypressed. */
 	private static boolean accountChosen = false, backkeypressed = false;
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -259,12 +270,18 @@ public class LoginActivity extends Activity
 		// });
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onDestroy()
+	 */
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
 	}
 
+	/**
+	 * Got account.
+	 */
 	void gotAccount()
 	{
 		Log.v(TAG, "Retrieving the account for " + accountName);
@@ -316,6 +333,9 @@ public class LoginActivity extends Activity
 		}, null);
 	}
 
+	/**
+	 * Choose account.
+	 */
 	private void chooseAccount()
 	{
 		Log.v(TAG, "Asking the AccountManager to find us an account to auth as");
@@ -357,6 +377,9 @@ public class LoginActivity extends Activity
 		}, null);
 	}
 
+	/**
+	 * Start blogs list activity.
+	 */
 	void startBlogsListActivity()
 	{
 		Intent intent = new Intent(LoginActivity.this, BlogListActivity.class);
@@ -365,6 +388,11 @@ public class LoginActivity extends Activity
 		finish();
 	}
 
+	/**
+	 * Sets the account name.
+	 *
+	 * @param accountName the new account name
+	 */
 	void setAccountName(String accountName)
 	{
 		editor = settings.edit();
@@ -374,6 +402,11 @@ public class LoginActivity extends Activity
 		Log.v(TAG, "Stored accountName: " + accountName);
 	}
 
+	/**
+	 * Sets the auth token.
+	 *
+	 * @param authToken the new auth token
+	 */
 	void setAuthToken(String authToken)
 	{
 		editor = settings.edit();
@@ -383,6 +416,9 @@ public class LoginActivity extends Activity
 		Log.v(TAG, "Stored authToken");
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -415,6 +451,9 @@ public class LoginActivity extends Activity
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
 	@Override
 	public void onResume()
 	{
@@ -436,6 +475,9 @@ public class LoginActivity extends Activity
 //		}
 	}
 
+	/**
+	 * On auth token.
+	 */
 	void onAuthToken()
 	{
 		Log.v(TAG, "In on Authentication Token");
@@ -445,6 +487,9 @@ public class LoginActivity extends Activity
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
+	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{

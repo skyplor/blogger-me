@@ -31,11 +31,17 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.model.Blog;
 import com.sky.bloggerme.util.Constants;
 
+/**
+ * The Class BlogListActivity.
+ */
 public class BlogListActivity extends ListActivity
 {
+	
+	/** The Constant TAG. */
 	private static final String TAG = "BlogListActivity";
 
 	// Configure the Java API Client for Installed Native App
+	/** The http transport. */
 	HttpTransport HTTP_TRANSPORT = AndroidHttp.newCompatibleTransport();
 
 	/** The JSON factory to use to marshall data onto the wire. */
@@ -59,6 +65,7 @@ public class BlogListActivity extends ListActivity
 	/** HTTP rewriter responsible for managing lifetime of oauth2 credentials. */
 	GoogleCredential credential = new GoogleCredential();
 
+	/** The auth token. */
 	String authToken;
 
 	/** Whether we have received a 401. Used to initiate re-authorising the authToken. */
@@ -66,8 +73,12 @@ public class BlogListActivity extends ListActivity
 
 	// private static boolean accountChosen = false;
 
+	/** The blogs. */
 	private List<Blog> blogs;
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -97,6 +108,9 @@ public class BlogListActivity extends ListActivity
 
 	}
 
+	/**
+	 * Got account.
+	 */
 	void gotAccount()
 	{
 		Log.v(TAG, "Retrieving the account for " + accountName);
@@ -212,6 +226,9 @@ public class BlogListActivity extends ListActivity
 	// }
 	// }
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
 	@Override
 	public void onResume()
 	{
@@ -239,6 +256,11 @@ public class BlogListActivity extends ListActivity
 	// Log.v(TAG, "Stored accountName: " + accountName);
 	// }
 	//
+	/**
+	 * Sets the auth token.
+	 *
+	 * @param authToken the new auth token
+	 */
 	void setAuthToken(String authToken)
 	{
 		editor = settings.edit();
@@ -248,11 +270,19 @@ public class BlogListActivity extends ListActivity
 		Log.v(TAG, "Stored authToken");
 	}
 
+	/**
+	 * On auth token.
+	 */
 	void onAuthToken()
 	{
 		Log.v(TAG, "In on Authentication Token");
 	}
 
+	/**
+	 * Sets the model.
+	 *
+	 * @param result the new model
+	 */
 	public void setModel(List<Blog> result)
 	{
 		this.blogs = result;
@@ -282,6 +312,9 @@ public class BlogListActivity extends ListActivity
 		// setListAdapter(notes);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -289,6 +322,9 @@ public class BlogListActivity extends ListActivity
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -301,6 +337,9 @@ public class BlogListActivity extends ListActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Do logout.
+	 */
 	private void doLogout()
 	{
 		editor = settings.edit();
@@ -315,6 +354,9 @@ public class BlogListActivity extends ListActivity
 		finish();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.ListActivity#onListItemClick(android.widget.ListView, android.view.View, int, long)
+	 */
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id)
 	{
@@ -329,6 +371,12 @@ public class BlogListActivity extends ListActivity
 		super.onListItemClick(l, v, position, id);
 	}
 
+	/**
+	 * Sets the blog details.
+	 *
+	 * @param blogId the blog id
+	 * @param name the name
+	 */
 	private void setBlogDetails(String blogId, String name)
 	{
 		SharedPreferences settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
@@ -339,6 +387,11 @@ public class BlogListActivity extends ListActivity
 		Log.v(TAG, "BlogDetails added into sharedpreferences.");
 	}
 
+	/**
+	 * Gets the auth token.
+	 *
+	 * @return the auth token
+	 */
 	boolean getAuthToken()
 	{
 		authToken = settings.getString(Constants.PREF_AUTH_TOKEN, "");
@@ -351,6 +404,9 @@ public class BlogListActivity extends ListActivity
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
+	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
@@ -361,6 +417,9 @@ public class BlogListActivity extends ListActivity
 		return false;
 	}
 
+	/**
+	 * Removes the blog chosen.
+	 */
 	private void removeBlogChosen()
 	{
 		SharedPreferences.Editor editor = settings.edit();
@@ -404,6 +463,11 @@ public class BlogListActivity extends ListActivity
 		Log.e(TAG, e.getMessage(), e);
 	}
 
+	/**
+	 * Sets the toast.
+	 *
+	 * @param string the new toast
+	 */
 	public void setToast(final String string)
 	{
 		// TODO Auto-generated method stub

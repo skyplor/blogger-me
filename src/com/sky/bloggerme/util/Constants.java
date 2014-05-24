@@ -11,6 +11,9 @@ import android.app.Application;
 import com.google.api.services.blogger.BloggerScopes;
 import com.sky.bloggerme.R;
 
+/**
+ * The Class Constants.
+ */
 @ReportsCrashes(formKey = "", // not in use anymore
 formUri = "https://darkads.cloudant.com/acra-blogger-me/_design/acra-storage/_update/report", // url for sending to the backend server
 reportType = org.acra.sender.HttpSender.Type.JSON, // send to backend server as a JSON message
@@ -57,16 +60,25 @@ public class Constants extends Application
 	/** Logging level for HTTP requests/responses. */
 	public static final Level LOGGING_LEVEL = Level.ALL;
 
-	/** The ID of the Post object to be updated */
+	/**  The ID of the Post object to be updated. */
 	public static String POST_ID;
 
+	/** The singleton. */
 	private static Constants singleton;
 
+	/**
+	 * Gets the single instance of Constants.
+	 *
+	 * @return single instance of Constants
+	 */
 	public static Constants getInstance()
 	{
 		return singleton;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Application#onCreate()
+	 */
 	@Override
 	public void onCreate()
 	{

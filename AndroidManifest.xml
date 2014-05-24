@@ -20,19 +20,8 @@
 		android:theme="@android:style/Theme.Light.NoTitleBar"
 		android:name=".util.Constants"
 		android:allowBackup="false">
-		"
-		<activity
-			android:name="Editor"
-			android:label="@string/title_activity_main">
-
-		</activity>
+		
 		<activity android:name=".LoginActivity">
-		</activity>
-		<activity android:name=".ViewPosts">
-		</activity>
-		<activity android:name=".ViewPost">
-		</activity>
-		<activity android:name=".ViewBlogs">
 		</activity>
 		<activity
 			android:name=".PostListActivity"

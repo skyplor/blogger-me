@@ -21,16 +21,19 @@ import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.model.Post;
 import com.sky.bloggerme.util.Constants;
 
+/**
+ * The Class PostDisplayActivity.
+ */
 public class PostDisplayActivity extends Activity
 {
 
+	/** The tag. */
 	private static String TAG = "PostDisplay";
 
 	/** Logging level for HTTP requests/responses. */
@@ -52,49 +55,44 @@ public class PostDisplayActivity extends Activity
 	SharedPreferences.Editor editor;
 
 	/** HTTP rewriter responsible for managing lifetime of oauth2 credentials. */
-//	GoogleAccountCredential credential;
+	// GoogleAccountCredential credential;
 	GoogleCredential credential = new GoogleCredential();
 
-	/** Selected blog name */
+	/** Selected blog name. */
 	String blogTitle;
 
-	/**
-	 * blgtitle: The TextView component which displays the blog title;
-	 */
+	/** blgtitle: The TextView component which displays the blog title;. */
 	TextView blgtitle;
 
-	/**
-	 * postsBtn: The Button component which displays the blog posts;
-	 */
+	/** postsBtn: The Button component which displays the blog posts;. */
 	Button postsBtn;
 
-	/**
-	 * editBtn: The Button component which allows user to edit the post;
-	 */
+	/** editBtn: The Button component which allows user to edit the post;. */
 	Button editBtn;
-	/**
-	 * postTitle: The TextView component which displays the post's title;
-	 */
+
+	/** postTitle: The TextView component which displays the post's title;. */
 	TextView postTitle;
 
-	/**
-	 * content: The WebView component which displays the post's content;
-	 */
+	/** content: The WebView component which displays the post's content;. */
 	WebView content;
 
-	/**
-	 * postResult: The post object;
-	 */
+	/** postResult: The post object;. */
 	Post postResult;
 
-	/**
-	 * postID: The ID of the post object;
-	 */
+	/** postID: The ID of the post object;. */
 	String postId;
 
+	/** The Constant REQUEST_ACCOUNT_PICKER. */
 	static final int REQUEST_ACCOUNT_PICKER = 1;
+
+	/** The Constant REQUEST_AUTHORIZATION. */
 	static final int REQUEST_AUTHORIZATION = 2;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -121,10 +119,10 @@ public class PostDisplayActivity extends Activity
 				finish();
 			}
 		});
-		
+
 		editBtn.setOnClickListener(new View.OnClickListener()
 		{
-			
+
 			@Override
 			public void onClick(View v)
 			{
@@ -137,10 +135,10 @@ public class PostDisplayActivity extends Activity
 				Constants.POST_ID = postId;
 
 				startActivity(intent);
-				
+
 			}
 		});
-//		credential = GoogleAccountCredential.usingOAuth2(this, BloggerScopes.BLOGGER);
+		// credential = GoogleAccountCredential.usingOAuth2(this, BloggerScopes.BLOGGER);
 
 		// credential.setSelectedAccountName(AccountManager.KEY_ACCOUNT_NAME);
 		Bundle extras = getIntent().getExtras();
@@ -152,14 +150,19 @@ public class PostDisplayActivity extends Activity
 			// We shouldn't need ClientCredentials... but I can't figure out why it isn't binding.
 			ClientCredentials.errorIfNotSpecified();
 
-			service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).setApplicationName("Google-BloggerAndroidSample/1.0").build();
-//			service = getBloggerService(credential);
-//			Logger.getLogger("com.google.api.client").setLevel(LOGGING_LEVEL);
+			service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();
+			// service = getBloggerService(credential);
+			// Logger.getLogger("com.google.api.client").setLevel(LOGGING_LEVEL);
 			Log.d(TAG, "After getting service");
 			new AsyncLoadPost(this).execute(postId);
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -167,6 +170,11 @@ public class PostDisplayActivity extends Activity
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -195,42 +203,55 @@ public class PostDisplayActivity extends Activity
 		return super.onOptionsItemSelected(item);
 	}
 
-//	@Override
-//	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data)
-//	{
-//		switch (requestCode)
-//		{
-//			case REQUEST_ACCOUNT_PICKER:
-//				if (resultCode == RESULT_OK && data != null && data.getExtras() != null)
-//				{
-//					String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-//					if (accountName != null)
-//					{
-//						credential.setSelectedAccountName(accountName);
-//						service = getBloggerService(credential);
-//						// startCameraIntent();
-//					}
-//				}
-//				break;
-//			case REQUEST_AUTHORIZATION:
-//				if (resultCode == Activity.RESULT_OK)
-//				{
-//					// saveFileToDrive();
-//				}
-//				else
-//				{
-//					startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
-//				}
-//				break;
-//		}
-//	}
+	// @Override
+	// protected void onActivityResult(final int requestCode, final int resultCode, final Intent data)
+	// {
+	// switch (requestCode)
+	// {
+	// case REQUEST_ACCOUNT_PICKER:
+	// if (resultCode == RESULT_OK && data != null && data.getExtras() != null)
+	// {
+	// String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+	// if (accountName != null)
+	// {
+	// credential.setSelectedAccountName(accountName);
+	// service = getBloggerService(credential);
+	// // startCameraIntent();
+	// }
+	// }
+	// break;
+	// case REQUEST_AUTHORIZATION:
+	// if (resultCode == Activity.RESULT_OK)
+	// {
+	// // saveFileToDrive();
+	// }
+	// else
+	// {
+	// startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+	// }
+	// break;
+	// }
+	// }
 
+	/**
+	 * Gets the blogger service.
+	 * 
+	 * @param credential
+	 *            the credential
+	 * @return the blogger service
+	 */
 	private Blogger getBloggerService(GoogleAccountCredential credential)
 	{
 		// TODO Auto-generated method stub
 		return new Blogger.Builder(AndroidHttp.newCompatibleTransport(), jsonFactory, credential).setApplicationName("Google-BloggerAndroidSample/1.0").build();
 	}
 
+	/**
+	 * Display.
+	 * 
+	 * @param result
+	 *            the result
+	 */
 	public void display(Post result)
 	{
 		postResult = result;
@@ -241,6 +262,11 @@ public class PostDisplayActivity extends Activity
 
 	}
 
+	/**
+	 * Gets the blog title.
+	 * 
+	 * @return the blog title
+	 */
 	private void getBlogTitle()
 	{
 		blogTitle = settings.getString(Constants.PREF_BLOG_NAME, "");
@@ -252,6 +278,9 @@ public class PostDisplayActivity extends Activity
 
 	}
 
+	/**
+	 * Do logout.
+	 */
 	private void doLogout()
 	{
 		editor = settings.edit();
@@ -266,6 +295,15 @@ public class PostDisplayActivity extends Activity
 		finish();
 	}
 
+	/**
+	 * Join.
+	 * 
+	 * @param s
+	 *            the string to split
+	 * @param delimiter
+	 *            the delimiter
+	 * @return the string
+	 */
 	public static String join(Iterable<? extends CharSequence> s, String delimiter)
 	{
 		Iterator<? extends CharSequence> iter = s.iterator();
@@ -285,6 +323,13 @@ public class PostDisplayActivity extends Activity
 		return buffer.toString();
 	}
 
+	/**
+	 * Request auth.
+	 * 
+	 * @param e
+	 *            the e
+	 * @return the post
+	 */
 	public Post requestAuth(UserRecoverableAuthIOException e)
 	{
 		startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);

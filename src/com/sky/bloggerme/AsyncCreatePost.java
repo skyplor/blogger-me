@@ -24,12 +24,27 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 	/** TAG for logging. */
 	private static final String TAG = "AsyncCreatePost";
 
+	/** The editor activity. */
 	private final EditorActivity editorActivity;
+	
+	/** The dialog. */
 	private final ProgressDialog dialog;
+	
+	/** The service. */
 	private com.google.api.services.blogger.Blogger service;
+	
+	/** The result post. */
 	private Post resultPost;
+	
+	/** Whether user is updating or creating a post. */
 	private Boolean create = true;
 
+	/**
+	 * Instantiates a new async create post.
+	 *
+	 * @param editorActivity the editor activity
+	 * @param create the create
+	 */
 	AsyncCreatePost(EditorActivity editorActivity, Boolean create)
 	{
 		Log.v(TAG, "start of CreatePost async task");
@@ -40,6 +55,9 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute()
 	{
@@ -55,6 +73,9 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 		dialog.show();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#doInBackground(Params[])
+	 */
 	@Override
 	protected AsyncCreatePostResult doInBackground(Post... args)
 	{
@@ -94,6 +115,9 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(AsyncCreatePostResult result)
 	{
@@ -110,6 +134,12 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 		}
 	}
 
+	/**
+	 * Creates the alert dialog.
+	 *
+	 * @param title the title
+	 * @param message the message
+	 */
 	private void createAlertDialog(String title, String message)
 	{
 		final AlertDialog alertDialog = new AlertDialog.Builder(editorActivity).create();

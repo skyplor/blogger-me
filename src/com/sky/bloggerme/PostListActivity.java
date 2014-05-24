@@ -28,6 +28,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.model.Post;
 import com.sky.bloggerme.util.Constants;
 
+// TODO: Auto-generated Javadoc
 /**
  * Sample for Blogger API on Android. It shows how to get a list of posts.
  * <p>
@@ -64,14 +65,21 @@ public class PostListActivity extends ListActivity
 	/** Shared Preferences editor for editing auth credentials. */
 	SharedPreferences.Editor editor;
 
+	/** The blog title. */
 	String authToken, blogTitle;
 
+	/** The title. */
 	private TextView title;
 
+	/** The posts. */
 	private List<Post> posts;
 
+	/** The blogs btn. */
 	Button newPostBtn, blogsBtn;
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -124,6 +132,11 @@ public class PostListActivity extends ListActivity
 
 	}
 
+	/**
+	 * Gets the blog title.
+	 *
+	 * @return the blog title
+	 */
 	private void getBlogTitle()
 	{
 		blogTitle = settings.getString(Constants.PREF_BLOG_NAME, "");
@@ -135,11 +148,21 @@ public class PostListActivity extends ListActivity
 
 	}
 
+	/**
+	 * Gets the blog id.
+	 *
+	 * @return the blog id
+	 */
 	public String getBlogID()
 	{
 		return settings.getString(Constants.PREF_BLOG_ID, "");
 	}
 
+	/**
+	 * Sets the model.
+	 *
+	 * @param result the new model
+	 */
 	public void setModel(List<Post> result)
 	{
 		this.posts = result;
@@ -154,6 +177,9 @@ public class PostListActivity extends ListActivity
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -161,6 +187,9 @@ public class PostListActivity extends ListActivity
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -173,6 +202,9 @@ public class PostListActivity extends ListActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Do logout.
+	 */
 	private void doLogout()
 	{
 		editor = settings.edit();
@@ -187,6 +219,9 @@ public class PostListActivity extends ListActivity
 		finish();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.ListActivity#onListItemClick(android.widget.ListView, android.view.View, int, long)
+	 */
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id)
 	{
@@ -201,6 +236,11 @@ public class PostListActivity extends ListActivity
 		super.onListItemClick(l, v, position, id);
 	}
 
+	/**
+	 * Gets the auth token.
+	 *
+	 * @return the auth token
+	 */
 	boolean getAuthToken()
 	{
 		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
@@ -214,6 +254,9 @@ public class PostListActivity extends ListActivity
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
+	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)

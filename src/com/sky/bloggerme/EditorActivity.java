@@ -33,7 +33,6 @@ import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
@@ -80,7 +79,7 @@ public class EditorActivity extends Activity
 	/** Selected account name we are authorizing as. */
 	String accountName;
 
-	/** Selected blog name */
+	/**  Selected blog name. */
 	String blogTitle;
 
 	/** HTTP rewriter responsible for managing lifetime of oauth2 credentials. */
@@ -95,6 +94,8 @@ public class EditorActivity extends Activity
 	 * Rich Text buttons. Used to allow user to format their text.
 	 */
 	private ToggleButton boldToggle;
+	
+	/** The italics toggle. */
 	private ToggleButton italicsToggle;
 	// private ToggleButton underlineToggle;
 
@@ -108,28 +109,27 @@ public class EditorActivity extends Activity
 	 */
 	EditText postTitle;
 
-	/**
-	 * title: The TextView component which displays the blog title;
-	 */
+	/** title: The TextView component which displays the blog title;. */
 	TextView title;
 
-	/**
-	 * myMultiAutoCompleteTextView: The MultiAutoCompleteTextView component which displays the blog title;
-	 */
+	/** myMultiAutoCompleteTextView: The MultiAutoCompleteTextView component which displays the blog title;. */
 	MultiAutoCompleteTextView labelsMultiAutoComplete;
 
 	/** Whether we have received a 401. Used to initiate re-authorising the authToken. */
 	private boolean received401;
 
+	/** The account chosen. */
 	private static boolean blogChosen = false, accountChosen = false;
 
+	/** The labels. */
 	private String[] labels;
 
-	/**
-	 * create: Whether we are creating or updating a post;
-	 */
+	/** create: Whether we are creating or updating a post;. */
 	Boolean create = true;
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -140,7 +140,7 @@ public class EditorActivity extends Activity
 		init();
 
 		Log.v(TAG, "Building the Blogger API v3 service facade");
-		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).setApplicationName("Blogger-me/1.0").build();
+		service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setApplicationName("Blogger-me/1.0").build();
 		Log.v(TAG, "Getting the private SharedPreferences instance");
 		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 
@@ -155,7 +155,6 @@ public class EditorActivity extends Activity
 		gotAccount();
 		gotBlog();
 
-
 		if (accountChosen && !blogChosen)
 		{
 			startBlogsListActivity();
@@ -166,24 +165,12 @@ public class EditorActivity extends Activity
 			labelsMultiAutoComplete.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
 			new AsyncLoadLabels(this).execute();
-			// do
-			// {
-			// new AsyncLoadLabels(this).execute();
-			// }
-			// while (labelsMultiAutoComplete.getAdapter().isEmpty());
-			// {
-			// long t0, t1;
-			// t0 = System.currentTimeMillis();
-			// do
-			// {
-			// t1 = System.currentTimeMillis();
-			// }
-			// while (t1 - t0 < 3000);
-			//
-			// }
 		}
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init()
 	{
 		postContent = (DroidWriterEditText) findViewById(R.id.post_body);
@@ -255,9 +242,13 @@ public class EditorActivity extends Activity
 		}
 	}
 
+	/**
+	 * Update post details.
+	 *
+	 * @param extras the extras
+	 */
 	private void updatePostDetails(Bundle extras)
 	{
-		// TODO Auto-generated method stub
 		create = false;
 		String title = extras.getString("Title");
 		String content = extras.getString("Content");
@@ -271,6 +262,9 @@ public class EditorActivity extends Activity
 		}
 	}
 
+	/**
+	 * We have an account in our DB.
+	 */
 	void gotAccount()
 	{
 		Log.v(TAG, "Retrieving the account for " + accountName);
@@ -278,7 +272,6 @@ public class EditorActivity extends Activity
 		if (account == null)
 		{
 			Log.v(TAG, "account was null, forcing user to choose account");
-			// chooseAccount();
 			goLoginActivity();
 			return;
 		}
@@ -300,11 +293,6 @@ public class EditorActivity extends Activity
 					Bundle bundle = future.getResult();
 					if (bundle.containsKey(AccountManager.KEY_INTENT))
 					{
-						// Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
-						// intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
-						// Log.v(TAG, "We need AccountManager to talk to the user. Starting Activity.");
-						// startActivityForResult(intent, REQUEST_AUTHENTICATE);
-						// accountChosen = true;
 						goLoginActivity();
 					}
 					else if (bundle.containsKey(AccountManager.KEY_AUTHTOKEN))
@@ -324,6 +312,9 @@ public class EditorActivity extends Activity
 		}, null);
 	}
 
+	/**
+	 * Launches the login activity and finishes the current activity.
+	 */
 	private void goLoginActivity()
 	{
 		Intent login = new Intent(EditorActivity.this, LoginActivity.class);
@@ -332,6 +323,11 @@ public class EditorActivity extends Activity
 		finish();
 	}
 
+	/**
+	 * Gets the blog title.
+	 *
+	 * @return the blog title
+	 */
 	private void getBlogTitle()
 	{
 		blogTitle = settings.getString(Constants.PREF_BLOG_NAME, "");
@@ -343,6 +339,9 @@ public class EditorActivity extends Activity
 
 	}
 
+	/**
+	 * Retrieve an account via the AccountManager.
+	 */
 	private void chooseAccount()
 	{
 		Log.v(TAG, "Asking the AccountManager to find us an account to auth as");
@@ -381,6 +380,9 @@ public class EditorActivity extends Activity
 		}, null);
 	}
 
+	/**
+	 * We have a blog in our DB.
+	 */
 	void gotBlog()
 	{
 		Log.v(TAG, "Retrieving the blog for " + accountName);
@@ -395,6 +397,9 @@ public class EditorActivity extends Activity
 		}
 	}
 
+	/**
+	 * Start blogs list activity and finishes the current activity.
+	 */
 	void startBlogsListActivity()
 	{
 		Intent intent = new Intent(EditorActivity.this, BlogListActivity.class);
@@ -403,6 +408,11 @@ public class EditorActivity extends Activity
 		finish();
 	}
 
+	/**
+	 * Sets the account name.
+	 *
+	 * @param accountName the new account name
+	 */
 	void setAccountName(String accountName)
 	{
 		editor = settings.edit();
@@ -412,6 +422,11 @@ public class EditorActivity extends Activity
 		Log.v(TAG, "Stored accountName: " + accountName);
 	}
 
+	/**
+	 * Sets the auth token.
+	 *
+	 * @param authToken the new auth token
+	 */
 	void setAuthToken(String authToken)
 	{
 		editor = settings.edit();
@@ -421,6 +436,9 @@ public class EditorActivity extends Activity
 		Log.v(TAG, "Stored authToken");
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -450,6 +468,9 @@ public class EditorActivity extends Activity
 		}
 	}
 
+	/**
+	 * On auth token.
+	 */
 	void onAuthToken()
 	{
 		Log.v(TAG, "Enabling publishbutton");
@@ -459,6 +480,9 @@ public class EditorActivity extends Activity
 		viewPostsButton.setEnabled(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -466,6 +490,9 @@ public class EditorActivity extends Activity
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -481,6 +508,9 @@ public class EditorActivity extends Activity
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * User will be logged out. Launches the login activity.
+	 */
 	private void doLogout()
 	{
 		editor = settings.edit();
@@ -495,6 +525,11 @@ public class EditorActivity extends Activity
 		finish();
 	}
 
+	/**
+	 * A method for debugging purposes. To display the post's title.
+	 *
+	 * @param result the result
+	 */
 	public void display(Post result)
 	{
 		Log.v(TAG, "Displaying " + result.getTitle());
@@ -503,6 +538,11 @@ public class EditorActivity extends Activity
 
 	}
 
+	/**
+	 * On request completed.
+	 *
+	 * @param result the post result
+	 */
 	void onRequestCompleted(Post result)
 	{
 		Log.v(TAG, "Request completed, throwing away 401 state");
@@ -525,37 +565,18 @@ public class EditorActivity extends Activity
 		}
 	}
 
-	// void onRequestCompleted(String result)
-	// {
-	// Log.v(TAG, "Request completed, throwing away 401 state");
-	// received401 = false;
-	// // if (!result.isEmpty())
-	// // {
-	// Log.v(TAG, "Error retrieving Labels.");
-	// // if (result.getId() != null)
-	// // {
-	// // String postId = result.getId().toString();
-	// // String title = result.getTitle();
-	// // Log.v(TAG, "postId: " + postId + " selected '" + title + "'");
-	// //
-	// // Intent i = new Intent(getApplicationContext(), PostDisplayActivity.class);
-	// // i.putExtra(Constants.POST_ID_KEY, postId);
-	// // i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	// // startActivity(i);
-	// // finish();
-	// // }
-	// // }
-	// }
+	/**
+	 * Check for any input by the user in any of the following fields: Post Title / Label / Content.
+	 *
+	 * @return true if there is input
+	 */
+	private Boolean checkDraft()
+	{
+		
+		return false;
 
-	// @Override
-	// public void onResume()
-	// {
-	// super.onResume();
-	// if (accountChosen && !blogChosen)
-	// {
-	// startBlogsListActivity();
-	// }
-	// }
+	}
+
 
 	/**
 	 * Handle an IO exception encountered by the background AsyncTask. It may be because the stored AuthToken is stale.
@@ -590,22 +611,25 @@ public class EditorActivity extends Activity
 		Log.e(TAG, e.getMessage(), e);
 	}
 
+	/**
+	 * Gets the blog id.
+	 *
+	 * @return the blog id
+	 */
 	public String getBlogID()
 	{
 		// TODO Auto-generated method stub
 		return settings.getString(Constants.PREF_BLOG_ID, null);
 	}
 
+	/**
+	 * Sets the model.
+	 *
+	 * @param result the new model
+	 */
 	public void setModel(List<String> result)
 	{
 		labels = new String[result.size()];
-		// for (int i = 0; i < labels.length; i++)
-		// {
-		// for (String label : result)
-		// {
-		// labels[i] = label;
-		// }
-		// }
 		result.toArray(labels);
 
 		labelsMultiAutoComplete.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, labels));

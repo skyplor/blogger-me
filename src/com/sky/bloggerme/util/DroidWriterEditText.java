@@ -1,12 +1,9 @@
 package com.sky.bloggerme.util;
 
-import com.sky.bloggerme.R;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.Html;
-import android.text.Html.ImageGetter;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.Spanned;
@@ -17,39 +14,78 @@ import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ToggleButton;
 
+/**
+ * The Class DroidWriterEditText.
+ */
 public class DroidWriterEditText extends EditText
 {
+	
+	/** The Constant TAG. */
 	public static final String TAG = "DroidWriter";
+	
+	/** The Constant STYLE_BOLD. */
 	private static final int STYLE_BOLD = 0;
+	
+	/** The Constant STYLE_ITALIC. */
 	private static final int STYLE_ITALIC = 1;
+	
+	/** The Constant STYLE_UNDERLINED. */
 	private static final int STYLE_UNDERLINED = 2;
+	
+	/** The bold toggle. */
 	private ToggleButton boldToggle;
+	
+	/** The italics toggle. */
 	private ToggleButton italicsToggle;
+	
+	/** The underline toggle. */
 	private ToggleButton underlineToggle;
+	
+	/** The image getter. */
 	private Html.ImageGetter imageGetter;
 
+	/**
+	 * Instantiates a new droid writer edit text.
+	 *
+	 * @param context the context
+	 */
 	public DroidWriterEditText(Context context)
 	{
 		super(context);
 		initialize();
 	}
 
+	/**
+	 * Instantiates a new droid writer edit text.
+	 *
+	 * @param context the context
+	 * @param attrs the attrs
+	 */
 	public DroidWriterEditText(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		initialize();
 	}
 
+	/**
+	 * Instantiates a new droid writer edit text.
+	 *
+	 * @param context the context
+	 * @param attrs the attrs
+	 * @param defStyle the def style
+	 */
 	public DroidWriterEditText(Context context, AttributeSet attrs, int defStyle)
 	{
 		super(context, attrs, defStyle);
 		initialize();
 	}
 
+	/**
+	 * Initialize.
+	 */
 	private void initialize()
 	{
 		this.imageGetter = new Html.ImageGetter()
@@ -62,6 +98,11 @@ public class DroidWriterEditText extends EditText
 		addTextChangedListener(new DWTextWatcher());
 	}
 
+	/**
+	 * Toggle style.
+	 *
+	 * @param style the style
+	 */
 	private void toggleStyle(int style)
 	{
 		Log.v(TAG, "In toggleStyle, Style: " + style);
@@ -144,6 +185,9 @@ public class DroidWriterEditText extends EditText
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.TextView#onSelectionChanged(int, int)
+	 */
 	public void onSelectionChanged(int selStart, int selEnd)
 	{
 		Log.v(TAG, "In onSelectionChanged, SelStart: " + selStart + ", SelEnd: " + selEnd);
@@ -238,41 +282,81 @@ public class DroidWriterEditText extends EditText
 				this.underlineToggle.setChecked(false);
 	}
 
+	/**
+	 * Gets the spanned text.
+	 *
+	 * @return the spanned text
+	 */
 	public Spanned getSpannedText()
 	{
 		return getText();
 	}
 
+	/**
+	 * Sets the spanned text.
+	 *
+	 * @param text the new spanned text
+	 */
 	public void setSpannedText(Spanned text)
 	{
 		setText(text);
 	}
 
+	/**
+	 * Gets the string text.
+	 *
+	 * @return the string text
+	 */
 	public String getStringText()
 	{
 		return getText().toString();
 	}
 
+	/**
+	 * Sets the string text.
+	 *
+	 * @param text the new string text
+	 */
 	public void setStringText(String text)
 	{
 		setText(text);
 	}
 
+	/**
+	 * Gets the text html.
+	 *
+	 * @return the text html
+	 */
 	public String getTextHTML()
 	{
 		return Html.toHtml(getText());
 	}
 
+	/**
+	 * Sets the text html.
+	 *
+	 * @param text the new text html
+	 */
 	public void setTextHTML(String text)
 	{
 		setText(Html.fromHtml(text, this.imageGetter, null));
 	}
 
+	/**
+	 * Sets the image getter.
+	 *
+	 * @param imageGetter the new image getter
+	 */
 	public void setImageGetter(Html.ImageGetter imageGetter)
 	{
 		this.imageGetter = imageGetter;
 	}
 
+	/**
+	 * Sets the bold toggle button.
+	 *
+	 * @param button the new bold toggle button
+	 */
 	public void setBoldToggleButton(ToggleButton button)
 	{
 		this.boldToggle = button;
@@ -286,6 +370,11 @@ public class DroidWriterEditText extends EditText
 		});
 	}
 
+	/**
+	 * Sets the italics toggle button.
+	 *
+	 * @param button the new italics toggle button
+	 */
 	public void setItalicsToggleButton(ToggleButton button)
 	{
 		this.italicsToggle = button;
@@ -299,6 +388,11 @@ public class DroidWriterEditText extends EditText
 		});
 	}
 
+	/**
+	 * Sets the underline toggle button.
+	 *
+	 * @param button the new underline toggle button
+	 */
 	public void setUnderlineToggleButton(ToggleButton button)
 	{
 		this.underlineToggle = button;
@@ -338,12 +432,22 @@ public class DroidWriterEditText extends EditText
 //		});
 //	}
 
-	private class DWTextWatcher implements TextWatcher
+	/**
+ * The Class DWTextWatcher.
+ */
+private class DWTextWatcher implements TextWatcher
 	{
+		
+		/**
+		 * Instantiates a new DW text watcher.
+		 */
 		private DWTextWatcher()
 		{
 		}
 
+		/* (non-Javadoc)
+		 * @see android.text.TextWatcher#afterTextChanged(android.text.Editable)
+		 */
 		public void afterTextChanged(Editable editable)
 		{
 			Log.v(TAG, "In afterTextChanged, Bold: " + boldToggle.isChecked() + ", Italics: " + italicsToggle.isChecked());
@@ -450,10 +554,16 @@ public class DroidWriterEditText extends EditText
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see android.text.TextWatcher#beforeTextChanged(java.lang.CharSequence, int, int, int)
+		 */
 		public void beforeTextChanged(CharSequence s, int start, int count, int after)
 		{
 		}
 
+		/* (non-Javadoc)
+		 * @see android.text.TextWatcher#onTextChanged(java.lang.CharSequence, int, int, int)
+		 */
 		public void onTextChanged(CharSequence s, int start, int before, int count)
 		{
 		}

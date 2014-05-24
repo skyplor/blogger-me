@@ -13,6 +13,7 @@ import com.google.api.services.blogger.Blogger.Posts;
 import com.google.api.services.blogger.model.Post;
 import com.google.api.services.blogger.model.PostList;
 
+// TODO: Auto-generated Javadoc
 /**
  * Asynchronously load the post list with a progress dialog.
  * 
@@ -25,10 +26,20 @@ public class AsyncLoadPostList extends AsyncTask<Void, Void, List<Post>>
 	/** TAG for logging. */
 	private static final String TAG = "AsyncLoadPostList";
 
+	/** The post list activity. */
 	private final PostListActivity postListActivity;
+	
+	/** The dialog. */
 	private final ProgressDialog dialog;
+	
+	/** The service. */
 	private com.google.api.services.blogger.Blogger service;
 
+	/**
+	 * Instantiates a new async load post list.
+	 *
+	 * @param postListActivity the post list activity
+	 */
 	AsyncLoadPostList(PostListActivity postListActivity)
 	{
 		this.postListActivity = postListActivity;
@@ -36,6 +47,9 @@ public class AsyncLoadPostList extends AsyncTask<Void, Void, List<Post>>
 		dialog = new ProgressDialog(postListActivity);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
 	@Override
 	protected void onPreExecute()
 	{
@@ -43,6 +57,9 @@ public class AsyncLoadPostList extends AsyncTask<Void, Void, List<Post>>
 		dialog.show();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#doInBackground(Params[])
+	 */
 	@Override
 	protected List<Post> doInBackground(Void... arg0)
 	{
@@ -82,6 +99,9 @@ public class AsyncLoadPostList extends AsyncTask<Void, Void, List<Post>>
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
 	@Override
 	protected void onPostExecute(List<Post> result)
 	{
