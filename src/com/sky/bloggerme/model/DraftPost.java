@@ -1,7 +1,5 @@
 package com.sky.bloggerme.model;
 
-import java.util.Date;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -27,10 +25,90 @@ public class DraftPost
 	
 	/** The date the post is created / published */
 	@DatabaseField
-	private Date createdAt;
+	private String createdAt;
 	
 	/** The content. */
 	@DatabaseField
 	private String content;
+
+	/**
+	 * @return the id
+	 */
+	public int getId()
+	{
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle()
+	{
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+
+	/**
+	 * @return the labels
+	 */
+	public String getLabels()
+	{
+		return labels;
+	}
+
+	/**
+	 * @param labels the labels to set
+	 */
+	public void setLabels(String labels)
+	{
+		this.labels = labels;
+	}
+
+	/**
+	 * @return the createdAt
+	 */
+	public String getCreatedAt()
+	{
+		return createdAt;
+	}
+
+	/**
+	 * @param createdAt the createdAt to set
+	 */
+	public void setCreatedAt(String createdAt)
+	{
+		this.createdAt = createdAt;
+	}
+
+	/**
+	 * @return the content
+	 */
+	public String getContent()
+	{
+		return content;
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content)
+	{
+		this.content = content;
+	}
 	
 }

@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.api.client.extensions.android2.AndroidHttp;
@@ -38,6 +40,8 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.model.Post;
+import com.sky.bloggerme.db.DatabaseManager;
+import com.sky.bloggerme.model.DraftPost;
 import com.sky.bloggerme.util.Constants;
 import com.sky.bloggerme.util.DroidWriterEditText;
 
@@ -80,7 +84,7 @@ public class EditorActivity extends Activity
 	/** Selected account name we are authorizing as. */
 	String accountName;
 
-	/**  Selected blog name. */
+	/** Selected blog name. */
 	String blogTitle;
 
 	/** HTTP rewriter responsible for managing lifetime of oauth2 credentials. */
@@ -95,7 +99,7 @@ public class EditorActivity extends Activity
 	 * Rich Text buttons. Used to allow user to format their text.
 	 */
 	private ToggleButton boldToggle;
-	
+
 	/** The italics toggle. */
 	private ToggleButton italicsToggle;
 	// private ToggleButton underlineToggle;
@@ -128,7 +132,12 @@ public class EditorActivity extends Activity
 	/** create: Whether we are creating or updating a post;. */
 	Boolean create = true;
 
-	/* (non-Javadoc)
+	/** The draft post. */
+	private DraftPost draftPost;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
@@ -174,6 +183,7 @@ public class EditorActivity extends Activity
 	 */
 	private void init()
 	{
+
 		postContent = (DroidWriterEditText) findViewById(R.id.post_body);
 
 		boldToggle = (ToggleButton) findViewById(R.id.BoldButton);
@@ -233,6 +243,7 @@ public class EditorActivity extends Activity
 		viewPostsButton.setEnabled(false);
 
 		Bundle extras = getIntent().getExtras();
+		// TODO: To implement functionality of user able to edit draft by selecting a particular draft and we get it's id and send to this activity. From there we retrieve the draft
 		if (extras != null)
 		{
 			updatePostDetails(extras);
@@ -240,13 +251,92 @@ public class EditorActivity extends Activity
 		else
 		{
 			create = true;
+			// If we are not updating a post, we can do a check in the db to check if there's any draft the user has saved, and if there is, get the first draft and populate the fields.
+			DatabaseManager.init(this);
+			final List<DraftPost> draftPosts = DatabaseManager.getInstance().getAllDraftPosts();
+			List<String> titles = new ArrayList<String>();
+			List<String> labels = new ArrayList<String>();
+			List<String> contents = new ArrayList<String>();
+			if (!draftPosts.isEmpty())
+			{
+				int lastEntry = draftPosts.size() - 1;
+				for (DraftPost dpost : draftPosts)
+				{
+					titles.add(dpost.getTitle());
+					labels.add(dpost.getLabels());
+					contents.add(dpost.getContent());
+				}
+				if (!titles.isEmpty())
+				{
+					postTitle.setText(titles.get(lastEntry));
+				}
+				if (!labels.isEmpty())
+				{
+					labelsMultiAutoComplete.setText(labels.get(lastEntry));
+				}
+				if (!contents.isEmpty())
+				{
+					postContent.setTextHTML(contents.get(lastEntry));
+				}
+			}
 		}
 	}
 
 	/**
+	 * Update draft post.
+	 * 
+	 * @param title
+	 *            the title of the draft
+	 * @param labels
+	 *            the labels of the draft
+	 * @param content
+	 *            the content of the draft
+	 * @param createdAt
+	 *            the created date and time of the draft
+	 * @return true if db is updated successfully
+	 */
+	private Boolean updateDraftPost(String title, String labels, String content, String createdAt)
+	{
+		Boolean updated = false;
+		if (draftPost != null)
+		{
+			draftPost.setTitle(title);
+			draftPost.setLabels(labels);
+			draftPost.setContent(content);
+			draftPost.setCreatedAt(createdAt);
+			DatabaseManager.getInstance().updateDraftPost(draftPost);
+		}
+		return updated;
+	}
+
+	/**
+	 * Creates the new draft post.
+	 * 
+	 * @param title
+	 *            the title of the draft
+	 * @param labels
+	 *            the labels of the draft
+	 * @param content
+	 *            the content of the draft
+	 * @param createdAt
+	 *            the created date and time of the draft
+	 * @return true if db is updated successfully
+	 */
+	private Boolean createNewDraftPost(String title, String labels, String content, String createdAt)
+	{
+		draftPost = new DraftPost();
+		draftPost.setTitle(title);
+		draftPost.setLabels(labels);
+		draftPost.setContent(content);
+		draftPost.setCreatedAt(createdAt);
+		return DatabaseManager.getInstance().addDraftPost(draftPost);
+	}
+
+	/**
 	 * Update post details.
-	 *
-	 * @param extras the extras
+	 * 
+	 * @param extras
+	 *            the extras
 	 */
 	private void updatePostDetails(Bundle extras)
 	{
@@ -326,7 +416,7 @@ public class EditorActivity extends Activity
 
 	/**
 	 * Gets the blog title.
-	 *
+	 * 
 	 * @return the blog title
 	 */
 	private void getBlogTitle()
@@ -411,8 +501,9 @@ public class EditorActivity extends Activity
 
 	/**
 	 * Sets the account name.
-	 *
-	 * @param accountName the new account name
+	 * 
+	 * @param accountName
+	 *            the new account name
 	 */
 	void setAccountName(String accountName)
 	{
@@ -425,8 +516,9 @@ public class EditorActivity extends Activity
 
 	/**
 	 * Sets the auth token.
-	 *
-	 * @param authToken the new auth token
+	 * 
+	 * @param authToken
+	 *            the new auth token
 	 */
 	void setAuthToken(String authToken)
 	{
@@ -437,7 +529,9 @@ public class EditorActivity extends Activity
 		Log.v(TAG, "Stored authToken");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
 	 */
 	@Override
@@ -481,7 +575,9 @@ public class EditorActivity extends Activity
 		viewPostsButton.setEnabled(true);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
 	@Override
@@ -491,7 +587,9 @@ public class EditorActivity extends Activity
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
 	 */
 	@Override
@@ -502,11 +600,43 @@ public class EditorActivity extends Activity
 			case R.id.menu_accounts:
 				chooseAccount();
 				break;
+			case R.id.menu_savedraft:
+				if (saveDraft())
+				{
+					Log.d("EditorActivity", "Updated: " + true);
+					Toast.makeText(this, "Draft saved", Toast.LENGTH_LONG).show();
+				}
+				break;
 			case R.id.menu_logout:
 				doLogout();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	/**
+	 * Save draft.
+	 * 
+	 * @return true if draft is saved successfully
+	 */
+	private Boolean saveDraft()
+	{
+		String title = postTitle.getText().toString();
+		String labels = labelsMultiAutoComplete.getText().toString();
+		String content = postContent.getTextHTML();
+		Time today = new Time(Time.getCurrentTimezone());
+		today.setToNow();
+		String createdAt = today.format2445();
+		Boolean updated;
+		if (draftPost != null)
+		{
+			updated = updateDraftPost(title, labels, content, createdAt);
+		}
+		else
+		{
+			updated = createNewDraftPost(title, labels, content, createdAt);
+		}
+		return updated;
 	}
 
 	/**
@@ -528,8 +658,9 @@ public class EditorActivity extends Activity
 
 	/**
 	 * A method for debugging purposes. To display the post's title.
-	 *
-	 * @param result the result
+	 * 
+	 * @param result
+	 *            the result
 	 */
 	public void display(Post result)
 	{
@@ -541,8 +672,9 @@ public class EditorActivity extends Activity
 
 	/**
 	 * On request completed.
-	 *
-	 * @param result the post result
+	 * 
+	 * @param result
+	 *            the post result
 	 */
 	void onRequestCompleted(Post result)
 	{
@@ -568,16 +700,15 @@ public class EditorActivity extends Activity
 
 	/**
 	 * Check for any input by the user in any of the following fields: Post Title / Label / Content.
-	 *
+	 * 
 	 * @return true if there is input
 	 */
 	private Boolean checkDraft()
 	{
-		
+
 		return false;
 
 	}
-
 
 	/**
 	 * Handle an IO exception encountered by the background AsyncTask. It may be because the stored AuthToken is stale.
@@ -614,7 +745,7 @@ public class EditorActivity extends Activity
 
 	/**
 	 * Gets the blog id.
-	 *
+	 * 
 	 * @return the blog id
 	 */
 	public String getBlogID()
@@ -625,8 +756,9 @@ public class EditorActivity extends Activity
 
 	/**
 	 * Sets the model.
-	 *
-	 * @param result the new model
+	 * 
+	 * @param result
+	 *            the new model
 	 */
 	public void setModel(List<String> result)
 	{
@@ -635,5 +767,17 @@ public class EditorActivity extends Activity
 
 		labelsMultiAutoComplete.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, labels));
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onPause()
+	 */
+	@Override
+	protected void onPause()
+	{
+		saveDraft();
+		super.onPause();
 	}
 }

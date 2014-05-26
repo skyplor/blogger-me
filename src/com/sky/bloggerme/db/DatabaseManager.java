@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.sky.bloggerme.model.DraftPost;
 
@@ -17,9 +18,10 @@ public class DatabaseManager
 	static private DatabaseManager instance;
 
 	/**
-	 * Inits the.
-	 *
-	 * @param ctx the ctx
+	 * Creates a new database manager instance if none exists.
+	 * 
+	 * @param ctx
+	 *            the context
 	 */
 	static public void init(Context ctx)
 	{
@@ -31,7 +33,7 @@ public class DatabaseManager
 
 	/**
 	 * Gets the single instance of DatabaseManager.
-	 *
+	 * 
 	 * @return single instance of DatabaseManager
 	 */
 	static public DatabaseManager getInstance()
@@ -44,8 +46,9 @@ public class DatabaseManager
 
 	/**
 	 * Instantiates a new database manager.
-	 *
-	 * @param ctx the ctx
+	 * 
+	 * @param ctx
+	 *            the ctx
 	 */
 	private DatabaseManager(Context ctx)
 	{
@@ -54,7 +57,7 @@ public class DatabaseManager
 
 	/**
 	 * Gets the helper.
-	 *
+	 * 
 	 * @return the helper
 	 */
 	private DatabaseHelper getHelper()
@@ -64,7 +67,7 @@ public class DatabaseManager
 
 	/**
 	 * Gets the all draft posts.
-	 *
+	 * 
 	 * @return the all draft posts
 	 */
 	public List<DraftPost> getAllDraftPosts()
@@ -79,5 +82,58 @@ public class DatabaseManager
 			e.printStackTrace();
 		}
 		return draftPosts;
+	}
+
+	/**
+	 * Adds the draft post.
+	 * 
+	 * @param draftPost
+	 *            the draft post
+	 * @return true if db is updated successfully
+	 */
+	public Boolean addDraftPost(DraftPost draftPost)
+	{
+		Boolean updated = false;
+		try
+		{
+			int rowsUpdated = getHelper().getDraftPostDao().create(draftPost);
+			Log.d("DatabaseManager", "Rows Updated: " + rowsUpdated);
+			if (rowsUpdated > 0)
+			{
+				updated = true;
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return updated;
+	}
+
+	/**
+	 * Update draft post.
+	 * 
+	 * @param draftPost
+	 *            the draft post
+	 * @return true if db is updated successfully
+	 */
+	public Boolean updateDraftPost(DraftPost draftPost)
+	{
+		Boolean updated = false;
+		try
+		{
+			int rowsUpdated = getHelper().getDraftPostDao().update(draftPost);
+			Log.d("DatabaseManager", "Rows Updated: " + rowsUpdated);
+			if (rowsUpdated > 0)
+			{
+				updated = true;
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		Log.d("DatabaseManager", "updated: " + updated);
+		return updated;
 	}
 }

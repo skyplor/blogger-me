@@ -20,7 +20,7 @@ import com.sky.bloggerme.model.DraftPost;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // name of the database file for your application -- change to something appropriate for your app
     /** The Constant DATABASE_NAME. */
-    private static final String DATABASE_NAME = "BloggerMeDB.sqlite";
+    private static final String DATABASE_NAME = "BloggerMeDB.db";
 
     // any time you make changes to your database objects, you may have to increase the database version
     /** The Constant DATABASE_VERSION. */
