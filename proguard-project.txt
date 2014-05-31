@@ -34,12 +34,8 @@
 #-dontwarn com.google.common.collect.MinMaxPriorityQueue
 
 -keep class android.os.Parcelable.Creator
-# -keep class com.google.android.gms.location.ActivityRecognitionResult
-#-keep class com.google.** {*;}
-#-keep interface com.google.** { *;}
 -dontwarn com.google.android.gms.**
 -keep class com.google.api.** { *; }
-#-keep class com.google.api.client.** { *; }
 -dontwarn com.google.api.client.json.JsonEncoding
 
 -keep class org.acra.** {*;}
@@ -54,9 +50,7 @@
     public static *** v(...);
 }
 
-# -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
-#-dontwarn sun.misc.Unsafe, java.lang.management.ManagementFactory, org.codehaus.jackson.JsonParser, org.json.JSONObject, org.codehaus.jackson.JsonGenerator, org.codehaus.jackson.JsonFactory, com.google.common.collect.MinMaxPriorityQueue
-
+#-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable
 #-dontoptimize
 -dontpreverify
 -verbose
@@ -76,33 +70,16 @@
    void set*(***);
    *** get*();
 }
-#-keep class reflection.using.package.name.** { *; }
 
 # We want to keep methods in Activity that could be used in the XML attribute onClick
 -keepclassmembers class * extends android.app.Activity {
    public void *(android.view.View);
-}
-
-# -keepclassmembers class * extends android.app.ListActivity {
-   # public void *(android.view.View);
-# }
+}
 # For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
-}
-
-# -keep class * implements android.os.Parcelable {
-  # public static final android.os.Parcelable$Creator *;
-# }
-# -keepclassmembers class * implements java.io.Serializable {
-    # static final long serialVersionUID;
-    # private static final java.io.ObjectStreamField[] serialPersistentFields;
-    # private void writeObject(java.io.ObjectOutputStream);
-    # private void readObject(java.io.ObjectInputStream);
-    # java.lang.Object writeReplace();
-    # java.lang.Object readResolve();
-# }
+}
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
@@ -111,11 +88,23 @@
 # Don't warn about those in case this app is linking against an older
 # platform version.  We know about them, and they are safe.
 -dontwarn android.support.**
+# OrmLite uses reflection
+-dontwarn **SQLiteDatabase
+-dontwarn **CancellationSignal
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
+#-keepclassmembers class * { public <init>(android.content.Context); }
+-keep class com.sky.bloggerme.model.** 
+-keepclassmembers class com.sky.bloggerme.model.** { *; }
 
-# -keepclasseswithmembers class * {
-    # public <init>(android.content.Context, android.util.AttributeSet);
-# }
-# 
-# -keepclasseswithmembers class * {
-    # public <init>(android.content.Context, android.util.AttributeSet, int);
-# }
+#ORMLiteContentProvider
+-keep class com.tojc.**
+-keepclassmembers class com.tojc.** { *; }
+
+#AndroidAnnotations
+-dontwarn org.springframework.http.HttpAuthentication
+-dontwarn org.springframework.web.client.*

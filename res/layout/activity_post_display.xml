@@ -1,64 +1,51 @@
-
-<RelativeLayout
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/drawer_layout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-
-	<TextView
-		android:id="@+id/blogTitle"
+	<!-- The main content view -->
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentTop="true"
-		android:layout_marginBottom="-2dp"
-		android:padding="@dimen/padding_medium"
-		android:text="@string/welcome_user"
-		android:textAppearance="@style/blog_style"
-		android:background="@drawable/gradient"
-		android:gravity="center" />
-	<Button
-		android:id="@+id/postsDisplayButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignBaseline="@+id/blogTitle"
-		android:layout_alignBottom="@+id/blogTitle"
-		android:layout_alignParentLeft="true"
-		android:layout_marginLeft="8dp"
-		android:background="@drawable/custom_btn"
-		android:text="@string/posts_button"
-		android:textAppearance="@style/editor_button"
-		android:textColor="#FFFFFF" />
-	
-	<Button
-		android:id="@+id/postEditButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignBaseline="@+id/blogTitle"
-		android:layout_alignBottom="@+id/blogTitle"
-		android:layout_alignParentRight="true"
-		android:layout_marginRight="8dp"
-		android:background="@drawable/custom_btn"
-		android:text="@string/edit_button"
-		android:textAppearance="@style/editor_button"
-		android:textColor="#FFFFFF" />
-	
-	<TextView
-		android:id="@+id/title"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:padding="@dimen/padding_medium"
-		android:layout_below="@id/blogTitle"
-		tools:context=".PostDisplayActivity"
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:textStyle="bold" />
+		android:layout_height="match_parent"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		xmlns:tools="http://schemas.android.com/tools">
 
-	<WebView
-		android:id="@+id/content"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:padding="@dimen/padding_medium"
-		android:layout_below="@id/title"
-		tools:context=".PostDisplayActivity" />
+		<!-- <TextView android:id="@+id/blogTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_marginBottom="-2dp" 
+			android:padding="@dimen/padding_medium" android:text="@string/welcome_user" android:textAppearance="@style/blog_style" android:background="@drawable/gradient" android:gravity="center" /> <Button android:id="@+id/postsDisplayButton" 
+			android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignBaseline="@+id/blogTitle" android:layout_alignBottom="@+id/blogTitle" android:layout_alignParentLeft="true" 
+			android:layout_marginLeft="8dp" android:background="@drawable/custom_btn" android:text="@string/posts_button" android:textAppearance="@style/editor_button" android:textColor="#FFFFFF" /> <Button android:id="@+id/postEditButton" 
+			android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignBaseline="@+id/blogTitle" android:layout_alignBottom="@+id/blogTitle" android:layout_alignParentRight="true" 
+			android:layout_marginRight="8dp" android:background="@drawable/custom_btn" android:text="@string/edit_button" android:textAppearance="@style/editor_button" android:textColor="#FFFFFF" /> -->
 
-</RelativeLayout>
+		<!-- <TextView android:id="@+id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="@dimen/padding_medium" android:layout_below="@id/blogTitle" tools:context=".PostDisplayActivity" 
+			android:textAppearance="?android:attr/textAppearanceLarge" android:textStyle="bold" /> -->
+		<TextView
+			android:id="@+id/title"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:padding="@dimen/padding_medium"
+			tools:context=".PostDisplayActivity"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:textStyle="bold" />
+
+		<WebView
+			android:id="@+id/content"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:padding="@dimen/padding_medium"
+			tools:context=".PostDisplayActivity" />
+
+	</LinearLayout>
+	<!-- The navigation drawer -->
+	<ListView
+		android:id="@+id/post_drawer"
+		android:layout_width="240dp"
+		android:layout_height="match_parent"
+		android:layout_gravity="start"
+		android:choiceMode="singleChoice"
+		android:divider="@android:color/transparent"
+		android:dividerHeight="0dp"
+		android:background="#111" />
+</android.support.v4.widget.DrawerLayout>

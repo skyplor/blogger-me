@@ -1,25 +1,47 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    
+	<item
+		android:id="@+id/menu_publish"
+		android:orderInCategory="100"
+		android:showAsAction="ifRoom"
+		android:icon="@drawable/ic_action_send_now"
+		android:title="@string/menu_publish" />
+	<item
+		android:id="@+id/menu_cancel"
+		android:orderInCategory="101"
+		android:showAsAction="ifRoom"
+		android:icon="@drawable/ic_action_cancel"
+		android:title="@string/menu_cancel" />
 	<item
 		android:id="@+id/menu_settings"
-		android:orderInCategory="100"
+		android:orderInCategory="102"
 		android:showAsAction="never"
+		android:icon="@drawable/ic_action_settings"
 		android:title="@string/menu_settings" />
 	<item
 		android:id="@+id/menu_accounts"
-		android:orderInCategory="101"
+		android:orderInCategory="103"
 		android:showAsAction="never"
+		android:icon="@drawable/ic_action_accounts"
 		android:title="@string/menu_accounts" />
 	<item
 		android:id="@+id/menu_savedraft"
-		android:orderInCategory="102"
+		android:orderInCategory="104"
 		android:showAsAction="never"
+		android:icon="@drawable/ic_action_save"
 		android:title="@string/menu_savedraft" />
+	<item
+		android:id="@+id/menu_drafts"
+		android:orderInCategory="105"
+		android:showAsAction="ifRoom"
+		android:icon="@drawable/ic_action_view_as_list"
+		android:title="@string/menu_drafts" />
 	<item
 		android:id="@+id/menu_logout"
 		android:title="@string/menu_logout"
-		android:orderInCategory="103"
-		android:showAsAction="never"></item>
+		android:orderInCategory="106"
+		android:showAsAction="never" />
 
 </menu>

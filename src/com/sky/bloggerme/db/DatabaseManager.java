@@ -120,6 +120,7 @@ public class DatabaseManager
 	public Boolean updateDraftPost(DraftPost draftPost)
 	{
 		Boolean updated = false;
+		Log.d("DatabaseManager", "Content: " + draftPost.getContent());
 		try
 		{
 			int rowsUpdated = getHelper().getDraftPostDao().update(draftPost);
@@ -135,5 +136,65 @@ public class DatabaseManager
 		}
 		Log.d("DatabaseManager", "updated: " + updated);
 		return updated;
+	}
+
+	/**
+	 * Removes the draft post.
+	 * 
+	 * @param draftPost
+	 *            the draft post
+	 * @return true if db is draft post is deleted successfully from db
+	 */
+	public Boolean removeDraftPost(int draftPostID)
+	{
+		Boolean updated = false;
+		try
+		{
+			int rowsUpdated = getHelper().getDraftPostDao().deleteById(draftPostID);
+			Log.d("DatabaseManager", "Rows Updated: " + rowsUpdated);
+			if (rowsUpdated > 0)
+			{
+				updated = true;
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		Log.d("DatabaseManager", "updated: " + updated);
+		return updated;
+
+	}
+
+	/**
+	 * Gets the draft post with id.
+	 * 
+	 * @param draftPostId
+	 *            the draft post id in database
+	 * @return the draft post with the given id, null if there's zero or more than 1 draft post with that id
+	 */
+	public DraftPost getDraftPostWithId(int draftPostId)
+	{
+		DraftPost draftPost = null;
+		try
+		{
+			draftPost = getHelper().getDraftPostDao().queryForId(draftPostId);
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return draftPost;
+	}
+
+	/**
+	 * Clears the database.
+	 *
+	 * @param ctx the context
+	 * @return true, if successful
+	 */
+	public boolean clearDatabase(Context ctx)
+	{
+		return ctx.deleteDatabase(Contract.DATABASE_NAME);
 	}
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- the theme applied to the application or activity -->
+	<style
+		name="BloggerMeActionBarTheme"
+		parent="@android:style/Theme.Holo.Light">
+		<item name="android:actionBarStyle">@style/BloggerMeActionBar</item>
+	</style>
+
+	<style
+		name="BloggerMeActionBar"
+		parent="@android:style/Widget.Holo.ActionBar">
+		<item name="android:displayOptions">useLogo|showHome</item>
+		<!-- <item name="android:background">@drawable/gradient</item> -->
+	</style>
+</resources>

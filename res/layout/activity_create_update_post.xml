@@ -1,136 +1,94 @@
-<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-	xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" 
-	android:layout_height="match_parent"> <TextView android:id="@+id/title_caption" 
-	android:layout_width="wrap_content" android:layout_height="wrap_content" 
-	android:padding="@dimen/padding_medium" android:text="@string/title" tools:context=".CreatePostActivity" 
-	/> <EditText android:id="@+id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" 
-	android:padding="@dimen/padding_medium" tools:context=".CreatePostActivity" 
-	android:inputType="text" android:layout_below="@id/title_caption" /> <TextView 
-	android:id="@+id/content_caption" android:layout_width="wrap_content" android:layout_height="wrap_content" 
-	android:padding="@dimen/padding_medium" android:text="@string/content" tools:context=".CreatePostActivity" 
-	android:layout_below="@id/title" /> <EditText android:id="@+id/content" android:layout_width="fill_parent" 
-	android:layout_height="wrap_content" android:padding="@dimen/padding_medium" 
-	tools:context=".CreatePostActivity" android:inputType="textMultiLine" android:layout_below="@id/content_caption" 
-	/> <Button android:id="@+id/create_post" android:layout_width="fill_parent" 
-	android:layout_height="wrap_content" android:layout_below="@id/content" android:text="@string/create_post" 
-	/> </RelativeLayout> -->
-
-<RelativeLayout
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools">
-
-	<TextView
-		android:id="@+id/blogTitle"
+	android:id="@+id/drawer_layout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<!-- The main content view -->
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentTop="true"
-		android:layout_marginBottom="-2dp"
-		android:padding="@dimen/padding_medium"
-		android:text="@string/blog_title"
-		android:textAppearance="@style/blog_style"
-		android:background="@drawable/gradient"
-		android:gravity="center" />
-	<Button
-		android:id="@+id/postsbutton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignBaseline="@+id/blogTitle"
-		android:layout_alignBottom="@+id/blogTitle"
-		android:layout_alignParentLeft="true"
-		android:layout_marginLeft="8dp"
-		android:background="@drawable/custom_btn"
-		android:text="@string/post_button"
-		android:textAppearance="@style/editor_button"
-		android:textColor="#FFFFFF" />
-	<Button
-		android:id="@+id/publishbutton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignBaseline="@+id/blogTitle"
-		android:layout_alignBottom="@+id/blogTitle"
-		android:layout_alignParentRight="true"
-		android:layout_marginRight="8dp"
-		android:background="@drawable/custom_btn"
-		android:text="@string/publish_button"
-		android:textAppearance="@style/editor_button"
-		android:textColor="#FFFFFF" />
-	<EditText
-		android:id="@+id/post_title"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentRight="true"
-		android:layout_below="@+id/blogTitle"
-		android:singleLine="true"
-		android:layout_marginBottom="-8dp"
-		android:ems="10"
-		android:inputType="textCapSentences"
-		android:hint="@string/post_title">
-		<requestFocus />
-	</EditText>
-	<MultiAutoCompleteTextView
-		android:id="@+id/post_labels"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentRight="true"
-		android:layout_below="@+id/post_title"
-		android:layout_marginBottom="-8dp"
-		android:inputType="textCapWords"
-		android:singleLine="true"
-		android:ems="10"
-		android:hint="@string/post_labels">
-	</MultiAutoCompleteTextView>
-	<ToggleButton
-		android:id="@+id/BoldButton"
-		android:layout_alignParentLeft="true"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="-8dp"
-		android:ems="5"
-		android:textStyle="bold"
-		android:layout_below="@+id/post_labels"
-		android:textOn="B"
-		android:textOff="B" />
-	<ToggleButton
-		android:id="@+id/ItalicsButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_above="@+id/post_body"
-		android:layout_toRightOf="@+id/BoldButton"
-		android:layout_marginBottom="-8dp"
-		android:layout_marginLeft="-5dp"
-		android:ems="5"
-		android:textOff="I"
-		android:textOn="I"
-		android:textStyle="italic" />
-	<ToggleButton
-		android:id="@+id/UnderlineButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="-8dp"
-		android:ems="5"
-		android:layout_above="@+id/post_body"
-		android:layout_alignParentRight="true"
-		android:enabled="false"
-		android:textOff="U"
-		android:textOn="U" />
-	<com.sky.bloggerme.util.DroidWriterEditText
-		android:id="@+id/post_body"
-		android:layout_width="wrap_content"
-		android:layout_height="fill_parent"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentRight="true"
-		android:layout_below="@+id/BoldButton"
-		android:ems="10"
-		android:gravity="top"
-		android:hint="@string/post_body"
-		android:inputType="textMultiLine|textCapSentences"
-		android:scrollbars="vertical"
-		android:singleLine="false" />
+		android:layout_height="match_parent"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		xmlns:tools="http://schemas.android.com/tools">
+
+		<!-- <TextView android:id="@+id/blogTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_marginBottom="-2dp" 
+			android:padding="@dimen/padding_medium" android:text="@string/blog_title" android:textAppearance="@style/blog_style" android:background="@drawable/gradient" android:gravity="center" /> <Button android:id="@+id/postsbutton" 
+			android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignBaseline="@+id/blogTitle" android:layout_alignBottom="@+id/blogTitle" android:layout_alignParentLeft="true" 
+			android:layout_marginLeft="8dp" android:background="@drawable/custom_btn" android:text="@string/post_button" android:textAppearance="@style/editor_button" android:textColor="#FFFFFF" /> <Button android:id="@+id/publishbutton" 
+			android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignBaseline="@+id/blogTitle" android:layout_alignBottom="@+id/blogTitle" android:layout_alignParentRight="true" 
+			android:layout_marginRight="8dp" android:background="@drawable/custom_btn" android:text="@string/publish_button" android:textAppearance="@style/editor_button" android:textColor="#FFFFFF" /> -->
+		<!-- <EditText android:id="@+id/post_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_alignParentRight="true" android:layout_below="@+id/blogTitle" 
+			android:singleLine="true" android:layout_marginBottom="-8dp" android:ems="10" android:inputType="textCapSentences" android:hint="@string/post_title"> <requestFocus /> </EditText> -->
+		<EditText
+			android:id="@+id/post_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:singleLine="true"
+			android:ems="10"
+			android:inputType="textCapSentences"
+			android:hint="@string/post_title">
+			<requestFocus />
+		</EditText>
+		<MultiAutoCompleteTextView
+			android:id="@+id/post_labels"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:inputType="textCapWords"
+			android:singleLine="true"
+			android:ems="10"
+			android:hint="@string/post_labels">
+		</MultiAutoCompleteTextView>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+			<ToggleButton
+				android:id="@+id/BoldButton"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:ems="5"
+				android:textStyle="bold"
+				android:textOn="B"
+				android:textOff="B" />
+			<ToggleButton
+				android:id="@+id/ItalicsButton"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:ems="5"
+				android:textOff="I"
+				android:textOn="I"
+				android:textStyle="italic" />
+			<ToggleButton
+				android:id="@+id/UnderlineButton"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:ems="5"
+				android:enabled="false"
+				android:textOff="U"
+				android:textOn="U" />
+		</LinearLayout>
+		<com.sky.bloggerme.util.DroidWriterEditText
+			android:id="@+id/post_body"
+			android:layout_width="match_parent"
+			android:layout_height="fill_parent"
+			android:ems="10"
+			android:gravity="top"
+			android:hint="@string/post_body"
+			android:inputType="textMultiLine|textCapSentences"
+			android:scrollbars="vertical"
+			android:singleLine="false" />
 
 
-</RelativeLayout>
+	</LinearLayout>
+	<!-- The navigation drawer -->
+	<ListView
+		android:id="@+id/create_drawer"
+		android:layout_width="240dp"
+		android:layout_height="match_parent"
+		android:layout_gravity="start"
+		android:choiceMode="singleChoice"
+		android:divider="@android:color/transparent"
+		android:dividerHeight="0dp"
+		android:background="#111" />
+</android.support.v4.widget.DrawerLayout>

@@ -62,6 +62,39 @@ public class Constants extends Application
 
 	/**  The ID of the Post object to be updated. */
 	public static String POST_ID;
+	
+	/** The id of the draft post stored in the database. */
+	public static String DRAFTPOST_ID = "draftPostID";
+	
+	/** The title of the draft post stored in the database. */
+	public static String DRAFTPOST_TITLE = "draftPostTitle";
+
+	/** The labels of the draft post stored in the database. */
+	public static String DRAFTPOST_LABELS = "draftPostLabels";
+
+	/** The content of the draft post stored in the database. */
+	public static String DRAFTPOST_CONTENT = "draftPostContent";
+
+	/** The createdAt of the draft post stored in the database. */
+	public static String DRAFTPOST_CREATEDAT = "draftPostCreatedAt";
+
+	/** The blogpostid of the draft post stored in the database. */
+	public static final String DRAFTPOST_BLOGPOSTID = "draftPostBlogPostId";
+	
+	public static enum DRAWERLIST
+	{
+		CREATE(0), BLOGS(1), POSTS(2), DRAFTS(3);
+		private int drawerlist;
+		private DRAWERLIST(int drawerlist)
+		{
+			this.drawerlist = drawerlist;
+		};
+		
+		public int getDrawerList()
+		{
+			return drawerlist;
+		}
+	}
 
 	/** The singleton. */
 	private static Constants singleton;

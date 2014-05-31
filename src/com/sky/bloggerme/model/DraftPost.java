@@ -1,50 +1,64 @@
 package com.sky.bloggerme.model;
 
+import android.provider.BaseColumns;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.sky.bloggerme.db.Contract;
+import com.tojc.ormlite.android.annotation.AdditionalAnnotation.DefaultContentMimeTypeVnd;
+import com.tojc.ormlite.android.annotation.AdditionalAnnotation.DefaultContentUri;
+import com.tojc.ormlite.android.annotation.AdditionalAnnotation.DefaultSortOrder;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class DraftPost.
  */
 @DatabaseTable
+@DefaultContentUri(authority = Contract.AUTHORITY, path = Contract.DraftPost.CONTENT_URI_PATH)
+@DefaultContentMimeTypeVnd(name = Contract.DraftPost.MIMETYPE_NAME, type = Contract.DraftPost.MIMETYPE_TYPE)
 public class DraftPost
 {
-	
+
 	/** The id that is generated automatically in the table, which represents a unique draft. */
-	@DatabaseField(generatedId=true)
-	private int id;
-	
+	@DatabaseField(generatedId = true, columnName = BaseColumns._ID)
+	@DefaultSortOrder
+	private int _id;
+
 	/** The title. */
 	@DatabaseField
 	private String title;
-	
+
 	/** The labels. */
 	@DatabaseField
-	private String labels; //json encoded labels
-	
+	private String labels; // json encoded labels
+
 	/** The date the post is created / published */
 	@DatabaseField
 	private String createdAt;
-	
+
 	/** The content. */
 	@DatabaseField
 	private String content;
+	
+	/** Existing Post in Blogger? If yes, this field will store the postid */
+	@DatabaseField
+	private String blogPostId;
 
 	/**
-	 * @return the id
+	 * @return the _id
 	 */
-	public int getId()
+	public int get_Id()
 	{
-		return id;
+		return _id;
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param _id
+	 *            the id to set
 	 */
-	public void setId(int id)
+	public void set_Id(int _id)
 	{
-		this.id = id;
+		this._id = _id;
 	}
 
 	/**
@@ -56,7 +70,8 @@ public class DraftPost
 	}
 
 	/**
-	 * @param title the title to set
+	 * @param title
+	 *            the title to set
 	 */
 	public void setTitle(String title)
 	{
@@ -72,7 +87,8 @@ public class DraftPost
 	}
 
 	/**
-	 * @param labels the labels to set
+	 * @param labels
+	 *            the labels to set
 	 */
 	public void setLabels(String labels)
 	{
@@ -88,7 +104,8 @@ public class DraftPost
 	}
 
 	/**
-	 * @param createdAt the createdAt to set
+	 * @param createdAt
+	 *            the createdAt to set
 	 */
 	public void setCreatedAt(String createdAt)
 	{
@@ -104,11 +121,33 @@ public class DraftPost
 	}
 
 	/**
-	 * @param content the content to set
+	 * @param content
+	 *            the content to set
 	 */
 	public void setContent(String content)
 	{
 		this.content = content;
 	}
-	
+
+	/**
+	 * @return the blogPostId
+	 */
+	public String getBlogPostId()
+	{
+		return blogPostId;
+	}
+
+	/**
+	 * @param blogPostId the blogPostId to set
+	 */
+	public void setBlogPostId(String blogPostId)
+	{
+		this.blogPostId = blogPostId;
+	}
+
+	public DraftPost()
+	{
+		// ORMLite needs a no-arg constructor
+	}
+
 }

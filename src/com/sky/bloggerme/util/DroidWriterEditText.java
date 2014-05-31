@@ -20,6 +20,7 @@ import android.widget.ToggleButton;
 /**
  * The Class DroidWriterEditText.
  */
+//TODO: It always appends 2 extra newline at the end. And there's some problem with the bold/italic/underline at the last word
 public class DroidWriterEditText extends EditText
 {
 	

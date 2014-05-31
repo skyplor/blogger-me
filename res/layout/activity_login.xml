@@ -12,7 +12,7 @@
 		android:layout_centerInParent="true"
 		android:layout_marginLeft="54dp"
 		android:layout_marginTop="56dp"
-		android:src="@drawable/ic_launcher"
+		android:src="@drawable/blogger_logo"
 		android:contentDescription="@string/blogger_logo" />
 	<!-- <EditText
 		android:id="@+id/login_email"
