@@ -33,7 +33,11 @@
 # See https://groups.google.com/forum/#!topic/guava-discuss/YCZzeCiIVoI
 #-dontwarn com.google.common.collect.MinMaxPriorityQueue
 
--keep class android.os.Parcelable.Creator
+#-keep class android.os.Parcelable.Creator
+#For savedstateinstances
+-keepclassmembers class * implements android.os.Parcelable {
+    static ** CREATOR;
+}
 -dontwarn com.google.android.gms.**
 -keep class com.google.api.** { *; }
 -dontwarn com.google.api.client.json.JsonEncoding
