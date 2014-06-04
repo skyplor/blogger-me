@@ -2,8 +2,8 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.sky.bloggerme"
-	android:versionCode="6"
-	android:versionName="1.31">
+	android:versionCode="7"
+	android:versionName="1.32">
 
 	<uses-sdk
 		android:minSdkVersion="15"
@@ -26,15 +26,15 @@
 			android:theme="@android:style/Theme.Light.NoTitleBar">
 		</activity>
 		<activity
-			android:name="com.sky.bloggerme.view.PostListActivity"
-			android:label="@string/title_activity_post_list">
+			android:name="com.sky.bloggerme.view.PostListActivity">
+			<!-- android:label="@string/title_activity_post_list"> -->
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.sky.bloggerme.BlogListActivity" />
 		</activity>
 		<activity
-			android:name="com.sky.bloggerme.view.PostDisplayActivity"
-			android:label="@string/title_activity_post_display">
+			android:name="com.sky.bloggerme.view.PostDisplayActivity">
+			<!-- android:label="@string/title_activity_post_display"> -->
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.sky.bloggerme.PostListActivity" />
@@ -46,8 +46,8 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="com.sky.bloggerme.view.BlogListActivity"
-			android:label="@string/title_activity_blog_list">
+			android:name="com.sky.bloggerme.view.BlogListActivity">
+			<!-- android:label="@string/title_activity_blog_list"> -->
 		</activity>
 		<activity
 			android:name="org.acra.CrashReportDialog"
@@ -56,8 +56,8 @@
 			android:launchMode="singleInstance"
 			android:theme="@android:style/Theme.Dialog" />
 		<activity
-			android:name="com.sky.bloggerme.view.DraftListActivity"
-			android:label="@string/title_activity_draft_list">
+			android:name="com.sky.bloggerme.view.DraftListActivity">
+			<!-- android:label="@string/title_activity_draft_list"> -->
 		</activity>
 
 
