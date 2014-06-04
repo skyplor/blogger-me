@@ -761,7 +761,7 @@ public class EditorActivity extends Activity
 				});
 				break;
 			case DRAFT:
-				Alert.showAlert(this, "Clear Everything", "Pressing the OK button will clear everything and returns to previous screen. Are you sure?", "OK", new OnClickListener()
+				Alert.showAlert(this, "Undo Edit", "Pressing the OK button will undo the edit and returns to previous screen. Are you sure?", "OK", new OnClickListener()
 				{
 
 					@Override
@@ -783,7 +783,7 @@ public class EditorActivity extends Activity
 				});
 				break;
 			case POST:
-				Alert.showAlert(this, "Clear Everything", "Pressing the OK button will clear everything and returns to previous screen. Are you sure?", "OK", new OnClickListener()
+				Alert.showAlert(this, "Undo Edit", "Pressing the OK button will undo the edit and returns to previous screen. Are you sure?", "OK", new OnClickListener()
 				{
 
 					@Override

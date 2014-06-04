@@ -1,6 +1,7 @@
 package com.sky.bloggerme.view;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 
 import android.app.Activity;
@@ -20,7 +21,6 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.api.client.extensions.android2.AndroidHttp;
 import com.google.api.client.extensions.android3.json.AndroidJsonFactory;
@@ -80,7 +80,7 @@ public class PostDisplayActivity extends Activity
 	// Button editBtn;
 
 	/** postTitle: The TextView component which displays the post's title;. */
-	TextView postTitle;
+	// TextView postTitle;
 
 	/** content: The WebView component which displays the post's content;. */
 	WebView content;
@@ -120,44 +120,27 @@ public class PostDisplayActivity extends Activity
 		// getActionBar().setDisplayHomeAsUpEnabled(true);
 		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 
-		postTitle = ((TextView) findViewById(R.id.title));
+		// postTitle = ((TextView) findViewById(R.id.title));
 		content = ((WebView) findViewById(R.id.content));
-		/*getBlogTitle();
-		postsBtn = (Button) findViewById(R.id.postsDisplayButton);
-		editBtn = (Button) findViewById(R.id.postEditButton);
+		/*
+		 * getBlogTitle(); postsBtn = (Button) findViewById(R.id.postsDisplayButton); editBtn = (Button) findViewById(R.id.postEditButton);
+		 * 
+		 * postsBtn.setOnClickListener(new View.OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { Intent intent = new Intent(PostDisplayActivity.this, PostListActivity.class); intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); startActivity(intent); finish(); } });
+		 */
 
-		postsBtn.setOnClickListener(new View.OnClickListener()
-		{
-
-			@Override
-			public void onClick(View v)
-			{
-				Intent intent = new Intent(PostDisplayActivity.this, PostListActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				finish();
-			}
-		});*/
-
-		/*editBtn.setOnClickListener(new View.OnClickListener()
-		{
-
-			@Override
-			public void onClick(View v)
-			{
-				Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
-				intent.putExtra("Title", postResult.getTitle());
-				intent.putExtra("Content", postResult.getContent());
-				String labels = join(postResult.getLabels(), ", ");
-				intent.putExtra("Labels", labels);
-				intent.putExtra("editExisting", true);
-
-				Constants.POST_ID = postId;
-
-				startActivity(intent);
-
-			}
-		});*/
+		/*
+		 * editBtn.setOnClickListener(new View.OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { Intent intent = new Intent(getApplicationContext(), EditorActivity.class); intent.putExtra("Title", postResult.getTitle()); intent.putExtra("Content", postResult.getContent()); String labels = join(postResult.getLabels(), ", "); intent.putExtra("Labels", labels); intent.putExtra("editExisting", true);
+		 * 
+		 * Constants.POST_ID = postId;
+		 * 
+		 * startActivity(intent);
+		 * 
+		 * } });
+		 */
 		// credential = GoogleAccountCredential.usingOAuth2(this, BloggerScopes.BLOGGER);
 
 		// credential.setSelectedAccountName(AccountManager.KEY_ACCOUNT_NAME);
@@ -216,7 +199,12 @@ public class PostDisplayActivity extends Activity
 				Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
 				intent.putExtra("Title", postResult.getTitle());
 				intent.putExtra("Content", postResult.getContent());
-				String labels = join(postResult.getLabels(), ", ");
+				List<String> labelList = postResult.getLabels();
+				String labels = "";
+				if (labelList != null && !labelList.isEmpty())
+				{
+					labels = join(postResult.getLabels(), ", ");
+				}
 				intent.putExtra("Labels", labels);
 				intent.putExtra("editExisting", true);
 
@@ -286,7 +274,8 @@ public class PostDisplayActivity extends Activity
 		postResult = result;
 		Log.v(TAG, "Title: " + result.getTitle());
 		Log.v(TAG, "Content: " + result.getContent());
-		postTitle.setText(result.getTitle());
+		// postTitle.setText(result.getTitle());
+		getActionBar().setTitle(result.getTitle());
 		content.loadDataWithBaseURL(null, result.getContent(), "text/html", "utf-8", null);
 
 	}
@@ -365,7 +354,7 @@ public class PostDisplayActivity extends Activity
 	 */
 	public void initDrawer()
 	{
-		mTitle = mDrawerTitle = getTitle();
+		// mTitle = mDrawerTitle = getTitle();
 		drawerPages = getResources().getStringArray(R.array.drawer_array);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.post_drawer);
@@ -393,19 +382,19 @@ public class PostDisplayActivity extends Activity
 		{
 			public void onDrawerClosed(View view)
 			{
-				getActionBar().setTitle(mTitle);
+				// getActionBar().setTitle(mTitle);
 				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 
 			public void onDrawerOpened(View drawerView)
 			{
-				getActionBar().setTitle(mDrawerTitle);
+				// getActionBar().setTitle(mDrawerTitle);
 				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-//		selectItem(Constants.DRAWERLIST.DRAFTS.getDrawerList());
+		// selectItem(Constants.DRAWERLIST.DRAFTS.getDrawerList());
 
 	}
 

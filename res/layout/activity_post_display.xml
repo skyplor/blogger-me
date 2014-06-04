@@ -21,14 +21,14 @@
 
 		<!-- <TextView android:id="@+id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="@dimen/padding_medium" android:layout_below="@id/blogTitle" tools:context=".PostDisplayActivity" 
 			android:textAppearance="?android:attr/textAppearanceLarge" android:textStyle="bold" /> -->
-		<TextView
+		<!-- <TextView
 			android:id="@+id/title"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:padding="@dimen/padding_medium"
 			tools:context=".PostDisplayActivity"
 			android:textAppearance="?android:attr/textAppearanceLarge"
-			android:textStyle="bold" />
+			android:textStyle="bold" /> -->
 
 		<WebView
 			android:id="@+id/content"
