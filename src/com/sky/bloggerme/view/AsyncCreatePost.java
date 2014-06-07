@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.google.api.services.blogger.Blogger.Posts.Update;
 import com.google.api.services.blogger.model.Post;
-import com.sky.bloggerme.AsyncCreatePostResult;
 import com.sky.bloggerme.util.Constants;
 
 /**
@@ -97,8 +96,8 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 			}
 			else
 			{
-				Log.d(TAG, "Blog_id: " + Constants.BLOG_ID + "\nPost_id: " + Constants.POST_ID + "\nPost: " + post.getContent());
-				Update postsUpdateAction = service.posts().update(Constants.BLOG_ID, Constants.POST_ID, post);
+				Log.d(TAG, "Blog_id: " + Constants.BLOG_ID + "\nPost_id: " + editorActivity.getBlogPostId() + "\nPost: " + post.getContent());
+				Update postsUpdateAction = service.posts().update(Constants.BLOG_ID, editorActivity.getBlogPostId(), post);
 				Log.d(TAG, "Updated....");
 				postsUpdateAction.setFields("author/displayName,content,published,title,url");
 				Log.d(TAG, "Set result fields....");
@@ -140,9 +139,9 @@ public class AsyncCreatePost extends AsyncTask<Post, Void, AsyncCreatePostResult
 			createAlertDialog(result.getResultDialogTitle(), result.getResultDialogMessage());
 			// editorActivity.onRequestCompleted(result.getPost());
 			resultPost = result.getPost();
-			if (Constants.POST_ID != null)
+			if (editorActivity.getBlogPostId() != null)
 			{
-				resultPost.setId(Long.parseLong(Constants.POST_ID));
+				resultPost.setId(Long.parseLong(editorActivity.getBlogPostId()));
 			}
 		}
 	}

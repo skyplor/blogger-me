@@ -133,7 +133,7 @@ public class PostDisplayActivity extends Activity
 		/*
 		 * editBtn.setOnClickListener(new View.OnClickListener() {
 		 * 
-		 * @Override public void onClick(View v) { Intent intent = new Intent(getApplicationContext(), EditorActivity.class); intent.putExtra("Title", postResult.getTitle()); intent.putExtra("Content", postResult.getContent()); String labels = join(postResult.getLabels(), ", "); intent.putExtra("Labels", labels); intent.putExtra("editExisting", true);
+		 * @Override public void onClick(View v) { Intent intent = new Intent(getApplicationContext(), EditorActivity.class); intent.putExtra("Title", postResult.getTitle()); intent.putExtra("Content", postResult.getContent()); String labels = join(postResult.getLabels(), ", "); intent.putExtra("Label", labels); intent.putExtra("editExisting", true);
 		 * 
 		 * Constants.POST_ID = postId;
 		 * 
@@ -205,13 +205,20 @@ public class PostDisplayActivity extends Activity
 				{
 					labels = join(postResult.getLabels(), ", ");
 				}
-				intent.putExtra("Labels", labels);
+				intent.putExtra("Label", labels);
 				intent.putExtra("editExisting", true);
+				intent.putExtra("BlogPostId", postId);
 
-				Constants.POST_ID = postId;
+//				Constants.POST_ID = postId;
 
 				startActivity(intent);
 				return true;
+				
+
+			case R.id.menu_settings:
+				Intent settingsIntent = new Intent(this, SettingsActivity.class);
+				startActivity(settingsIntent);
+				break;
 
 			case R.id.menu_logout:
 				doLogout();

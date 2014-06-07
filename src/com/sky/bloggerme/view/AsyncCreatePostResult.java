@@ -1,4 +1,4 @@
-package com.sky.bloggerme;
+package com.sky.bloggerme.view;
 
 import com.google.api.services.blogger.model.Post;
 

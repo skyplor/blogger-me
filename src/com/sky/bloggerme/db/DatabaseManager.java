@@ -7,6 +7,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sky.bloggerme.model.DraftPost;
+import com.sky.bloggerme.model.Label;
 
 /**
  * The Class DatabaseManager.
@@ -83,6 +84,25 @@ public class DatabaseManager
 		}
 		return draftPosts;
 	}
+	
+	/**
+	 * Gets the all labels.
+	 * 
+	 * @return all the labels
+	 */
+	public List<Label> getAllLabels()
+	{
+		List<Label> labels = null;
+		try
+		{
+			labels = getHelper().getLabelsDao().queryForAll();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return labels;
+	}
 
 	/**
 	 * Adds the draft post.
@@ -97,6 +117,32 @@ public class DatabaseManager
 		try
 		{
 			int rowsUpdated = getHelper().getDraftPostDao().create(draftPost);
+			Log.d("DatabaseManager", "Rows Updated: " + rowsUpdated);
+			if (rowsUpdated > 0)
+			{
+				updated = true;
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return updated;
+	}
+	
+	/**
+	 * Adds the labels into DB.
+	 * 
+	 * @param label
+	 *            the label
+	 * @return true if db is updated successfully
+	 */
+	public Boolean addLabels(Label label)
+	{
+		Boolean updated = false;
+		try
+		{
+			int rowsUpdated = getHelper().getLabelsDao().create(label);
 			Log.d("DatabaseManager", "Rows Updated: " + rowsUpdated);
 			if (rowsUpdated > 0)
 			{
@@ -187,14 +233,16 @@ public class DatabaseManager
 		return draftPost;
 	}
 
-	/**
-	 * Clears the database.
-	 *
-	 * @param ctx the context
-	 * @return true, if successful
-	 */
-	public boolean clearDatabase(Context ctx)
+	public <T> boolean drop_recreateTable(Class<T> dataClass) throws SQLException
 	{
-		return ctx.deleteDatabase(Contract.DATABASE_NAME);
+		boolean success = false;
+		int dropStatementsExecuted = getHelper().dropTable(dataClass);
+		int recreateStatementsExecuted = getHelper().recreateTable(dataClass);
+		if (dropStatementsExecuted > 0 && recreateStatementsExecuted > 0)
+		{
+			success = true;
+		}
+		return success;
 	}
+
 }

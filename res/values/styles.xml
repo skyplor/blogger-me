@@ -1,20 +1,17 @@
 <resources>
 
+	<!-- the theme applied to the application or activity -->
 	<style
-		name="AppTheme"
-		parent="android:Theme.Light.NoTitleBar" />
-	<style name="blog_style">
-		<item name="android:textSize">20sp</item>
-		<item name="android:textColor">#FFFFFF</item>
-		<item name="android:textStyle">bold</item>
+		name="BloggerMeActionBarTheme"
+		parent="@android:style/Theme.Light">
+		<item name="android:actionBarStyle">@style/BloggerMeActionBar</item>
 	</style>
-	<style name="editor_button">
-		<item name="android:textSize">12sp</item>
-		<item name="android:textStyle">bold</item>
-	</style>
-	<style name="login_button">
-		<item name="android:textSize">20sp</item>
-		<item name="android:textStyle">bold</item>
+
+	<style
+		name="BloggerMeActionBar"
+		parent="@android:style/Widget.ActionBar">
+		<item name="android:displayOptions">useLogo|showHome|showTitle</item>
+		<!-- <item name="android:background">@drawable/gradient</item> -->
 	</style>
 
 </resources>

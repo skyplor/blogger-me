@@ -56,6 +56,7 @@ import com.sky.bloggerme.ClientCredentials;
 import com.sky.bloggerme.R;
 import com.sky.bloggerme.db.DatabaseManager;
 import com.sky.bloggerme.model.DraftPost;
+import com.sky.bloggerme.model.Label;
 import com.sky.bloggerme.util.Alert;
 import com.sky.bloggerme.util.Constants;
 import com.sky.bloggerme.util.DroidWriterEditText;
@@ -159,6 +160,8 @@ public class EditorActivity extends Activity
 	/** The draft post. */
 	private DraftPost draftPost;
 
+	private String blogPostId;
+
 	private boolean draft;
 
 	/**
@@ -210,7 +213,17 @@ public class EditorActivity extends Activity
 
 			labelsMultiAutoComplete.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-			new AsyncLoadLabels(this).execute();
+			List<Label> labels = DatabaseManager.getInstance().getAllLabels();
+			List<String> labelNames = new ArrayList<String>();
+			if (labels != null && !labels.isEmpty())
+			{
+				for (Label label : labels)
+				{
+					labelNames.add(label.getName());
+				}
+				setModel(labelNames);
+			}
+			// new AsyncLoadLabels(this).execute();
 		}
 	}
 
@@ -250,25 +263,54 @@ public class EditorActivity extends Activity
 		 */
 
 		Bundle extras = getIntent().getExtras();
-		// TODO: To implement functionality of user able to edit draft by selecting a particular draft and we get it's id and send to this activity. From there we retrieve the draft
 		if (extras != null)
 		{
-			create = false;
+			Log.d(TAG, "We have extra. ");
+
 			if (extras.containsKey("editExisting"))
 			{
 				draft = false;
+				create = false;
 				updatePostDetails(extras);
 			}
 			else
 			{
 				draft = true;
+				updateDraftDetails(extras);
 			}
+		}
+		else
+		{
+			Log.d(TAG, "We do not have any extra");
+			create = true;
+		}
+		initDrawer();
+	}
+
+	private void updateDraftDetails(Bundle extras)
+	{
+		int draftPostId = extras.getInt(Constants.DRAFTPOST_ID, -1);
+		String draftTitle = extras.getString(Constants.DRAFTPOST_TITLE);
+		String draftLabels = extras.getString(Constants.DRAFTPOST_LABELS);
+		String draftContent = extras.getString(Constants.DRAFTPOST_CONTENT);
+		String draftCreatedAt = extras.getString(Constants.DRAFTPOST_CREATEDAT);
+		draftPost = new DraftPost();
+		if (extras.containsKey(Constants.DRAFTPOST_BLOGPOSTID))
+		{
+			setBlogPostId(extras.getString(Constants.DRAFTPOST_BLOGPOSTID));
+			create = false;
+			draftPost.setBlogPostId(getBlogPostId());
 		}
 		else
 		{
 			create = true;
 		}
-		initDrawer();
+		draftPost.set_Id(draftPostId);
+		draftPost.setTitle(draftTitle);
+		draftPost.setLabels(draftLabels);
+		draftPost.setContent(draftContent);
+		draftPost.setCreatedAt(draftCreatedAt);
+		setupDraftPost();
 	}
 
 	/**
@@ -404,6 +446,7 @@ public class EditorActivity extends Activity
 		String title = extras.getString("Title");
 		String content = extras.getString("Content");
 		String labels = extras.getString("Labels");
+		setBlogPostId(extras.getString("BlogPostId"));
 		postTitle.setText(title);
 		postContent.setTextHTML(content);
 		if (labels != null)
@@ -620,30 +663,30 @@ public class EditorActivity extends Activity
 					goLoginActivity();
 				}
 				break;
-			case DRAFTLIST:
-				// get the ID of the chosen draft and populate the relevant fields
-				if (resultCode == RESULT_OK)
-				{
-					int draftPostId = data.getIntExtra(Constants.DRAFTPOST_ID, -1);
-					String draftTitle = data.getStringExtra(Constants.DRAFTPOST_TITLE);
-					String draftLabels = data.getStringExtra(Constants.DRAFTPOST_LABELS);
-					String draftContent = data.getStringExtra(Constants.DRAFTPOST_CONTENT);
-					String draftCreatedAt = data.getStringExtra(Constants.DRAFTPOST_CREATEDAT);
-					draftPost = new DraftPost();
-					if (data.hasExtra(Constants.DRAFTPOST_BLOGPOSTID))
-					{
-						Constants.POST_ID = data.getStringExtra(Constants.DRAFTPOST_BLOGPOSTID);
-						create = false;
-						draftPost.setBlogPostId(Constants.POST_ID);
-					}
-					draftPost.set_Id(draftPostId);
-					draftPost.setTitle(draftTitle);
-					draftPost.setLabels(draftLabels);
-					draftPost.setContent(draftContent);
-					draftPost.setCreatedAt(draftCreatedAt);
-					setupDraftPost();
-				}
-				break;
+		// case DRAFTLIST:
+		// // get the ID of the chosen draft and populate the relevant fields
+		// if (resultCode == RESULT_OK)
+		// {
+		// int draftPostId = data.getIntExtra(Constants.DRAFTPOST_ID, -1);
+		// String draftTitle = data.getStringExtra(Constants.DRAFTPOST_TITLE);
+		// String draftLabels = data.getStringExtra(Constants.DRAFTPOST_LABELS);
+		// String draftContent = data.getStringExtra(Constants.DRAFTPOST_CONTENT);
+		// String draftCreatedAt = data.getStringExtra(Constants.DRAFTPOST_CREATEDAT);
+		// draftPost = new DraftPost();
+		// if (data.hasExtra(Constants.DRAFTPOST_BLOGPOSTID))
+		// {
+		// setBlogPostId(data.getStringExtra(Constants.DRAFTPOST_BLOGPOSTID));
+		// create = false;
+		// draftPost.setBlogPostId(getBlogPostId());
+		// }
+		// draftPost.set_Id(draftPostId);
+		// draftPost.setTitle(draftTitle);
+		// draftPost.setLabels(draftLabels);
+		// draftPost.setContent(draftContent);
+		// draftPost.setCreatedAt(draftCreatedAt);
+		// setupDraftPost();
+		// }
+		// break;
 		}
 	}
 
@@ -695,6 +738,10 @@ public class EditorActivity extends Activity
 				break;
 			case R.id.menu_accounts:
 				chooseAccount();
+				break;
+			case R.id.menu_settings:
+				Intent settingsIntent = new Intent(this, SettingsActivity.class);
+				startActivity(settingsIntent);
 				break;
 			case R.id.menu_savedraft:
 				if (saveDraft())
@@ -810,7 +857,7 @@ public class EditorActivity extends Activity
 	private void goToPost()
 	{
 		Intent i = new Intent(getApplicationContext(), PostDisplayActivity.class);
-		i.putExtra(Constants.POST_ID_KEY, Constants.POST_ID);
+		i.putExtra(Constants.POST_ID_KEY, getBlogPostId());
 		startActivity(i);
 	}
 
@@ -843,7 +890,7 @@ public class EditorActivity extends Activity
 	private void goToDrafts()
 	{
 		Intent draftList = new Intent(EditorActivity.this, DraftListActivity.class);
-		startActivityForResult(draftList, DRAFTLIST);
+		startActivity(draftList);
 	}
 
 	/**
@@ -874,10 +921,10 @@ public class EditorActivity extends Activity
 					createdAt = draftPost.getCreatedAt();
 				}
 				Log.d(TAG, "in save draft before updating draftpost");
-				if (Constants.POST_ID != null)
+				if (getBlogPostId() != null)
 				{
 					Log.d(TAG, "constants post id is not null");
-					updated = updateDraftPost(title, labels, content, createdAt, Constants.POST_ID);
+					updated = updateDraftPost(title, labels, content, createdAt, getBlogPostId());
 				}
 				else
 				{
@@ -887,9 +934,9 @@ public class EditorActivity extends Activity
 			else
 			{
 				Log.d(TAG, "Draft Post object is null");
-				if (Constants.POST_ID != null)
+				if (getBlogPostId() != null)
 				{
-					updated = createNewDraftPost(title, labels, content, createdAt, Constants.POST_ID);
+					updated = createNewDraftPost(title, labels, content, createdAt, getBlogPostId());
 				}
 				else
 				{
@@ -1089,6 +1136,16 @@ public class EditorActivity extends Activity
 	protected void onResume()
 	{
 		selectItem(Constants.DRAWERLIST.CREATE.getDrawerList());
+		List<Label> labels = DatabaseManager.getInstance().getAllLabels();
+		List<String> labelNames = new ArrayList<String>();
+		if (labels != null && !labels.isEmpty())
+		{
+			for (Label label : labels)
+			{
+				labelNames.add(label.getName());
+			}
+			setModel(labelNames);
+		}
 		super.onResume();
 	}
 
@@ -1171,5 +1228,22 @@ public class EditorActivity extends Activity
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	/**
+	 * @return the blogPostId
+	 */
+	public String getBlogPostId()
+	{
+		return blogPostId;
+	}
+
+	/**
+	 * @param blogPostId
+	 *            the blogPostId to set
+	 */
+	public void setBlogPostId(String blogPostId)
+	{
+		this.blogPostId = blogPostId;
 	}
 }

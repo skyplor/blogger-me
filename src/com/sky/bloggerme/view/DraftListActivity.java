@@ -1,5 +1,7 @@
 package com.sky.bloggerme.view;
 
+import java.sql.SQLException;
+
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
@@ -34,7 +36,6 @@ public class DraftListActivity extends Activity implements LoaderCallbacks<Curso
 {
 
 	private static final String TAG = DraftListActivity.class.getCanonicalName();
-	// SimpleCursorAdapter adapter;
 	DraftListFragment draftListFragment;
 
 	/**
@@ -58,9 +59,10 @@ public class DraftListActivity extends Activity implements LoaderCallbacks<Curso
 			Log.d(TAG, "before getting Fragment Manager");
 			draftListFragment = new DraftListFragment();
 			getFragmentManager().beginTransaction().add(R.id.container, draftListFragment).commit();
-			initDrawer();
 			// draftListFragment = (DraftListFragment) findFragmentById(R.id.draftfragment);
 		}
+
+		initDrawer();
 	}
 
 	@Override
@@ -85,16 +87,28 @@ public class DraftListActivity extends Activity implements LoaderCallbacks<Curso
 		{
 			return true;
 		}
-		switch(id)
+		switch (id)
 		{
 			case R.id.action_clearall:
 				Alert.showAlert(this, "Remove All Drafts", "Remove All Drafts?", "YES", new OnClickListener()
 				{
-					
+
 					@Override
 					public void onClick(DialogInterface paramDialogInterface, int paramInt)
 					{
-						DatabaseManager.getInstance().clearDatabase(getApplicationContext());
+						try
+						{
+							if (DatabaseManager.getInstance().drop_recreateTable(DraftPost.class))
+							{
+								Log.d(TAG, "DraftPost table is cleared");
+								getLoaderManager().restartLoader(0, null, DraftListActivity.this);
+							}
+						}
+						catch (SQLException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}, "NO", new OnClickListener()
 				{
@@ -104,10 +118,12 @@ public class DraftListActivity extends Activity implements LoaderCallbacks<Curso
 					{
 						paramDialogInterface.dismiss();
 					}
-					
+
 				});
 				break;
 			case R.id.action_settings:
+				Intent settingsIntent = new Intent(this, SettingsActivity.class);
+				startActivity(settingsIntent);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -117,6 +133,7 @@ public class DraftListActivity extends Activity implements LoaderCallbacks<Curso
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1)
 	{
 		// String[] projection = { "id", "title", "labels", "content" };
+		Log.d(TAG, "Before creating loader");
 		String[] projection = null;
 		CursorLoader cursorLoader = new CursorLoader(this, Contract.DraftPost.contentUri, projection, null, null, null);
 		Cursor c = getContentResolver().query(Contract.DraftPost.contentUri, null, null, null, null);
@@ -164,17 +181,19 @@ public class DraftListActivity extends Activity implements LoaderCallbacks<Curso
 	@Override
 	public void respond(DraftPost dPost)
 	{
-		Intent intent = getIntent();
-		intent.putExtra(Constants.DRAFTPOST_ID, dPost.get_Id());
-		intent.putExtra(Constants.DRAFTPOST_TITLE, dPost.getTitle());
-		intent.putExtra(Constants.DRAFTPOST_LABELS, dPost.getLabels());
-		intent.putExtra(Constants.DRAFTPOST_CONTENT, dPost.getContent());
-		intent.putExtra(Constants.DRAFTPOST_CREATEDAT, dPost.getCreatedAt());
-		if (!dPost.getBlogPostId().isEmpty())
+		Intent editorIntent = new Intent(this,EditorActivity.class);
+		editorIntent.putExtra(Constants.DRAFTPOST_ID, dPost.get_Id());
+		editorIntent.putExtra(Constants.DRAFTPOST_TITLE, dPost.getTitle());
+		editorIntent.putExtra(Constants.DRAFTPOST_LABELS, dPost.getLabels());
+		editorIntent.putExtra(Constants.DRAFTPOST_CONTENT, dPost.getContent());
+		editorIntent.putExtra(Constants.DRAFTPOST_CREATEDAT, dPost.getCreatedAt());
+		if (dPost.getBlogPostId() != null && !dPost.getBlogPostId().isEmpty())
 		{
-			intent.putExtra(Constants.DRAFTPOST_BLOGPOSTID, dPost.getBlogPostId());
+			editorIntent.putExtra(Constants.DRAFTPOST_BLOGPOSTID, dPost.getBlogPostId());
 		}
-		setResult(Activity.RESULT_OK, intent);
+		// setResult(Activity.RESULT_OK, intent);
+		
+		startActivity(editorIntent);
 		this.finish();
 
 	}
@@ -301,4 +320,12 @@ public class DraftListActivity extends Activity implements LoaderCallbacks<Curso
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+
+	@Override
+	public void restartLoader()
+	{
+		getLoaderManager().restartLoader(0, null, DraftListActivity.this);
+
+	}
+
 }

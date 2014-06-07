@@ -104,20 +104,20 @@ public class PostListActivity extends ListActivity
 
 		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
 		// ClientCredentials.errorIfNotSpecified();
-//		getBlogTitle();
-//
-//		newPostBtn = (Button) this.findViewById(R.id.createbutton);
-//		newPostBtn.setOnClickListener(new OnClickListener()
-//		{
-//
-//			@Override
-//			public void onClick(View v)
-//			{
-//				Intent intent = new Intent(PostListActivity.this, EditorActivity.class);
-//				startActivity(intent);
-//			}
-//
-//		});
+		// getBlogTitle();
+		//
+		// newPostBtn = (Button) this.findViewById(R.id.createbutton);
+		// newPostBtn.setOnClickListener(new OnClickListener()
+		// {
+		//
+		// @Override
+		// public void onClick(View v)
+		// {
+		// Intent intent = new Intent(PostListActivity.this, EditorActivity.class);
+		// startActivity(intent);
+		// }
+		//
+		// });
 
 		// blogsBtn = (Button) this.findViewById(R.id.blogsbutton);
 		// blogsBtn.setOnClickListener(new OnClickListener()
@@ -218,6 +218,10 @@ public class PostListActivity extends ListActivity
 		}
 		switch (item.getItemId())
 		{
+			case R.id.menu_settings:
+				Intent settingsIntent = new Intent(this, SettingsActivity.class);
+				startActivity(settingsIntent);
+				break;
 			case R.id.menu_logout:
 				doLogout();
 				break;
@@ -417,7 +421,7 @@ public class PostListActivity extends ListActivity
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-	
+
 	@Override
 	protected void onResume()
 	{

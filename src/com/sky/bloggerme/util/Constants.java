@@ -59,9 +59,6 @@ public class Constants extends Application
 
 	/** Logging level for HTTP requests/responses. */
 	public static final Level LOGGING_LEVEL = Level.ALL;
-
-	/**  The ID of the Post object to be updated. */
-	public static String POST_ID;
 	
 	/** The id of the draft post stored in the database. */
 	public static String DRAFTPOST_ID = "draftPostID";

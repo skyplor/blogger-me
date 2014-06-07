@@ -1,5 +1,6 @@
 package com.sky.bloggerme.model;
 
+import android.database.Cursor;
 import android.provider.BaseColumns;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -39,7 +40,7 @@ public class DraftPost
 	/** The content. */
 	@DatabaseField
 	private String content;
-	
+
 	/** Existing Post in Blogger? If yes, this field will store the postid */
 	@DatabaseField
 	private String blogPostId;
@@ -138,7 +139,8 @@ public class DraftPost
 	}
 
 	/**
-	 * @param blogPostId the blogPostId to set
+	 * @param blogPostId
+	 *            the blogPostId to set
 	 */
 	public void setBlogPostId(String blogPostId)
 	{
@@ -148,6 +150,21 @@ public class DraftPost
 	public DraftPost()
 	{
 		// ORMLite needs a no-arg constructor
+	}
+
+	public static DraftPost newInstance(Cursor c)
+	{
+		DraftPost draft = new DraftPost();
+		if (c != null)
+		{
+			draft.set_Id(c.getInt(c.getColumnIndex("_id")));
+			draft.setTitle(c.getString(c.getColumnIndex("title")));
+			draft.setLabels(c.getString(c.getColumnIndex("labels")));
+			draft.setContent(c.getString(c.getColumnIndex("content")));
+			draft.setCreatedAt(c.getString(c.getColumnIndex("createdAt")));
+			draft.setBlogPostId(c.getString(c.getColumnIndex("blogPostId")));
+		}
+		return draft;
 	}
 
 }

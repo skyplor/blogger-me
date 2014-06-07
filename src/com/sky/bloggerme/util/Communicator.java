@@ -6,4 +6,6 @@ public interface Communicator
 {
 	public void respond(DraftPost dPost);
 	
+	public void restartLoader();
+	
 }

@@ -13,16 +13,21 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 import com.sky.bloggerme.model.DraftPost;
+import com.sky.bloggerme.model.Label;
 
 /**
  * The Class DatabaseHelper.
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 {
+	Context context;
 
 	// the DAO object we use to access the SimpleData table
 	/** The draft post dao. */
 	private Dao<DraftPost, Integer> draftPostDao = null;
+	// the DAO object we use to access the SimpleData table
+	/** The labelDao dao. */
+	private Dao<Label, Integer> labelDao = null;
 
 	/**
 	 * Instantiates a new database helper.
@@ -33,6 +38,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 	public DatabaseHelper(Context context)
 	{
 		super(context, Contract.DATABASE_NAME, null, Contract.DATABASE_VERSION);
+		this.context = context;
 	}
 
 	/*
@@ -46,6 +52,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 		try
 		{
 			TableUtils.createTable(connectionSource, DraftPost.class);
+			TableUtils.createTable(connectionSource, Label.class);
 		}
 		catch (SQLException e)
 		{
@@ -67,6 +74,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 			Log.d(DatabaseHelper.class.getName(), "in onUpgrade");
 			TableUtils.dropTable(connectionSource, DraftPost.class, true);
 			TableUtils.createTable(connectionSource, DraftPost.class);
+			TableUtils.dropTable(connectionSource, Label.class, true);
+			TableUtils.createTable(connectionSource, Label.class);
 		}
 		catch (SQLException e)
 		{
@@ -143,5 +152,50 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 		return draftPostDao;
 	}
 	
+	/**
+	 * Gets the labels dao.
+	 * 
+	 * @return the labels dao
+	 */
+	public Dao<Label, Integer> getLabelsDao()
+	{
+		if (null == labelDao)
+		{
+			try
+			{
+				labelDao = getDao(Label.class);
+			}
+			catch (java.sql.SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return labelDao;
+	}
+
+	/**
+	 * drops the table.
+	 * 
+	 * @param ctx
+	 *            the context
+	 * @return true, if successful
+	 * @throws SQLException 
+	 */
+	public <T> int dropTable(Class<T> dataClass) throws SQLException
+	{
+		return TableUtils.dropTable(connectionSource, dataClass, false);
+	}
+
+	/**
+	 * Recreate database.
+	 * @param <T>
+	 *
+	 * @param ctx the ctx
+	 * @throws SQLException 
+	 */
+	public <T> int recreateTable(Class<T> dataClass) throws SQLException
+	{
+		return TableUtils.createTable(connectionSource, dataClass);
+	}
 
 }

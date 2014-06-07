@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -22,10 +21,10 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 	private static final String TAG = "AsyncLoadLabels";
 
 	/** The editor activity. */
-	private final EditorActivity editorActivity;
+	private final SettingsActivity settingsActivity;
 	
 	/** The dialog. */
-	private final ProgressDialog dialog;
+//	private final ProgressDialog dialog;
 	
 	/** The service. */
 	private com.google.api.services.blogger.Blogger service;
@@ -33,14 +32,14 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 	/**
 	 * Instantiates a new async load labels.
 	 *
-	 * @param editorActivity the editor activity
+	 * @param settingsActivity the settings activity
 	 */
-	AsyncLoadLabels(EditorActivity editorActivity)
+	AsyncLoadLabels(SettingsActivity settingsActivity)
 	{
 		Log.v(TAG, "start of LoadLabels async task");
-		this.editorActivity = editorActivity;
-		service = editorActivity.service;
-		dialog = new ProgressDialog(editorActivity);
+		this.settingsActivity = settingsActivity;
+		service = settingsActivity.service;
+//		dialog = new ProgressDialog(editorActivity);
 	}
 
 	/* (non-Javadoc)
@@ -50,8 +49,8 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 	protected void onPreExecute()
 	{
 		Log.v(TAG, "Popping up waiting dialog");
-		dialog.setMessage("Getting Labels...");
-		dialog.show();
+//		dialog.setMessage("Getting Label...");
+//		dialog.show();
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +62,7 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 		try
 		{
 			List<String> result = new ArrayList<String>();
-			com.google.api.services.blogger.Blogger.Posts.List postsListAction = service.posts().list(editorActivity.getBlogID()).setFields("items/labels,nextPageToken");
+			com.google.api.services.blogger.Blogger.Posts.List postsListAction = service.posts().list(settingsActivity.getBlogID()).setFields("items/labels,nextPageToken");
 			PostList posts = postsListAction.execute();
 
 			boolean label_exist = false;
@@ -123,7 +122,7 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 		catch (IOException e)
 		{
 			Log.e(TAG, e.getMessage());
-			editorActivity.handleGoogleException(e);
+			settingsActivity.handleGoogleException(e);
 			return Collections.emptyList();
 		}
 	}
@@ -143,8 +142,8 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 //			createAlertDialog("Error", "Unable to retrieve labels. Trying again...");
 			Log.v(TAG, "Async complete, pulling down dialog");
 		}
-		dialog.dismiss();
-		editorActivity.setModel(result);
+//		dialog.dismiss();
+		settingsActivity.setModel(result);
 	}
 
 	// private void createAlertDialog(String title, String message)

@@ -55,5 +55,9 @@
 	<string name="drawer_close">Close navigation drawer</string>
 	<string name="menu_cancel">Cancel</string>
 	<string name="action_clearall">Clear All</string>
+	<string name="draft_delete">Delete</string>
+	<string name="draft_cancel">Cancel</string>
+	<string name="draft_menu_title">Remove Drafts</string>
+	<string name="settings_syncnow">Sync Now</string>
 
 </resources>

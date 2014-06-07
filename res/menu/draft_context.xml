@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/draft_delete" android:icon="@drawable/ic_action_discard" android:showAsAction="always" android:title="@string/draft_delete"></item>
+    <item android:id="@+id/draft_cancel" android:icon="@drawable/ic_action_cancel" android:title="@string/draft_cancel" android:showAsAction="always"></item>
+    
+</menu>
