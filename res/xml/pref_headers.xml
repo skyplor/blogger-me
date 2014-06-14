@@ -5,7 +5,7 @@
 	<!-- <header android:fragment="com.sky.bloggerme.SettingsActivity$GeneralPreferenceFragment" android:title="@string/pref_header_general" /> <header android:fragment="com.sky.bloggerme.SettingsActivity$NotificationPreferenceFragment" 
 		android:title="@string/pref_header_notifications" /> -->
     <header
-        android:fragment="com.sky.bloggerme.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="com.sky.bloggerme.view.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
 </preference-headers>
