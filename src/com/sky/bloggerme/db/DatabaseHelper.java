@@ -1,6 +1,10 @@
 package com.sky.bloggerme.db;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -72,10 +76,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 		try
 		{
 			Log.d(DatabaseHelper.class.getName(), "in onUpgrade");
-			TableUtils.dropTable(connectionSource, DraftPost.class, true);
-			TableUtils.createTable(connectionSource, DraftPost.class);
+			// TableUtils.dropTable(connectionSource, DraftPost.class, true);
+			// TableUtils.createTable(connectionSource, DraftPost.class);
+			// retrieve the labels, find duplicated entries, exclude those, return the non-duplicated entries, drop table, create table, repopulate the table
+			List<String> labelnamelist = removeDuplicate();
 			TableUtils.dropTable(connectionSource, Label.class, true);
 			TableUtils.createTable(connectionSource, Label.class);
+			for (String labelname : labelnamelist)
+			{
+				Label label = new Label();
+				label.setName(labelname);
+				DatabaseManager.getInstance().addLabels(label);
+			}
 		}
 		catch (SQLException e)
 		{
@@ -83,6 +95,21 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	private List<String> removeDuplicate()
+	{
+		List<String> labelnames = new ArrayList<String>();
+		List<Label> labels = DatabaseManager.getInstance().getAllLabels();
+		for (Label label : labels)
+		{
+			labelnames.add(label.getName());
+		}
+		Set<String> lhs = new LinkedHashSet<String>();
+		lhs.addAll(labelnames);
+		labelnames.clear();
+		labelnames.addAll(lhs);
+		return labelnames;
 	}
 
 	/*
@@ -116,6 +143,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 			Log.d(DatabaseHelper.class.getName(), "in onDowngrade");
 			TableUtils.dropTable(cs, DraftPost.class, true);
 			TableUtils.createTable(cs, DraftPost.class);
+			TableUtils.dropTable(cs, Label.class, true);
+			TableUtils.createTable(cs, Label.class);
 		}
 		catch (SQLException e)
 		{
@@ -151,7 +180,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 		}
 		return draftPostDao;
 	}
-	
+
 	/**
 	 * Gets the labels dao.
 	 * 
@@ -179,7 +208,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 	 * @param ctx
 	 *            the context
 	 * @return true, if successful
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public <T> int dropTable(Class<T> dataClass) throws SQLException
 	{
@@ -188,10 +217,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 
 	/**
 	 * Recreate database.
+	 * 
 	 * @param <T>
-	 *
-	 * @param ctx the ctx
-	 * @throws SQLException 
+	 * 
+	 * @param ctx
+	 *            the ctx
+	 * @throws SQLException
 	 */
 	public <T> int recreateTable(Class<T> dataClass) throws SQLException
 	{

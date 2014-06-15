@@ -10,7 +10,7 @@ public final class Contract
 	public static final String DATABASE_NAME = "BloggerMeDB.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 	/** The Constant DATABASE_VERSION. */
-	public static final int DATABASE_VERSION = 3;
+	public static final int DATABASE_VERSION = 4;
 
 	public static final String AUTHORITY = "com.sky.bloggerme.authority";
 

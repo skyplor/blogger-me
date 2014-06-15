@@ -404,9 +404,33 @@ public class SettingsActivity extends PreferenceActivity
 			{
 				Label label = new Label();
 				label.setName(result.get(i));
-				DatabaseManager.getInstance().addLabels(label);
+				// check for duplicated labels by retrieving from database first
+				if (!isLabelDuplicated(label))
+					DatabaseManager.getInstance().addLabels(label);
 			}
 		}
+	}
+
+	/**
+	 * Checks if label is duplicated.
+	 * 
+	 * @param label
+	 *            the label
+	 * @return true, if label is duplicated
+	 */
+	private boolean isLabelDuplicated(Label label)
+	{
+		boolean isDuplicated = false;
+		List<Label> labels = DatabaseManager.getInstance().getAllLabels();
+		for (Label l : labels)
+		{
+			if (l.getName().equalsIgnoreCase(label.getName()))
+			{
+				isDuplicated = true;
+				break;
+			}
+		}
+		return isDuplicated;
 	}
 
 	/**
