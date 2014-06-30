@@ -98,7 +98,7 @@ public class DraftListActivity extends Activity implements LoaderCallbacks<Curso
 					{
 						try
 						{
-							if (DatabaseManager.getInstance().drop_recreateTable(DraftPost.class))
+							if (DatabaseManager.getInstance(getApplicationContext()).drop_recreateTable(DraftPost.class))
 							{
 								Log.d(TAG, "DraftPost table is cleared");
 								getLoaderManager().restartLoader(0, null, DraftListActivity.this);

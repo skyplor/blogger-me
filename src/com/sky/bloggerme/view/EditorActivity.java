@@ -213,7 +213,7 @@ public class EditorActivity extends Activity
 
 			labelsMultiAutoComplete.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-			List<Label> labels = DatabaseManager.getInstance().getAllLabels();
+			List<Label> labels = DatabaseManager.getInstance(this).getAllLabels();
 			List<String> labelNames = new ArrayList<String>();
 			if (labels != null && !labels.isEmpty())
 			{
@@ -399,7 +399,7 @@ public class EditorActivity extends Activity
 			draftPost.setCreatedAt(createdAt);
 			draftPost.setBlogPostId(blogPostId);
 			Log.d(TAG, "draftPost id: " + draftPost.get_Id());
-			DatabaseManager.getInstance().updateDraftPost(draftPost);
+			DatabaseManager.getInstance(this).updateDraftPost(draftPost);
 		}
 		else
 		{
@@ -431,7 +431,7 @@ public class EditorActivity extends Activity
 		draftPost.setContent(content);
 		draftPost.setCreatedAt(createdAt);
 		draftPost.setBlogPostId(blogPostId);
-		return DatabaseManager.getInstance().addDraftPost(draftPost);
+		return DatabaseManager.getInstance(this).addDraftPost(draftPost);
 	}
 
 	/**
@@ -447,8 +447,10 @@ public class EditorActivity extends Activity
 		String content = extras.getString("Content");
 		String labels = extras.getString("Labels");
 		setBlogPostId(extras.getString("BlogPostId"));
-		postTitle.setText(title);
-		postContent.setTextHTML(content);
+		if (title != null && !title.isEmpty())
+			postTitle.setText(title);
+		if (content != null && !content.isEmpty())
+			postContent.setTextHTML(content);
 		if (labels != null)
 		{
 			Log.d(TAG, "Labels: " + labels);
@@ -999,7 +1001,7 @@ public class EditorActivity extends Activity
 				if (draftPost != null)
 				{
 					Log.d(TAG, "draftPost id: " + draftPost.get_Id());
-					DatabaseManager.getInstance().removeDraftPost(draftPost.get_Id());
+					DatabaseManager.getInstance(this).removeDraftPost(draftPost.get_Id());
 				}
 				String postId = result.getId().toString();
 				String title = result.getTitle();
@@ -1136,7 +1138,7 @@ public class EditorActivity extends Activity
 	protected void onResume()
 	{
 		selectItem(Constants.DRAWERLIST.CREATE.getDrawerList());
-		List<Label> labels = DatabaseManager.getInstance().getAllLabels();
+		List<Label> labels = DatabaseManager.getInstance(this).getAllLabels();
 		List<String> labelNames = new ArrayList<String>();
 		if (labels != null && !labels.isEmpty())
 		{

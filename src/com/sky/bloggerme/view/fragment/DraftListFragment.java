@@ -69,7 +69,7 @@ public class DraftListFragment extends Fragment implements OnItemClickListener, 
 		draftlist.setChoiceMode(choiceMode);
 		draftlist.setMultiChoiceModeListener(this);
 		comm = (Communicator) getActivity();
-		draftPosts = DatabaseManager.getInstance().getAllDraftPosts();
+		draftPosts = DatabaseManager.getInstance(getActivity()).getAllDraftPosts();
 		String[] columns = new String[] { "_id", "title", "labels", "content", "createdAt", "blogPostId" };
 		int[] to = null;
 //		adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, null, columns, to, 0);
@@ -202,7 +202,7 @@ public class DraftListFragment extends Fragment implements OnItemClickListener, 
 						// DraftPost draft = (DraftPost) draftlist.getItemAtPosition(pos);
 						Cursor c = (Cursor) adapter.getItem(position);
 						DraftPost draft = DraftPost.newInstance(c);
-						success = DatabaseManager.getInstance().removeDraftPost(draft.get_Id());
+						success = DatabaseManager.getInstance(getActivity()).removeDraftPost(draft.get_Id());
 						if (success)
 						{
 							comm.restartLoader();

@@ -9,6 +9,7 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -37,12 +38,13 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.services.blogger.model.Blog;
 import com.sky.bloggerme.ClientCredentials;
 import com.sky.bloggerme.R;
+import com.sky.bloggerme.db.TaskListener;
 import com.sky.bloggerme.util.Constants;
 
 /**
  * The Class BlogListActivity.
  */
-public class BlogListActivity extends ListActivity
+public class BlogListActivity extends ListActivity implements TaskListener
 {
 
 	/** The Constant TAG. */
@@ -83,7 +85,7 @@ public class BlogListActivity extends ListActivity
 
 	/** The blogs. */
 	private List<Blog> blogs;
-	
+
 	/**
 	 * Drawer variables
 	 */
@@ -93,6 +95,8 @@ public class BlogListActivity extends ListActivity
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
+	private ProgressDialog dialog;
+	private boolean isTaskRunning = false;
 
 	/*
 	 * (non-Javadoc)
@@ -257,6 +261,8 @@ public class BlogListActivity extends ListActivity
 	{
 		super.onResume();
 		removeBlogChosen();
+		if (isTaskRunning && !dialog.isShowing())
+			dialog = ProgressDialog.show(this, "Loading blog list", "Please wait a moment");
 		selectItem(Constants.DRAWERLIST.BLOGS.getDrawerList());
 		// if (getAuthToken())
 		// {
@@ -269,6 +275,14 @@ public class BlogListActivity extends ListActivity
 		// {
 		// Log.v(TAG, "Unable to obtain authentication token. Please login again.");
 		// }
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		if (isTaskRunning && dialog.isShowing())
+			dialog.dismiss();
 	}
 
 	// void setAccountName(String accountName)
@@ -597,14 +611,14 @@ public class BlogListActivity extends ListActivity
 				// break;
 			case 1:
 				// Blogs Activity
-				
+
 				break;
 			case 2:
 				// Posts Activity
-//				Intent postIntent = new Intent(BlogListActivity.this, PostListActivity.class);
-//				postIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//				startActivity(postIntent);
-//				finish();
+				// Intent postIntent = new Intent(BlogListActivity.this, PostListActivity.class);
+				// postIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				// startActivity(postIntent);
+				// finish();
 				break;
 			case 3:
 				// Drafts Activity
@@ -619,7 +633,7 @@ public class BlogListActivity extends ListActivity
 		}
 		// Highlight the selected item, update the title, and close the drawer
 		mDrawerList.setItemChecked(1, true);
-//		setTitle(drawerPages[position]);
+		// setTitle(drawerPages[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
@@ -648,5 +662,36 @@ public class BlogListActivity extends ListActivity
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	public void onTaskStarted()
+	{
+		isTaskRunning = true;
+		dialog = ProgressDialog.show(this, "Loading blog list", "Please wait a moment");
+
+	}
+
+	@Override
+	public void onTaskFinished()
+	{
+		if (dialog != null)
+		{
+			dialog.dismiss();
+		}
+		isTaskRunning = false;
+
+	}
+
+	@Override
+	public void onDestroy()
+	{
+		// All dialogs should be closed before leaving the activity in order to avoid
+		// the: Activity has leaked window com.android.internal.policy... exception
+		if (dialog != null && dialog.isShowing())
+		{
+			dialog.dismiss();
+		}
+		super.onDestroy();
 	}
 }

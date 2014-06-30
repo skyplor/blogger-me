@@ -406,7 +406,7 @@ public class SettingsActivity extends PreferenceActivity
 				label.setName(result.get(i));
 				// check for duplicated labels by retrieving from database first
 				if (!isLabelDuplicated(label))
-					DatabaseManager.getInstance().addLabels(label);
+					DatabaseManager.getInstance(this).addLabels(label);
 			}
 		}
 	}
@@ -421,7 +421,7 @@ public class SettingsActivity extends PreferenceActivity
 	private boolean isLabelDuplicated(Label label)
 	{
 		boolean isDuplicated = false;
-		List<Label> labels = DatabaseManager.getInstance().getAllLabels();
+		List<Label> labels = DatabaseManager.getInstance(this).getAllLabels();
 		for (Label l : labels)
 		{
 			if (l.getName().equalsIgnoreCase(label.getName()))

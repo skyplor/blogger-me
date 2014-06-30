@@ -37,8 +37,12 @@ public class DatabaseManager
 	 * 
 	 * @return single instance of DatabaseManager
 	 */
-	static public DatabaseManager getInstance()
+	static public DatabaseManager getInstance(Context ctx)
 	{
+		if (null == instance)
+		{
+			init(ctx);
+		}
 		return instance;
 	}
 

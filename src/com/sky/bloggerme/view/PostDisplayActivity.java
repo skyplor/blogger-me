@@ -185,6 +185,10 @@ public class PostDisplayActivity extends Activity
 	{
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.
+		if (mDrawerToggle == null)
+		{
+			createMDrawerToggle();
+		}
 		if (mDrawerToggle.onOptionsItemSelected(item))
 		{
 			return true;
@@ -197,9 +201,13 @@ public class PostDisplayActivity extends Activity
 
 			case R.id.menu_edit:
 				Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
-				intent.putExtra("Title", postResult.getTitle());
-				intent.putExtra("Content", postResult.getContent());
-				List<String> labelList = postResult.getLabels();
+				List<String> labelList = null;
+				if (postResult != null)
+				{
+					intent.putExtra("Title", postResult.getTitle());
+					intent.putExtra("Content", postResult.getContent());
+					labelList = postResult.getLabels();
+				}
 				String labels = "";
 				if (labelList != null && !labelList.isEmpty())
 				{
@@ -209,11 +217,10 @@ public class PostDisplayActivity extends Activity
 				intent.putExtra("editExisting", true);
 				intent.putExtra("BlogPostId", postId);
 
-//				Constants.POST_ID = postId;
+				// Constants.POST_ID = postId;
 
 				startActivity(intent);
 				return true;
-				
 
 			case R.id.menu_settings:
 				Intent settingsIntent = new Intent(this, SettingsActivity.class);
@@ -303,6 +310,10 @@ public class PostDisplayActivity extends Activity
 	 */
 	private void doLogout()
 	{
+		if (settings == null)
+		{
+			settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
+		}
 		editor = settings.edit();
 		editor.remove(Constants.PREF_ACCOUNT_NAME);
 		editor.remove(Constants.PREF_AUTH_TOKEN);
@@ -380,6 +391,13 @@ public class PostDisplayActivity extends Activity
 
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
+		createMDrawerToggle();
+
+		// selectItem(Constants.DRAWERLIST.DRAFTS.getDrawerList());
+	}
+
+	private void createMDrawerToggle()
+	{
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
 		mDrawerLayout, /* DrawerLayout object */
 		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
@@ -400,9 +418,6 @@ public class PostDisplayActivity extends Activity
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		// selectItem(Constants.DRAWERLIST.DRAFTS.getDrawerList());
-
 	}
 
 	private class DrawerItemClickListener implements ListView.OnItemClickListener

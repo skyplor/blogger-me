@@ -86,7 +86,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 			{
 				Label label = new Label();
 				label.setName(labelname);
-				DatabaseManager.getInstance().addLabels(label);
+				DatabaseManager.getInstance(this.context).addLabels(label);
 			}
 		}
 		catch (SQLException e)
@@ -100,7 +100,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 	private List<String> removeDuplicate()
 	{
 		List<String> labelnames = new ArrayList<String>();
-		List<Label> labels = DatabaseManager.getInstance().getAllLabels();
+		List<Label> labels = DatabaseManager.getInstance(this.context).getAllLabels();
 		for (Label label : labels)
 		{
 			labelnames.add(label.getName());

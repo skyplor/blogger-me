@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -28,36 +27,42 @@ public class AsyncLoadBlogList extends AsyncTask<Void, Void, List<Blog>>
 
 	/** The blog list activity. */
 	private final BlogListActivity blogListActivity;
-	
-	/** The dialog. */
-	private final ProgressDialog dialog;
-	
+
+//	/** The dialog. */
+//	private final ProgressDialog dialog;
+
 	/** The service. */
 	private com.google.api.services.blogger.Blogger service;
 
 	/**
 	 * Instantiates a new async load blog list.
-	 *
-	 * @param blogListActivity the blog list activity
+	 * 
+	 * @param blogListActivity
+	 *            the blog list activity
 	 */
 	AsyncLoadBlogList(BlogListActivity blogListActivity)
 	{
 		this.blogListActivity = blogListActivity;
 		service = blogListActivity.service;
-		dialog = new ProgressDialog(blogListActivity);
+//		dialog = new ProgressDialog(blogListActivity);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
 	@Override
 	protected void onPreExecute()
 	{
-		dialog.setMessage("Loading blog list...");
-		dialog.show();
+//		dialog.setMessage("Loading blog list...");
+//		dialog.show();
+		blogListActivity.onTaskStarted();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#doInBackground(Params[])
 	 */
 	@Override
@@ -103,13 +108,15 @@ public class AsyncLoadBlogList extends AsyncTask<Void, Void, List<Blog>>
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */
 	@Override
 	protected void onPostExecute(List<Blog> result)
 	{
-		dialog.dismiss();
+		blogListActivity.onTaskFinished();
 		if (result != null && result.size() > 0)
 		{
 			// Log.v(TAG, result.get(0).getName());
