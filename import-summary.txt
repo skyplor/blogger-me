@@ -1,0 +1,136 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From Blogger-me:
+* .factorypath
+* .gitignore
+* README.md
+* authors.txt
+* compile-libs\
+* compile-libs\androidannotations-3.0.1.jar
+* compile-libs\javawriter-2.4.0.jar
+* libs-doc\
+* libs-doc\acra-4.5.0-javadoc.jar
+* libs-doc\google-api-services-blogger-v3-rev8-1.13.2-beta-javadoc.jar
+* libs-doc\ormlite-android-4.48-javadoc.jar
+* libs-doc\ormlite-core-4.48-javadoc.jar
+* libs-sources\
+* libs-sources\acra-4.5.0-sources.jar
+* libs-sources\ormlite-android-4.48-sources.jar
+* libs-sources\ormlite-core-4.48-sources.jar
+* proguard\
+* proguard\dump.txt
+* proguard\mapping.txt
+* proguard\seeds.txt
+* proguard\usage.txt
+From ormlite-content-provider-library:
+* BACKUP\
+* BACKUP\.classpath
+* BACKUP\.project
+* BACKUP\.settings\
+* BACKUP\.settings\org.eclipse.jdt.core.prefs
+* BACKUP\gen\
+* BACKUP\gen\com\
+* BACKUP\gen\com\tojc\
+* BACKUP\gen\com\tojc\ormlite\
+* BACKUP\gen\com\tojc\ormlite\android\
+* BACKUP\gen\com\tojc\ormlite\android\OrmLiteContentProvider\
+* BACKUP\gen\com\tojc\ormlite\android\OrmLiteContentProvider\BuildConfig.java
+* findbugs-exclude.xml
+* javadoc.xml
+* pom.xml
+* proguard-project.txt
+* test\
+* test\java\
+* test\java\dummy.txt
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:18.0.0
+gson-2.1.jar => com.google.code.gson:gson:2.1
+guava-jdk5-13.0.jar => com.google.guava:guava:17.0
+protobuf-java-2.4.1.jar => com.google.protobuf:protobuf-java:2.4.1
+
+Potentially Missing Dependency:
+-------------------------------
+When we replaced the following .jar files with a Gradle dependency, we
+inferred the dependency version number from the filename. This
+specific version may not actually be available from the repository.
+If you get a build error stating that the dependency is missing, edit
+the version number to for example "+" to pick up the latest version
+instead. (This may require you to update your code if the library APIs
+have changed.)
+
+gson-2.1.jar => version 2.1 in com.google.code.gson:gson:2.1
+protobuf-java-2.4.1.jar => version 2.4.1 in com.google.protobuf:protobuf-java:2.4.1
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In ormlite-content-provider-library:
+* AndroidManifest.xml => ormlitecontentproviderlibrary\src\main\AndroidManifest.xml
+* assets\ => ormlitecontentproviderlibrary\src\main\assets\
+* libs\commons-lang3-3.3.2.jar => ormlitecontentproviderlibrary\libs\commons-lang3-3.3.2.jar
+* libs\ormlite-android-4.48.jar => ormlitecontentproviderlibrary\libs\ormlite-android-4.48.jar
+* libs\ormlite-core-4.48.jar => ormlitecontentproviderlibrary\libs\ormlite-core-4.48.jar
+* lint.xml => ormlitecontentproviderlibrary\lint.xml
+* res\ => ormlitecontentproviderlibrary\src\main\java\
+* src\ => ormlitecontentproviderlibrary\src\main\java\
+In Blogger-me:
+* .apt_generated\ => bloggerme\src\main\java\
+* AndroidManifest.xml => bloggerme\src\main\AndroidManifest.xml
+* assets\ => bloggerme\src\main\assets\
+* libs\acra-4.5.0.jar => bloggerme\libs\acra-4.5.0.jar
+* libs\androidannotations-api-3.0.1.jar => bloggerme\libs\androidannotations-api-3.0.1.jar
+* libs\commons-lang3-3.3.2.jar => bloggerme\libs\commons-lang3-3.3.2.jar
+* libs\google-api-client-1.13.2-beta.jar => bloggerme\libs\google-api-client-1.13.2-beta.jar
+* libs\google-api-client-android-1.13.2-beta.jar => bloggerme\libs\google-api-client-android-1.13.2-beta.jar
+* libs\google-api-client-android2-1.10.3-beta.jar => bloggerme\libs\google-api-client-android2-1.10.3-beta.jar
+* libs\google-api-services-blogger-v3-rev1-1.7.2-beta.jar => bloggerme\libs\google-api-services-blogger-v3-rev1-1.7.2-beta.jar
+* libs\google-http-client-1.13.1-beta.jar => bloggerme\libs\google-http-client-1.13.1-beta.jar
+* libs\google-http-client-android-1.13.1-beta.jar => bloggerme\libs\google-http-client-android-1.13.1-beta.jar
+* libs\google-http-client-android2-1.10.3-beta.jar => bloggerme\libs\google-http-client-android2-1.10.3-beta.jar
+* libs\google-http-client-android3-1.10.3-beta.jar => bloggerme\libs\google-http-client-android3-1.10.3-beta.jar
+* libs\google-oauth-client-1.13.1-beta.jar => bloggerme\libs\google-oauth-client-1.13.1-beta.jar
+* libs\google-play-services.jar => bloggerme\libs\google-play-services.jar
+* libs\jackson-core-asl-1.9.9.jar => bloggerme\libs\jackson-core-asl-1.9.9.jar
+* libs\javax.inject.jar => bloggerme\libs\javax.inject.jar
+* libs\jsr305-1.3.9.jar => bloggerme\libs\jsr305-1.3.9.jar
+* libs\ormlite-android-4.48.jar => bloggerme\libs\ormlite-android-4.48.jar
+* libs\ormlite-core-4.48.jar => bloggerme\libs\ormlite-core-4.48.jar
+* libs\otto-1.3.4.jar => bloggerme\libs\otto-1.3.4.jar
+* lint.xml => bloggerme\lint.xml
+* proguard-project.txt => bloggerme\proguard-project.txt
+* res\ => bloggerme\src\main\res\
+* src\ => bloggerme\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

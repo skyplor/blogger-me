@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="google-api-services-blogger-v3-rev47-1.19.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-blogger/v3-rev47-1.19.1/5f473627b66aee48e7b629e3d72cb9e6e9bfc981/google-api-services-blogger-v3-rev47-1.19.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-blogger/v3-rev47-1.19.1/86cf869f13ed30c6106f2221a0cfcd7ad90b749/google-api-services-blogger-v3-rev47-1.19.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
