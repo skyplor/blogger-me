@@ -23,6 +23,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.services.CommonGoogleClientRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.services.blogger.Blogger;
 import com.google.api.services.blogger.model.Post;
 import com.sky.bloggerme.ClientCredentials;
 import com.sky.bloggerme.R;
@@ -61,7 +62,7 @@ public class PostListActivity extends ListActivity
 	final JsonFactory jsonFactory = new AndroidJsonFactory();
 
 	/** The facade object for accessing Blogger API v3. */
-	com.google.api.services.blogger.Blogger service;
+	Blogger service;
 
 	/** HTTP rewriter responsible for managing lifetime of oauth2 credentials. */
 	GoogleCredential credential = new GoogleCredential();
@@ -106,41 +107,11 @@ public class PostListActivity extends ListActivity
 		setContentView(R.layout.activity_post_list);
 
 		settings = getSharedPreferences("com.sky.bloggerme", MODE_PRIVATE);
-		// ClientCredentials.errorIfNotSpecified();
-		// getBlogTitle();
-		//
-		// newPostBtn = (Button) this.findViewById(R.id.createbutton);
-		// newPostBtn.setOnClickListener(new OnClickListener()
-		// {
-		//
-		// @Override
-		// public void onClick(View v)
-		// {
-		// Intent intent = new Intent(PostListActivity.this, EditorActivity.class);
-		// startActivity(intent);
-		// }
-		//
-		// });
-
-		// blogsBtn = (Button) this.findViewById(R.id.blogsbutton);
-		// blogsBtn.setOnClickListener(new OnClickListener()
-		// {
-		//
-		// @Override
-		// public void onClick(View v)
-		// {
-		// Intent intent = new Intent(PostListActivity.this, BlogListActivity.class);
-		// intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		// startActivity(intent);
-		// finish();
-		// }
-		//
-		// });
 
 		if (getAuthToken())
 		{
-			service = new com.google.api.services.blogger.Blogger.Builder(transport, jsonFactory, credential).setGoogleClientRequestInitializer(new CommonGoogleClientRequestInitializer(ClientCredentials.KEY)).setApplicationName("Blogger-me/1.0").build();// null).setApplicationName("Google-BloggerAndroidSample/1.0").setJsonHttpRequestInitializer(new GoogleKeyInitializer(ClientCredentials.KEY)).build();
-			Constants.BLOG_ID = getBlogID();
+			service = new Blogger.Builder(transport, jsonFactory, credential).setGoogleClientRequestInitializer(new CommonGoogleClientRequestInitializer(ClientCredentials.KEY)).setApplicationName("Blogger-me/1.0").build();
+            Constants.BLOG_ID = getBlogID();
 			Logger.getLogger("com.google.api.client").setLevel(Constants.LOGGING_LEVEL);
 			new AsyncLoadPostList(this).execute();
 		}

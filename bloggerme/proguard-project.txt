@@ -20,10 +20,11 @@
 #}
 
 # Needed by google-api-client to keep generic types and @Key annotations accessed via reflection
-
+-printmapping mapping.txt
 -keepclassmembers class * {
  @com.google.api.client.util.Key <fields>;
-}
+}
+
 -keepattributes Signature,RuntimeVisibleAnnotations,AnnotationDefault
 
 # Needed by Guava
@@ -54,7 +55,8 @@
     public static *** v(...);
 }
 
-#-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable
+#-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable
+
 #-dontoptimize
 -dontpreverify
 -verbose
@@ -78,12 +80,14 @@
 # We want to keep methods in Activity that could be used in the XML attribute onClick
 -keepclassmembers class * extends android.app.Activity {
    public void *(android.view.View);
-}
+}
+
 # For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
-}
+}
+
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
@@ -92,7 +96,8 @@
 # Don't warn about those in case this app is linking against an older
 # platform version.  We know about them, and they are safe.
 -dontwarn android.support.**
-# OrmLite uses reflection
+
+# OrmLite uses reflection
 -dontwarn **SQLiteDatabase
 -dontwarn **CancellationSignal
 -keep class com.j256.**
@@ -112,3 +117,4 @@
 #AndroidAnnotations
 -dontwarn org.springframework.http.HttpAuthentication
 -dontwarn org.springframework.web.client.*
+-dontwarn org.androidannotations.api.rest.**

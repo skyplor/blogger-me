@@ -1,10 +1,5 @@
 package com.sky.bloggerme.view;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,6 +7,11 @@ import android.util.Log;
 import com.google.api.services.blogger.Blogger.Posts;
 import com.google.api.services.blogger.model.Post;
 import com.google.api.services.blogger.model.PostList;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Asynchronously load the post list with a progress dialog.
@@ -68,7 +68,7 @@ public class AsyncLoadPostList extends AsyncTask<Void, Void, List<Post>>
 			Posts posts = service.posts();
 			if (posts != null)
 			{
-				com.google.api.services.blogger.Blogger.Posts.List postsListAction = posts.list(postListActivity.getBlogID()).setFields("items(id,title),nextPageToken");
+				Posts.List postsListAction = posts.list(postListActivity.getBlogID()).setFields("items(id,title),nextPageToken");
 				PostList postslist = postsListAction.execute();
 
 				// Retrieve up to five pages of results.

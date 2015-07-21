@@ -1,15 +1,15 @@
 package com.sky.bloggerme.view;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.api.services.blogger.model.Post;
 import com.google.api.services.blogger.model.PostList;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The Class AsyncLoadLabels.
@@ -111,11 +111,6 @@ public class AsyncLoadLabels extends AsyncTask<Post, Void, List<String>>
 				}
 				postsListAction.setPageToken(pageToken);
 				posts = postsListAction.execute();
-			}
-			System.out.println("Size of result: " + result.size());
-			for (int k = 0; k < result.size(); k++)
-			{
-				System.out.println("Result[" + k + "]: " + result.get(k));
 			}
 			return result;
 		}
